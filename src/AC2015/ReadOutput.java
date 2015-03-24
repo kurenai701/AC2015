@@ -30,14 +30,11 @@ public class ReadOutput {
 		return CommonStatic.FU.ScannerFile(CommonStatic.OutputTestFilePathUnitTest);
 	}
 	
-
 	
 	
-	// If there is a simple way to obtain a "score from the Generated outputFile"
-	public int EvaluateScoreFromOutput( Solution oP)
-	{ 	
-		
-		ScoreInfo score =  oP.GetScoreModel();
+	public int EvaluateScoreFromOutput( Solution sol)
+	{ 			
+		ScoreInfo score =  sol.GetScoreModel();
 		System.out.println("EvalScore : " +score.score);
 
 		return score.score;
@@ -45,23 +42,23 @@ public class ReadOutput {
 
 	
 	
-	public Problem ProcessReadOutputToInputModel(Scanner scanOutput)
+	public Problem ProcessReadOutputToInputModel(Scanner scanOut)
 	{
 		System.out.println("VerifyOutputFileGeneratesInput");
-		Problem pbModel = new Problem();
+		Problem pb = new Problem();
 		
-		if (scanOutput != null)
+		if (scanOut != null)
 		{				
+
 			//  !!!!!!!!!!!!!!!!!!! //
 			// TODO	CODE here parsing and processing of output file to obtain input model	
 			//  !!!!!!!!!!!!!!!!!!! //
-			
-		//	pbModel.stringTest = scanOutput.next();
-		//	pbModel.intTest1 = scanOutput.nextInt();
-		//	pbModel.intTest1 = scanOutput.nextInt();
+					
+			pb.testint = scanOut.nextInt();
+			pb.testString = scanOut.next();
 			//  !!!!!!!!!!!!!!!!!!! //
 		}			
-		return pbModel;
+		return pb;
 	
 	}
 	

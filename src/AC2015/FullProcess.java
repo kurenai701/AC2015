@@ -22,26 +22,24 @@ public class FullProcess {
 		//// Get the ProblemModel from reading Input
 		Problem pbMod = ri.ProcessReadInputToModel(scanInput);
 			
-		ri.ProcessInputModelToVerifFile(pbMod, CommonStatic.InputFileVerifPath);
+		ri.ProcessProblemModelToVerifFile(pbMod, CommonStatic.InputFileVerifPath);
 		
 		
 		//// process Algorithm ***********************
 	
-		Solution outMod = algo.AlgoSimple(pbMod);
+		Solution sol = algo.AlgoSimple(pbMod);
 		
 		
 		//// GenerateOutputFile **********************
-		genOut.GenerateOutputFileFromOutputModel(outMod, CommonStatic.OutputGeneratedPath);
-			
-				
+		genOut.GenerateOutputFileFromOutputModel(sol, CommonStatic.OutputGeneratedPath);
+							
 		// To Verify Output correctly linked to Input		
 		Scanner scanOutput = ro.ScannerOutputFile();	
 		
-		
 		Problem pbModVerif = ro.ProcessReadOutputToInputModel(scanOutput);
 				
-		ri.ProcessInputModelToVerifFile(pbModVerif, CommonStatic.InputFileVerifPathFromOutputRead);	
-		ro.EvaluateScoreFromOutput( outMod );
+		ri.ProcessProblemModelToVerifFile(pbModVerif, CommonStatic.InputFileVerifPathFromOutputRead);	
+		ro.EvaluateScoreFromOutput(sol);
 	}
 	
 }

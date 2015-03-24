@@ -7,23 +7,23 @@ public class MockTestGenerator {
 	
 	public Problem getProblemModTestAlgo()
 	{
-		Problem res = null;//new ProblemModel();
-		
-		// CAS DE TEST
-	//	res.intTest1 = 42;
-	//	res.stringTest = "bbb";
+		Problem pbtest = null;//new ProblemModel();
 			
-		return res;
+		pbtest.testint = 216;
+		pbtest.testString = "problemTestString";
+		
+		return pbtest;
 	}
 	
 	// TO Initialize TEST
-	//	public OutputModel getOutputModelTest()
-	//	{
-		//	OutputModel outMod = new OutputModel();
-		//	outMod.OutputInt = 42;
-		//	outMod.OtherInt = 1337;
-		//	return outMod;
-	//	}
+	public Solution getSolutionTest(Problem pb)
+	{
+		Solution sol = new Solution(pb);
+		sol.testSolInt = 789;
+		sol.testSolString = "solutionTestString";
+		return sol;	
+		
+	}
 	
 		
 }

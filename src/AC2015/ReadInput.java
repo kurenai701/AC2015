@@ -8,18 +8,14 @@ import java.util.Scanner;
 
 
 public class ReadInput {
-
-	
 	
 
 	public static void main(String[] args) {
 		
 		ReadInput ri = new ReadInput();
-		
 		Scanner scanInput = ri.ScannerInputFileForUnitTest();
 		Problem pbMod = ri.ProcessReadInputToModel(scanInput);
-		ri.ProcessInputModelToVerifFile(pbMod, CommonStatic.InputFileVerifPath);
-
+		ri.ProcessProblemModelToVerifFile(pbMod, CommonStatic.InputFileVerifPath);
 	}
 	
 	public Scanner ScannerInputFile()
@@ -36,7 +32,7 @@ public class ReadInput {
 	public Problem ProcessReadInputToModel(Scanner scIn)
 	{	
 		System.out.println("ProcessReadInputToModel");
-		Problem pbm = new Problem();
+		Problem pb = new Problem();
 		
 		if (scIn != null)
 		{
@@ -47,21 +43,20 @@ public class ReadInput {
 			int A = scIn.nextInt();
 			String test = scIn.next();
 						
-			pbm = new Problem(A,null, test);
+			pb = new Problem(A, null, test);
 													
 			//  !!!!!!!!!!!!!!!!!!! //
 		}	
 		
-		return pbm;
+		return pb;
 	}
 	
-	
-	
+		
 	// If time, and if we want to verify that we have correct modeling
-	// From Input Model to Something same as Input Text File
-	public void ProcessInputModelToVerifFile(Problem pb, String FilePath)
+	// From Input Model to Something similar as Input Text File
+	public void ProcessProblemModelToVerifFile(Problem pb, String FilePath)
 	{
-		System.out.println("ProcessModelToVerifFile");
+		System.out.println("ProcessProblemModelToVerifFile");
 		
 		// Writer
 		PrintWriter writer = CommonStatic.FU.CreateWriterFile(FilePath, "UTF-8");
@@ -75,10 +70,9 @@ public class ReadInput {
 				//  !!!!!!!!!!!!!!!!!!! //
 				
 				// write first line
-				writer.println("first line");
+				writer.println("print 1st line of ProcessProblemModelToVeriFile");
 				writer.println(pb.testint);
-				writer.println(pb.testString);
-				
+				writer.println(pb.testString);			
 		    }				
 				//  !!!!!!!!!!!!!!!!!!! //
 			writer.close();

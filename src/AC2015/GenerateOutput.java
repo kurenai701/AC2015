@@ -18,14 +18,14 @@ public class GenerateOutput {
 		
 		// Obtain output model.
 	
-		Solution outModTest = new Solution(pbMod);	
+		Solution outModTest = mock.getSolutionTest(pbMod);
 		go.GenerateOutputFileFromOutputModel(outModTest, CommonStatic.OutputGeneratedPathUnitTest);
 	}	
 
-	public void GenerateOutputFileFromOutputModel(Solution outM, String filePath)
+	public void GenerateOutputFileFromOutputModel(Solution sol, String filePath)
 	{
 		System.out.println("GenerateOutputFileFromOutputModel");
-		if (outM == null)
+		if (sol == null)
 		{
 			System.out.println("outModel null");
 		}
@@ -38,10 +38,11 @@ public class GenerateOutput {
 				// TODO CODE HERE Output Generation Logic
 				//  !!!!!!!!!!!!!!!!!!! //
 		
+				writer.println(sol.testSolInt);
+				writer.println(sol.testSolString);
+				
 				writer.println("4242424242");
 				writer.println("output generator");
-				
-				
 				
 				//  !!!!!!!!!!!!!!!!!!! //
 				
