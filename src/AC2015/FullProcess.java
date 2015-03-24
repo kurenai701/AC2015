@@ -6,6 +6,8 @@ public class FullProcess {
 	
 	public static void main(String[] args) {
 	
+		
+	
 		//// Initialization of our Tool Classes;
 		ReadInput ri = new ReadInput();
 		AlgoInputToOutput algo = new AlgoInputToOutput();
@@ -40,6 +42,15 @@ public class FullProcess {
 				
 		ri.ProcessProblemModelToVerifFile(pbModVerif, CommonStatic.InputFileVerifPathFromOutputRead);	
 		ro.EvaluateScoreFromOutput(sol);
+	
+		// CLEM TEST serialize deserialize
+		sol.SaveSolutionAsRaw("serdestest.ser");
+		Solution testdes = (Solution)(CommonStatic.FU.DeserializeFileToObject("C:\\ACFile\\serdestest.ser"));
+		
+		System.out.println(testdes.testSolInt);		
 	}
+	
+	
+	
 	
 }

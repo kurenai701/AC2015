@@ -1,7 +1,6 @@
 package AC2015;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.Serializable;
 
 
 /*
@@ -9,7 +8,7 @@ import java.util.List;
  *  @author : Clemence MEGE
  */
   
-public class Solution {
+public class Solution implements Serializable {
 	
 	// private for test
 	int testSolInt;
@@ -36,16 +35,8 @@ public class Solution {
 	}
 	
 	
-	// TODO NOW
-	public void SaveSolutionAsRaw()
+	public void SaveSolutionAsRaw(String fileName)
 	{			
-		;
-	}
-	
-	public void DecodeRaw()
-	{
-		;
-	}
-	
-	
+		CommonStatic.FU.SerializeObjectToFile(this, CommonStatic.ACFinalFilesFolderPath+fileName);
+	}	
 }

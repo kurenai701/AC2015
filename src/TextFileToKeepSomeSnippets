@@ -9,13 +9,13 @@ for (int i = 0; i < 42; i++)
 }
 
 
-
 // syntaxe foreach
 
 for(final MyClass cl: itemList) 
 {
 	System.out.println(cl.toString());
 }				
+	
 	
 // double boucle
 for (int ii = 0; ii < 100; ii++)
@@ -28,4 +28,4 @@ for (int ii = 0; ii < 100; ii++)
 
 }
 
-
+//

@@ -14,8 +14,10 @@ public class CommonStatic {
 	// ZIP
 	public static final String OUTPUT_ZIP_FILE = ACFinalFilesFolderPath+"FolderSourceMEGEClemAlex.zip"; 
 	//  /!\ Folder ClemJava pour mes sources
-	public static final String SOURCE_FOLDER = "C:\\ClemJava\\HC2015\\AC2015\\src";
-	
+	public static final String SOURCE_FOLDER = "C:\\ClemJava\\HC\\AC2015\\src";
+	// /!\ Folder Alex
+	//	public static final String SOURCE_FOLDER = "C:\\AlexPath \\AC2015\\src";
+		
 	// INPUT
 	public static final String InputFilePath = ACFinalFilesFolderPath+"dc.in";
 	public static final String InputFilePathUnitTest =  ACFinalFilesFolderPath+"UNITTESTINPUT.txt";
