@@ -1,5 +1,6 @@
 package AC2015;
 
+import java.io.File;
 import java.util.Scanner;
 
 public class FullProcess {
@@ -48,7 +49,17 @@ public class FullProcess {
 		Solution testdes = (Solution)(CommonStatic.FU.DeserializeFileToObject("C:\\ACFile\\serdestest.ser"));
 		
 		System.out.println(testdes.testSolInt);		
+	
+		
+		// Zip Folder Sources 
+		SrcZipUtil appZip = new SrcZipUtil();
+		appZip.generateFileList(new File(CommonStatic.SOURCE_FOLDER));
+		appZip.zipIt(CommonStatic.OUTPUT_ZIP_FILE_FULL_PROCESS);
+		
+		
 	}
+	
+	
 	
 	
 	

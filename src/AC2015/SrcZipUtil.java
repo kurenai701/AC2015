@@ -82,7 +82,7 @@ public class SrcZipUtil
 			}
 
 			zos.closeEntry();
-			System.out.println("Folder successfully compressed : " + CommonStatic.OUTPUT_ZIP_FILE);
+			System.out.println("Folder successfully compressed : " + zipFile);
 
 		}
 		catch (IOException ex)

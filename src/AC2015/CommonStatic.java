@@ -13,10 +13,11 @@ public class CommonStatic {
 	
 	// ZIP
 	public static final String OUTPUT_ZIP_FILE = ACFinalFilesFolderPath+"FolderSourceMEGEClemAlex.zip"; 
+	public static final String OUTPUT_ZIP_FILE_FULL_PROCESS = ACFinalFilesFolderPath+"FullSourceMEGEClemAlex.zip"; 
 	//  /!\ Folder ClemJava pour mes sources
 	public static final String SOURCE_FOLDER = "C:\\ClemJava\\HC\\AC2015\\src";
 	// /!\ Folder Alex
-	//	public static final String SOURCE_FOLDER = "C:\\AlexPath \\AC2015\\src";
+	//	public static final String SOURCE_FOLDER = "C:\\AlexPath\\HashCode\\AC2015\\src";
 		
 	// INPUT
 	public static final String InputFilePath = ACFinalFilesFolderPath+"dc.in";
@@ -37,7 +38,7 @@ public class CommonStatic {
 	
 	
 	// quand on aura généré le output generated, et qu'on veut le tester
-//	public static final String OutputTestFilePath = ACFinalFilesFolderPath+"TESTEXEMPLEOUTPUT.txt";
+	//	public static final String OutputTestFilePath = ACFinalFilesFolderPath+"TESTEXEMPLEOUTPUT.txt";
 	public static final String OutputTestFilePath = ACFinalFilesFolderPath+"OutputGenerated.txt";
 	
 	public static final String OutputTestFilePathUnitTest= ACFinalFilesFolderPath+"TESTEXEMPLEOUTPUT.txt";

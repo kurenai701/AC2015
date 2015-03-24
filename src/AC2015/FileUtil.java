@@ -136,8 +136,21 @@ public class FileUtil {
 	            FileInputStream fis = new FileInputStream(fileFullpath);
 	          
 	            ObjectInputStream iis = new ObjectInputStream(fis);
-	            Object obj = iis.readObject();
-	            iis.close();
+	            Object obj = null;
+	            try
+	            {
+	            	obj = iis.readObject();
+	            }
+	            catch(Exception e)
+	            {
+	            	System.out.println("Exception while reading object iis.readObject()");
+	            	System.out.println(e.getMessage());
+		            e.printStackTrace();
+	            }
+	            finally
+	            {
+	            	iis.close();
+	            }
 	            System.out.println("Done");
 	            
 	            return obj;
@@ -147,6 +160,7 @@ public class FileUtil {
 	            System.out.println(e.getMessage());
 	            e.printStackTrace();
 	            return null;
-	        }	
+	        }
+	      
 	}
 }
