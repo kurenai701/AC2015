@@ -1,3 +1,20 @@
 test text file, to keep some snippets
 
 
+// syntaxe for
+
+for (int i = 0; i < 42; i++)
+{
+	System.out.println(i);
+}
+
+
+// syntaxe foreach
+
+for(final MyClass cl: itemList) 
+{
+	System.out.println(cl.toString());
+}				
+	
+
+
