@@ -5,9 +5,9 @@ public class MockTestGenerator {
 	
 	
 	
-	public ProblemModel getProblemModTestAlgo()
+	public Problem getProblemModTestAlgo()
 	{
-		ProblemModel res = null;//new ProblemModel();
+		Problem res = null;//new ProblemModel();
 		
 		// CAS DE TEST
 	//	res.intTest1 = 42;

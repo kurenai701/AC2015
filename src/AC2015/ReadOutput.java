@@ -12,7 +12,7 @@ public class ReadOutput {
 		Scanner scanOutputFile = ro.ScannerOutputFileForUnitTest();
 		scanOutputFile.hashCode();
 		
-		ProblemModel pbModVerif = ro.ProcessReadOutputToInputModel(scanOutputFile);
+		Problem pbModVerif = ro.ProcessReadOutputToInputModel(scanOutputFile);
 	
 		System.out.println(pbModVerif.testString);
 		System.out.println(pbModVerif.testint);
@@ -34,7 +34,7 @@ public class ReadOutput {
 	
 	
 	// If there is a simple way to obtain a "score from the Generated outputFile"
-	public int EvaluateScoreFromOutput( OutputModel oP)
+	public int EvaluateScoreFromOutput( Solution oP)
 	{ 	
 		
 		ScoreInfo score =  oP.GetScoreModel();
@@ -45,10 +45,10 @@ public class ReadOutput {
 
 	
 	
-	public ProblemModel ProcessReadOutputToInputModel(Scanner scanOutput)
+	public Problem ProcessReadOutputToInputModel(Scanner scanOutput)
 	{
 		System.out.println("VerifyOutputFileGeneratesInput");
-		ProblemModel pbModel = new ProblemModel();
+		Problem pbModel = new Problem();
 		
 		if (scanOutput != null)
 		{				

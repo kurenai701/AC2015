@@ -1,6 +1,6 @@
 package AC2015;
 /*
- * Code to Zip Sources
+ * Code to Zip src Sources
  * http://stackoverflow.com/questions/15968883/how-to-zip-a-folder-itself-using-java
  * with slight alterations
  * */

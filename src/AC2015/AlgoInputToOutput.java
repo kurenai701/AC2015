@@ -16,19 +16,18 @@ public class AlgoInputToOutput {
 		AlgoInputToOutput algo = new AlgoInputToOutput();
 		MockTestGenerator mock = new MockTestGenerator();
 		
-		ProblemModel pbModTest = mock.getProblemModTestAlgo();		
+		Problem pbModTest = mock.getProblemModTestAlgo();		
 		algo.AlgoSimple(pbModTest);
-
 	}	
 		
 	
-	public OutputModel AlgoSimple(ProblemModel pb)
+	public Solution AlgoSimple(Problem pb)
 	{
 		System.out.println("Starting simple algo");
 				
 		////////////////
 		
-		OutputModel om = new OutputModel();
+		Solution om = new Solution();
 		
 		
 		

@@ -7,7 +7,7 @@ import java.util.List;
  *  ProblemModel : For Modeling the HashCode Problem
  *  
  */
-public class ProblemModel {
+public class Problem {
 
 	
 	int testint;
@@ -16,9 +16,9 @@ public class ProblemModel {
 	List<String> testList;
 	
 
-	public ProblemModel(){}
+	public Problem(){}
 	
-	public ProblemModel(int test, List<String> listtest, String strTest) {
+	public Problem(int test, List<String> listtest, String strTest) {
 		super();
 		this.testint = test;
 		this.testList = listtest;

@@ -20,14 +20,14 @@ public class FullProcess {
 
 		
 		//// Get the ProblemModel from reading Input
-		ProblemModel pbMod = ri.ProcessReadInputToModel(scanInput);
+		Problem pbMod = ri.ProcessReadInputToModel(scanInput);
 			
 		ri.ProcessInputModelToVerifFile(pbMod, CommonStatic.InputFileVerifPath);
 		
 		
 		//// process Algorithm ***********************
 	
-		OutputModel outMod = algo.AlgoSimple(pbMod);
+		Solution outMod = algo.AlgoSimple(pbMod);
 		
 		
 		//// GenerateOutputFile **********************
@@ -38,7 +38,7 @@ public class FullProcess {
 		Scanner scanOutput = ro.ScannerOutputFile();	
 		
 		
-		ProblemModel pbModVerif = ro.ProcessReadOutputToInputModel(scanOutput);
+		Problem pbModVerif = ro.ProcessReadOutputToInputModel(scanOutput);
 				
 		ri.ProcessInputModelToVerifFile(pbModVerif, CommonStatic.InputFileVerifPathFromOutputRead);	
 		ro.EvaluateScoreFromOutput( outMod );

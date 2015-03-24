@@ -9,15 +9,15 @@ import java.util.List;
  *  @author : Clemence MEGE
  */
   
-public class OutputModel {
+public class Solution {
 		
 	
 	// private
-	ProblemModel pb;
+	Problem pb;
 		
-	public OutputModel(){}
+	public Solution(){}
 		
-	public OutputModel(ProblemModel pb) {
+	public Solution(Problem pb) {
 		super();
 		this.pb = pb;		
 	

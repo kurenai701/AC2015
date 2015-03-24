@@ -17,7 +17,7 @@ public class ReadInput {
 		ReadInput ri = new ReadInput();
 		
 		Scanner scanInput = ri.ScannerInputFileForUnitTest();
-		ProblemModel pbMod = ri.ProcessReadInputToModel(scanInput);
+		Problem pbMod = ri.ProcessReadInputToModel(scanInput);
 		ri.ProcessInputModelToVerifFile(pbMod, CommonStatic.InputFileVerifPath);
 
 	}
@@ -33,10 +33,10 @@ public class ReadInput {
 	}
 			
 	// From Input file to Input Model
-	public ProblemModel ProcessReadInputToModel(Scanner scIn)
+	public Problem ProcessReadInputToModel(Scanner scIn)
 	{	
 		System.out.println("ProcessReadInputToModel");
-		ProblemModel pbm = new ProblemModel();
+		Problem pbm = new Problem();
 		
 		if (scIn != null)
 		{
@@ -47,7 +47,7 @@ public class ReadInput {
 			int A = scIn.nextInt();
 			String test = scIn.next();
 						
-			pbm = new ProblemModel(A,null, test);
+			pbm = new Problem(A,null, test);
 													
 			//  !!!!!!!!!!!!!!!!!!! //
 		}	
@@ -59,7 +59,7 @@ public class ReadInput {
 	
 	// If time, and if we want to verify that we have correct modeling
 	// From Input Model to Something same as Input Text File
-	public void ProcessInputModelToVerifFile(ProblemModel pb, String FilePath)
+	public void ProcessInputModelToVerifFile(Problem pb, String FilePath)
 	{
 		System.out.println("ProcessModelToVerifFile");
 		

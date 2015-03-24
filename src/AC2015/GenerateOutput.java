@@ -14,15 +14,15 @@ public class GenerateOutput {
 		ReadInput ri = new ReadInput();
 		
 		Scanner scanInput = ri.ScannerInputFileForUnitTest();
-		ProblemModel pbMod = ri.ProcessReadInputToModel(scanInput);
+		Problem pbMod = ri.ProcessReadInputToModel(scanInput);
 		
 		// Obtain output model.
 	
-		OutputModel outModTest = new OutputModel(pbMod);	
+		Solution outModTest = new Solution(pbMod);	
 		go.GenerateOutputFileFromOutputModel(outModTest, CommonStatic.OutputGeneratedPathUnitTest);
 	}	
 
-	public void GenerateOutputFileFromOutputModel(OutputModel outM, String filePath)
+	public void GenerateOutputFileFromOutputModel(Solution outM, String filePath)
 	{
 		System.out.println("GenerateOutputFileFromOutputModel");
 		if (outM == null)
