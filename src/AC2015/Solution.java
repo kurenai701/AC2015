@@ -41,7 +41,7 @@ public class Solution implements Serializable {
 	
 	public void SaveSolutionAsRaw(String fileName)
 	{			
-		Common.FU.SerializeObjectToFile(this, Common.ACFinalFilesFolderPath+fileName);
+		Common.FU.SerializeObjectToFile(this, Common.ACFileFolderPath+fileName);
 	}
 	
 	public void SaveSolutionAsRawToFullPath(String fullFilePath)

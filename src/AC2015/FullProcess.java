@@ -44,15 +44,29 @@ public class FullProcess {
 		sol.SaveSolutionAsRaw(Common.SaveSerialFileName);
 		
 		//// Deserialize to verify there is no problem	
-		Solution testdes = (Solution)(Common.FU.DeserializeFileToObject(Common.ACFinalFilesFolderPath+Common.SaveSerialFileName));
+		Solution testdes = (Solution)(Common.FU.DeserializeFileToObject(Common.ACFileFolderPath+Common.SaveSerialFileName));
 		System.out.println(testdes.testSolInt);		
 			
+		// back-up to folder
+		ProcessAllBackupOfSolutionToFolder(sol, genOut);		
+	}
 		
+
+	
+	public static String getDirectoryNameWithScoreAndDate(int scorePrefix, String prefixDate)
+	{			
+		String resPath = String.format("%010d", scorePrefix)+ "_" + prefixDate;
+		return resPath;
+	}
+	
+	
+	public static void ProcessAllBackupOfSolutionToFolder(Solution sol, GenerateOutput genOut)
+	{
 		////////// FOR BACK-UP ////////////
 		String datePrefix = Common.getTimeAsPrefixDateFormatString();			
 		String TargetBKPfolderName = getDirectoryNameWithScoreAndDate(sol.GetScore(),datePrefix);
 	
-		String targetBKPFolderPath = Common.ACFinalFilesFolderPath+TargetBKPfolderName;
+		String targetBKPFolderPath = Common.ACFileFolderPath+TargetBKPfolderName;
 		Common.FU.CreateDir(targetBKPFolderPath);
 	
 		// Backup serialized solution class to BKP folder
@@ -62,15 +76,7 @@ public class FullProcess {
 	
 		// Zip Sources for BKP	
 		SrcZipUtil appZip = new SrcZipUtil();
-		appZip.ZipSourceOfProject(targetBKPFolderPath+"\\"+Common.OUTPUT_ZIP_FULLPROC_FILE_NAME);		
-	}
-		
-
-	
-	public static String getDirectoryNameWithScoreAndDate(int scorePrefix, String prefixDate)
-	{			
-		String resPath = String.format("%010d", scorePrefix)+ "_" + prefixDate;
-		return resPath;
+		appZip.ZipSourceOfProject(targetBKPFolderPath+"\\"+Common.OUTPUT_ZIP_FULLPROC_FILE_NAME);	
 	}
 
 	

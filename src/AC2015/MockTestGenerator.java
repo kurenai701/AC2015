@@ -7,7 +7,7 @@ public class MockTestGenerator {
 	
 	public Problem getProblemModTestAlgo()
 	{
-		Problem pbtest = null;//new ProblemModel();
+		Problem pbtest = new Problem();
 			
 		pbtest.testint = 216;
 		pbtest.testString = "problemTestString";

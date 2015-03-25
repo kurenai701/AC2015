@@ -19,7 +19,7 @@ public class GenerateOutput {
 		// Obtain output model.
 	
 		Solution outModTest = mock.getSolutionTest(pbMod);
-		go.GenerateOutputFileFromOutputModel(outModTest, Common.OutputGeneratedFullPathUnitTest);
+		go.GenerateOutputFileFromOutputModel(outModTest, Common.OutputTestFileFullPathUnitTest);
 	}	
 
 	public void GenerateOutputFileFromOutputModel(Solution sol, String filePath)
