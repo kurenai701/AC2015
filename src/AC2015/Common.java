@@ -12,8 +12,7 @@ public class Common {
 	//	public static final String QualifFilesFolderPath = "C:\\ACQualifFile\\";
 	public static final String ACFileFolderPath = "C:\\ACFile\\";
 	
-	public static final DateFormat FilePrefixdateFormat = new SimpleDateFormat("MMdd-HHmm");
-	
+
 	/////////////// ZIP
 	public static final String OUTPUT_ZIP_FILE = ACFileFolderPath+"FolderSourceMEGEClemAlex.zip"; 
 	public static final String OUTPUT_ZIP_FULLPROC_FILE_NAME = "FullSourceMEGEClemAlex.zip"; 
@@ -39,13 +38,12 @@ public class Common {
 	public static final String InputFileVerifPath = ACFileFolderPath+InputFileVerifFileName;	
 	
 	//Input of Full processing GeneratedFromOutput
-	public static final String VerifInputFromOutputReadFileName = "verifInputFromOutput.txt";
+	public static final String VerifInputFromOutputReadFileName = "verifInputFromReadOutput.txt";
 	public static final String InputFileVerifPathFromOutputRead = ACFileFolderPath+VerifInputFromOutputReadFileName;
 	
 	/////////////////////////////////
 	////////////// OUTPUT	/////////
 	/////////////////////////////////
-	
 	public static final String OutputEncoding = "UTF-8";
 	
 	public static final String OutputGeneratedFileNameUnitTest = "UNITTESTOutputGenerated.txt";
@@ -56,8 +54,8 @@ public class Common {
 		
 
 	
-	// quand on aura généré le output generated, et qu'on veut le tester
-		
+	// quand on aura généré le output generated, et qu'on veut le tester pour vérifier que c'est plus ou moins conforme avec l'input
+
 	//	public static final String OutputTestFileName = "TESTEXEMPLEOUTPUT.txt";
 	public static final String OutputTestFileName = "OutputGenerated.txt";
 	public static final String OutputTestFileFullPath = ACFileFolderPath+OutputTestFileName;
@@ -66,13 +64,11 @@ public class Common {
 	public static final String OutputTestFileFullPathUnitTest= ACFileFolderPath+OutputTestFileNameUnitTest;
 	
 	
-	// SAVE SERIALIZED
-	public static final String SaveSerialFileName = "SolutionSerialized.ser";
+	// SAVE SERIALIZED SOLUTION
+	public static final String SaveSerialFileName = "SolutionSerialized.ser";	
 	
 	
-	
-	
-	
+	public static final DateFormat FilePrefixdateFormat = new SimpleDateFormat("MMdd-HHmm");	
 	//MMdd-hhmm
 	public static String getTimeAsPrefixDateFormatString()
 	{

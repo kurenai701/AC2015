@@ -22,20 +22,23 @@ public class FullProcess {
 		//// Get the ProblemModel from reading Input
 		Problem pbMod = ri.ProcessReadInputToModel(scanInput);
 			
-		ri.ProcessProblemModelToVerifFile(pbMod, Common.InputFileVerifPath);
+		// Generate again an InputFile from the ProblemModel
+		ri.ProcessProblemModelToVerifFile(pbMod, Common.InputFileVerifPath);		
 		
 		
-		//// process Algorithm ***********************
-	
-		Solution sol = algo.AlgoSimple(pbMod);
-		 
+		////**************** process Algorithm ***********************	
 		
-		//// GenerateOutputFile **********************
+		Solution sol = algo.AlgoSimple(pbMod);	
+		
+		////**********************************************************
+		
+		
+		//// GenerateOutputFile
 		genOut.GenerateOutputFileFromOutputModel(sol, Common.OutputGeneratedFullPath);
 		
 		//// To Verify Output correctly linked to Input		
 		Scanner scanOutput = ro.ScannerOutputFile();			
-		Problem pbModVerif = ro.ProcessReadOutputToInputModel(scanOutput);
+		Problem pbModVerif = ro.ProcessReadOutputToProblemModel(scanOutput);
 				
 		ri.ProcessProblemModelToVerifFile(pbModVerif, Common.InputFileVerifPathFromOutputRead);	
 		ro.EvaluateScoreFromOutput(sol);
@@ -47,7 +50,7 @@ public class FullProcess {
 		Solution testdes = (Solution)(Common.FU.DeserializeFileToObject(Common.ACFileFolderPath+Common.SaveSerialFileName));
 		System.out.println(testdes.testSolInt);		
 			
-		// back-up to folder
+		// BACK-UP to a folder with score and time
 		ProcessAllBackupOfSolutionToFolder(sol, genOut);		
 	}
 		

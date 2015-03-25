@@ -26,10 +26,16 @@ public class AlgoInputToOutput {
 		System.out.println("Starting simple algo");
 				
 		////////////////
+		
 		Solution sol = new Solution();
 		
+		//////////////////////////////////
+		// TODO Write THE ALGORITHM :-) //
+		//////////////////////////////////
+				
 		sol.testSolInt = pb.testint;
 		sol.testSolString = pb.testString;
+		
 		////////////////
 				
 		return sol ;

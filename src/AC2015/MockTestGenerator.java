@@ -3,8 +3,6 @@ package AC2015;
 public class MockTestGenerator {
 
 	
-	
-	
 	public Problem getProblemModTestAlgo()
 	{
 		Problem pbtest = new Problem();

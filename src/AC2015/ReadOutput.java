@@ -12,7 +12,7 @@ public class ReadOutput {
 		Scanner scanOutputFile = ro.ScannerOutputFileForUnitTest();
 		scanOutputFile.hashCode();
 		
-		Problem pbModVerif = ro.ProcessReadOutputToInputModel(scanOutputFile);
+		Problem pbModVerif = ro.ProcessReadOutputToProblemModel(scanOutputFile);
 	
 		System.out.println(pbModVerif.testString);
 		System.out.println(pbModVerif.testint);
@@ -42,14 +42,13 @@ public class ReadOutput {
 
 	
 	
-	public Problem ProcessReadOutputToInputModel(Scanner scanOut)
+	public Problem ProcessReadOutputToProblemModel(Scanner scanOut)
 	{
-		System.out.println("VerifyOutputFileGeneratesInput");
+		System.out.println("ProcessReadOutputToProblemModel");
 		Problem pb = new Problem();
 		
 		if (scanOut != null)
 		{				
-
 			//  !!!!!!!!!!!!!!!!!!! //
 			// TODO	CODE here parsing and processing of output file to obtain input model	
 			//  !!!!!!!!!!!!!!!!!!! //
