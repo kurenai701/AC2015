@@ -34,23 +34,41 @@ public class GenerateOutput {
 			PrintWriter writer = Common.FU.CreateWriterFile(filePath, Common.OutputEncoding);
 			if (writer != null)
 			{
-				//  !!!!!!!!!!!!!!!!!!! //
-				// TODO CODE HERE Output Generation Logic
-				//  !!!!!!!!!!!!!!!!!!! //
-		
-				writer.println(sol.testSolInt);
-				writer.println(sol.testSolString);
 				
-				writer.println("4242424242");
-				writer.println("output generator");
-				
-				//  !!!!!!!!!!!!!!!!!!! //
-				
+				WriteOutputFileGenerationLogic(writer, sol);
 				writer.close();
 			}		
+			
 		}
 	}
 	
+//	
+//	public void WriteOutputFileGenerationLogic(PrintWriter writer, Solution sol)
+//	{		
+//		writer.println(sol.testSolInt);
+//		writer.println(sol.testSolString);
+//					
+//		writer.println("4242424242");
+//		writer.println("output generator");					
+//	}
+//	
+	
+	public void WriteOutputFileGenerationLogic(PrintWriter writer, Solution sol)
+	{
+		//  !!!!!!!!!!!!!!!!!!! //
+		// TODO CODE HERE Output Generation Logic from Output Model
+		//  !!!!!!!!!!!!!!!!!!! //
+			
+		writer.println(sol.testSolInt);
+		writer.println(sol.testSolString);
+					
+		writer.println("4242424242");
+		writer.println("output generator");
+					
+		//  !!!!!!!!!!!!!!!!!!! //					
+		
+	}
+
 
 	
 }

@@ -77,6 +77,21 @@ public class FileUtil {
 			return null;
 		}
 	}
+	
+	
+
+	public void CreateDir(String DirectoryFullPathName)
+	{	
+		File file = new File(DirectoryFullPathName);
+		if (!file.exists()) {
+			if (file.mkdir()) {
+				System.out.println("Directory " + DirectoryFullPathName + " is created!");
+			} else {
+				System.out.println("Failed to create directory! " + DirectoryFullPathName);
+			}
+		}
+	}
+	
 
 
 	// object must implement Serializable
@@ -167,18 +182,6 @@ public class FileUtil {
 	      
 	}
 	
-	
-	public void CreateDir(String DirectoryFullPathName)
-	{	
-		File file = new File(DirectoryFullPathName);
-		if (!file.exists()) {
-			if (file.mkdir()) {
-				System.out.println("Directory " + DirectoryFullPathName + " is created!");
-			} else {
-				System.out.println("Failed to create directory! " + DirectoryFullPathName);
-			}
-		}
-	}
 	
 	
 }

@@ -42,7 +42,7 @@ public class ReadInput {
 					
 			int A = scIn.nextInt();
 			String test = scIn.next();
-						
+			
 			pb = new Problem(A, null, test);
 													
 			//  !!!!!!!!!!!!!!!!!!! //
@@ -65,19 +65,23 @@ public class ReadInput {
 		{
 			if (pb != null)
 			{	
-				//  !!!!!!!!!!!!!!!!!!! //
+			//  !!!!!!!!!!!!!!!!!!! //
 				// TODO CODE here processing to read the model and write the file
 				//  !!!!!!!!!!!!!!!!!!! //
 				
 				// write first line
 				writer.println("print 1st line of ProcessProblemModelToVeriFile");
 				writer.println(pb.testint);
-				writer.println(pb.testString);			
-		    }				
+				writer.println(pb.testString);	
+				
 				//  !!!!!!!!!!!!!!!!!!! //
+		    }				
+				
 			writer.close();
 		}
 	}
+	
+
 }
 	
 	
