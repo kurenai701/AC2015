@@ -28,8 +28,8 @@ public class SrcZipUtil
 	public static void main(String[] args)
 	{
 		SrcZipUtil appZip = new SrcZipUtil();
-		appZip.generateFileList(new File(CommonStatic.SOURCE_FOLDER));
-		appZip.zipIt(CommonStatic.OUTPUT_ZIP_FILE);
+		appZip.generateFileList(new File(Common.SOURCE_FOLDER));
+		appZip.zipIt(Common.OUTPUT_ZIP_FILE);
 	}
 
 	public void zipIt(String zipFile)
@@ -42,11 +42,11 @@ public class SrcZipUtil
 		{
 			try
 			{
-				source = CommonStatic.SOURCE_FOLDER.substring(CommonStatic.SOURCE_FOLDER.lastIndexOf("\\") + 1, CommonStatic.SOURCE_FOLDER.length());
+				source = Common.SOURCE_FOLDER.substring(Common.SOURCE_FOLDER.lastIndexOf("\\") + 1, Common.SOURCE_FOLDER.length());
 			}
 			catch (Exception e)
 			{
-				source = CommonStatic.SOURCE_FOLDER;
+				source = Common.SOURCE_FOLDER;
 			}
 			fos = new FileOutputStream(zipFile);
 			zos = new ZipOutputStream(fos);
@@ -68,7 +68,7 @@ public class SrcZipUtil
 				zos.putNextEntry(ze);
 				try
 				{
-					in = new FileInputStream(CommonStatic.SOURCE_FOLDER + File.separator + file);
+					in = new FileInputStream(Common.SOURCE_FOLDER + File.separator + file);
 					int len;
 					while ((len = in.read(buffer)) > 0)
 					{
@@ -124,6 +124,6 @@ public class SrcZipUtil
 
 	private String generateZipEntry(String file)
 	{
-		return file.substring(CommonStatic.SOURCE_FOLDER.length() + 1, file.length());
+		return file.substring(Common.SOURCE_FOLDER.length() + 1, file.length());
 	}
 }    

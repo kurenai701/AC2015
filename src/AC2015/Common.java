@@ -1,6 +1,9 @@
 package AC2015;
 
-public class CommonStatic {
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
+public class Common {
 
 	// FileUtil
 	public static final FileUtil FU = new FileUtil();
@@ -9,11 +12,11 @@ public class CommonStatic {
 	
 	public static final String ACFinalFilesFolderPath = "C:\\ACFile\\";
 	
-	
+	public static final DateFormat FilePrefixdateFormat = new SimpleDateFormat("MMdd-HHmm");
 	
 	// ZIP
 	public static final String OUTPUT_ZIP_FILE = ACFinalFilesFolderPath+"FolderSourceMEGEClemAlex.zip"; 
-	public static final String OUTPUT_ZIP_FILE_FULL_PROCESS = ACFinalFilesFolderPath+"FullSourceMEGEClemAlex.zip"; 
+	public static final String OUTPUT_ZIP_FULLPROC_FILE_NAME = "FullSourceMEGEClemAlex.zip"; 
 	//  /!\ Folder ClemJava pour mes sources
 	public static final String SOURCE_FOLDER = "C:\\ClemJava\\HC\\AC2015\\src";
 	// /!\ Folder Alex
@@ -32,18 +35,25 @@ public class CommonStatic {
 	
 	
 	// OUTPUT	
-	public static final String OutputGeneratedPathUnitTest = ACFinalFilesFolderPath+"UNITTESTOutputGenerated.txt";
-	public static final String OutputGeneratedPath = ACFinalFilesFolderPath+"OutputGenerated.txt"; 	
+	public static final String OutputGeneratedFullPathUnitTest = ACFinalFilesFolderPath+"UNITTESTOutputGenerated.txt";
+		
+	public static final String OutputGeneratedFileName = "OutputGenerated.txt";
+	public static final String OutputGeneratedFullPath = ACFinalFilesFolderPath+OutputGeneratedFileName; 	
+		
 	public static final String OutputEncoding = "UTF-8";
 	
 	
 	// quand on aura généré le output generated, et qu'on veut le tester
-	//	public static final String OutputTestFilePath = ACFinalFilesFolderPath+"TESTEXEMPLEOUTPUT.txt";
-	public static final String OutputTestFilePath = ACFinalFilesFolderPath+"OutputGenerated.txt";
+		
+	//	public static final String OutputTestFileName = "TESTEXEMPLEOUTPUT.txt";
+	public static final String OutputTestFileName = "OutputGenerated.txt";
+	public static final String OutputTestFileFullPath = ACFinalFilesFolderPath+OutputTestFileName;
 	
-	public static final String OutputTestFilePathUnitTest= ACFinalFilesFolderPath+"TESTEXEMPLEOUTPUT.txt";
+	public static final String OutputTestFileNameUnitTest="TESTEXEMPLEOUTPUT.txt";
+	public static final String OutputTestFileFullPathUnitTest= ACFinalFilesFolderPath+OutputTestFileNameUnitTest;
 	
 	
-	
+	// SAVE SERIALIZED
+	public static final String SaveSerialFileName = "SolutionSerialized.ser";
 	
 }

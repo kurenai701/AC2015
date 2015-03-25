@@ -15,17 +15,17 @@ public class ReadInput {
 		ReadInput ri = new ReadInput();
 		Scanner scanInput = ri.ScannerInputFileForUnitTest();
 		Problem pbMod = ri.ProcessReadInputToModel(scanInput);
-		ri.ProcessProblemModelToVerifFile(pbMod, CommonStatic.InputFileVerifPath);
+		ri.ProcessProblemModelToVerifFile(pbMod, Common.InputFileVerifPath);
 	}
 	
 	public Scanner ScannerInputFile()
 	{
-		return CommonStatic.FU.ScannerFile(CommonStatic.InputFilePath);
+		return Common.FU.ScannerFile(Common.InputFilePath);
 	}
 	
 	public Scanner ScannerInputFileForUnitTest()
 	{
-		return CommonStatic.FU.ScannerFile(CommonStatic.InputFilePathUnitTest);
+		return Common.FU.ScannerFile(Common.InputFilePathUnitTest);
 	}
 			
 	// From Input file to Input Model
@@ -59,7 +59,7 @@ public class ReadInput {
 		System.out.println("ProcessProblemModelToVerifFile");
 		
 		// Writer
-		PrintWriter writer = CommonStatic.FU.CreateWriterFile(FilePath, "UTF-8");
+		PrintWriter writer = Common.FU.CreateWriterFile(FilePath, "UTF-8");
 		
 		if (writer != null)
 		{

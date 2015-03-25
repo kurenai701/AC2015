@@ -19,7 +19,7 @@ public class GenerateOutput {
 		// Obtain output model.
 	
 		Solution outModTest = mock.getSolutionTest(pbMod);
-		go.GenerateOutputFileFromOutputModel(outModTest, CommonStatic.OutputGeneratedPathUnitTest);
+		go.GenerateOutputFileFromOutputModel(outModTest, Common.OutputGeneratedFullPathUnitTest);
 	}	
 
 	public void GenerateOutputFileFromOutputModel(Solution sol, String filePath)
@@ -31,7 +31,7 @@ public class GenerateOutput {
 		}
 		else
 		{
-			PrintWriter writer = CommonStatic.FU.CreateWriterFile(filePath, CommonStatic.OutputEncoding);
+			PrintWriter writer = Common.FU.CreateWriterFile(filePath, Common.OutputEncoding);
 			if (writer != null)
 			{
 				//  !!!!!!!!!!!!!!!!!!! //

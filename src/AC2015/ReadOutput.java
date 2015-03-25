@@ -21,13 +21,13 @@ public class ReadOutput {
 	
 	public Scanner ScannerOutputFile()
 	{
-		return CommonStatic.FU.ScannerFile(CommonStatic.OutputTestFilePath);
+		return Common.FU.ScannerFile(Common.OutputTestFileFullPath);
 	}
 	
 
 	public Scanner ScannerOutputFileForUnitTest()
 	{
-		return CommonStatic.FU.ScannerFile(CommonStatic.OutputTestFilePathUnitTest);
+		return Common.FU.ScannerFile(Common.OutputTestFileFullPathUnitTest);
 	}
 	
 	

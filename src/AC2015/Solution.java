@@ -28,17 +28,20 @@ public class Solution implements Serializable {
 		
 	public int GetScore()
 	{
-		return -42;
+		ScoreInfo scoringInfo = this.GetScoreModel();
+		return scoringInfo.score;
 	}
 	
 	public ScoreInfo GetScoreModel()
 	{
-		return new ScoreInfo(-314);
+		ScoreInfo scoringInfo = new ScoreInfo(-314);
+		return scoringInfo;
 	}
 	
 	
 	public void SaveSolutionAsRaw(String fileName)
 	{			
-		CommonStatic.FU.SerializeObjectToFile(this, CommonStatic.ACFinalFilesFolderPath+fileName);
+		Common.FU.SerializeObjectToFile(this, Common.ACFinalFilesFolderPath+fileName);
 	}	
+	
 }

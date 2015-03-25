@@ -1,6 +1,9 @@
 package AC2015;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -54,7 +57,7 @@ public class ClemExperiment {
 		System.out.println(resultInt1.toArray().length);	
 		
 		
-		
+	
 		
 		Predicate<ClemClass> predicateForRemove = ccitem -> ccitem.intClem2 > 0;
 		
@@ -62,6 +65,13 @@ public class ClemExperiment {
 		
 		System.out.println(cl.ListClemClass.toString());
 		System.out.println(cl.ListClemClass.toArray().length);		
+		
+		
+		Date currentDate = new Date();		
+		String dateFormatString = Common.FilePrefixdateFormat.format(currentDate);
+		
+		System.out.println(dateFormatString);
+		
 		
 	}
 	
