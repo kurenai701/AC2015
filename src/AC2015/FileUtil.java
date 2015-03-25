@@ -2,6 +2,7 @@ package AC2015;
 
 
 import java.io.BufferedOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -165,4 +166,19 @@ public class FileUtil {
 	        }
 	      
 	}
+	
+	
+	public void CreateDir(String DirectoryFullPathName)
+	{	
+		File file = new File(DirectoryFullPathName);
+		if (!file.exists()) {
+			if (file.mkdir()) {
+				System.out.println("Directory " + DirectoryFullPathName + " is created!");
+			} else {
+				System.out.println("Failed to create directory! " + DirectoryFullPathName);
+			}
+		}
+	}
+	
+	
 }

@@ -2,6 +2,7 @@ package AC2015;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Common {
 
@@ -55,5 +56,18 @@ public class Common {
 	
 	// SAVE SERIALIZED
 	public static final String SaveSerialFileName = "SolutionSerialized.ser";
+	
+	
+	
+	
+	
+	//MMdd-hhmm
+	public static String getTimeAsPrefixDateFormatString()
+	{
+		// Format Date For Prefix
+		Date currentDate = new Date();		
+		String prefixDate = Common.FilePrefixdateFormat.format(currentDate);
+		return prefixDate;	
+	}
 	
 }

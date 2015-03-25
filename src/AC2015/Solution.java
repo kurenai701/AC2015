@@ -34,7 +34,7 @@ public class Solution implements Serializable {
 	
 	public ScoreInfo GetScoreModel()
 	{
-		ScoreInfo scoringInfo = new ScoreInfo(-314);
+		ScoreInfo scoringInfo = new ScoreInfo(-314159);
 		return scoringInfo;
 	}
 	
@@ -42,6 +42,11 @@ public class Solution implements Serializable {
 	public void SaveSolutionAsRaw(String fileName)
 	{			
 		Common.FU.SerializeObjectToFile(this, Common.ACFinalFilesFolderPath+fileName);
-	}	
+	}
+	
+	public void SaveSolutionAsRawToFullPath(String fullFilePath)
+	{
+		Common.FU.SerializeObjectToFile(this, fullFilePath);
+	}
 	
 }

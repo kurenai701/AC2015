@@ -28,8 +28,7 @@ public class SrcZipUtil
 	public static void main(String[] args)
 	{
 		SrcZipUtil appZip = new SrcZipUtil();
-		appZip.generateFileList(new File(Common.SOURCE_FOLDER));
-		appZip.zipIt(Common.OUTPUT_ZIP_FILE);
+		appZip.ZipSourceOfProject(Common.OUTPUT_ZIP_FILE);		
 	}
 
 	public void zipIt(String zipFile)
@@ -126,4 +125,16 @@ public class SrcZipUtil
 	{
 		return file.substring(Common.SOURCE_FOLDER.length() + 1, file.length());
 	}
+	
+	
+	
+	public void ZipSourceOfProject(String zipFullFilePath)
+	{			
+		// Zip Folder Sources 
+		generateFileList(new File(Common.SOURCE_FOLDER));
+		zipIt(zipFullFilePath);			
+	}
+	
+	
+	
 }    
