@@ -111,7 +111,8 @@ public class FileUtil {
 				return;
 			}
 			finally{
-				output.close();
+				if (output != null)
+					output.close();
 				System.out.println("Finished Serializing Object " + objectToSave.toString());
 		           
 			}
@@ -149,7 +150,8 @@ public class FileUtil {
 	            }
 	            finally
 	            {
-	            	iis.close();
+	            	if (iis != null)
+	            		iis.close();
 	            }
 	            System.out.println("Done");
 	            

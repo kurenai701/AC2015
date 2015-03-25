@@ -29,3 +29,16 @@ for (int ii = 0; ii < 100; ii++)
 }
 
 //
+
+
+
+	public <T> List<T> WherePredicate(List<T> list, Predicate<T> pred)
+	{
+		List<T> resultList = 
+				list.stream()
+				.filter(pred)
+				.collect(Collectors.toList());
+	
+		return resultList;		
+	}
+	

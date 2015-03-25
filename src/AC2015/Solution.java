@@ -2,6 +2,8 @@ package AC2015;
 
 import java.io.Serializable;
 
+import java.util.List;
+import java.util.ArrayList;
 
 /*
  *  OutputModel : classe Output
