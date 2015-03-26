@@ -85,7 +85,7 @@ public class Common {
 	
 	
 
-	public static <T> List<T> WherePredicate(List<T> list, Predicate<T> pred)
+	public static <T> List<T> Where(List<T> list, Predicate<T> pred)
 	{
 		List<T> resultList = 
 				list.stream()
@@ -94,6 +94,23 @@ public class Common {
 	
 		return resultList;		
 	}
+	
+	
+	public static <T> T First(List<T> list, Predicate<T> pred)
+	{		
+		List<T> resultList = Where(list, pred);
+		if (resultList != null && resultList.size() > 0) 
+		{
+			T firstRes = resultList.get(0);
+			return firstRes;
+		}
+		else
+			return null;
+		
+	}
+	
+	
+
 	
 	
 }

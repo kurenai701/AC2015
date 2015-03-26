@@ -57,7 +57,7 @@ List<ClemClass> myList = new ArrayList<ClemClass>();
 ////////////////////////
 /// Forme de WHERE
 ////////////////////////
-	public <T> List<T> WherePredicate(List<T> list, Predicate<T> pred)
+	public <T> List<T> Where(List<T> list, Predicate<T> pred)
 	{
 		List<T> resultList = 
 				list.stream()

@@ -10,29 +10,23 @@ public class FullProcess {
 	
 		//// Initialization of our Tool Classes;
 		ReadInput ri = new ReadInput();
+		ProblemSimplifyer simplifyer = new ProblemSimplifyer();
 		AlgoInputToOutput algo = new AlgoInputToOutput();
 		GenerateOutput genOut = new GenerateOutput();
 		ReadOutput ro = new ReadOutput();
 				
-		//// process input**********************
-		Scanner scanInput = ri.ScannerInputFile();
-		//Scanner scanInput = ri.ScannerInputFileForUnitTest();
-		//*********************************
+		// Get Problem Model
+		Problem pbMod = FromInputFileToProblem(Common.InputFilePath);
 		
-		//// Get the ProblemModel from reading Input
-		Problem pbMod = ri.ProcessReadInputToModel(scanInput);
-			
-		// Generate again an InputFile from the ProblemModel
-		ri.ProcessProblemModelToVerifFile(pbMod, Common.InputFileVerifPath);		
-		
+		// TODO step for Simplification of Problem		
+		Problem pbModSimplified = simplifyer.SimplifyProblem(pbMod); // TODO TODO TODO
 		
 		////**************** process Algorithm ***********************	
 		
-		Solution sol = algo.AlgoSimple(pbMod);	
+		Solution sol = algo.AlgoSimple(pbModSimplified);	
 		
 		////**********************************************************
-		
-		
+				
 		//// GenerateOutputFile
 		genOut.GenerateOutputFileFromOutputModel(sol, Common.OutputGeneratedFullPath);
 		
@@ -41,6 +35,7 @@ public class FullProcess {
 		Problem pbModVerif = ro.ProcessReadOutputToProblemModel(scanOutput);
 				
 		ri.ProcessProblemModelToVerifFile(pbModVerif, Common.InputFileVerifPathFromOutputRead);	
+		
 		ro.EvaluateScoreFromOutput(sol);
 	
 		//// Serialize Solution class
@@ -51,10 +46,23 @@ public class FullProcess {
 		System.out.println(testdes.testSolInt);		
 			
 		// BACK-UP to a folder with score and time
-		ProcessAllBackupOfSolutionToFolder(sol, genOut);		
+		ProcessAllBackupOfSolutionToFolder(sol);		
 	}
 		
 
+	
+	
+	public static Problem FromInputFileToProblem(String fullFilePath)
+	{
+		ReadInput ri = new ReadInput();
+		Scanner scanInput = ri.ScannerInputFile(fullFilePath);
+		Problem pbMod = ri.ProcessReadInputToModel(scanInput);		
+		
+		// Generate again an InputFile from the ProblemModel for verification purpose
+		ri.ProcessProblemModelToVerifFile(pbMod, Common.InputFileVerifPath);	
+		
+		return pbMod;
+	}
 	
 	public static String getDirectoryNameWithScoreAndDate(int scorePrefix, String prefixDate)
 	{			
@@ -63,8 +71,11 @@ public class FullProcess {
 	}
 	
 	
-	public static void ProcessAllBackupOfSolutionToFolder(Solution sol, GenerateOutput genOut)
-	{
+	public static void ProcessAllBackupOfSolutionToFolder(Solution sol)
+	{		
+		// Initialize Tool
+		GenerateOutput genOut = new GenerateOutput();
+		
 		////////// FOR BACK-UP ////////////
 		String datePrefix = Common.getTimeAsPrefixDateFormatString();			
 		String TargetBKPfolderName = getDirectoryNameWithScoreAndDate(sol.GetScore(),datePrefix);

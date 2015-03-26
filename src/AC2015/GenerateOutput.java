@@ -13,7 +13,7 @@ public class GenerateOutput {
 		
 		ReadInput ri = new ReadInput();
 		
-		Scanner scanInput = ri.ScannerInputFileForUnitTest();
+		Scanner scanInput = ri.ScannerInputFile(Common.InputFilePathUnitTest);
 		Problem pbMod = ri.ProcessReadInputToModel(scanInput);
 		
 		// Obtain output model.

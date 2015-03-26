@@ -16,8 +16,34 @@ public class ClemExperiment {
 	public static void main(String[] args) {
 
 		ClemExperiment cl = new ClemExperiment();
+		
+		
+		
+
+		List<Integer> testListInt = new ArrayList<Integer>();
+		testListInt.add(42);
+		testListInt.add(42);
+		testListInt.add(50);
+				
+		
+		Predicate<Integer> p = i -> i.intValue() == 42;
+		
+		List<Integer> testListIntResult = Common.Where(testListInt, p);
+		
+		System.out.println(testListIntResult.size());
+		System.out.println(testListIntResult.get(0));
+		System.out.println(testListIntResult.get(1));
+		
+		int valueint = testListIntResult.get(0);
+		
+		System.out.println(valueint);
+		
+		
+		
 		cl.ListClemClass = new ArrayList<ClemClass>();
 
+				
+		
 		// initialiser la liste
 	
 		ClemClass clemcl1 = new ClemClass(0,0,"test");
@@ -49,8 +75,12 @@ public class ClemExperiment {
 //				.filter(int1Is1)
 //				.collect(Collectors.toList());
 		
-		List<ClemClass> resultInt1 = Common.WherePredicate(cl.ListClemClass, int1Is1);
-		List<ClemClass> result = Common.WherePredicate(cl.ListClemClass, ConditionImpossible);
+		List<ClemClass> resultInt1 = Common.Where(cl.ListClemClass, int1Is1);
+		List<ClemClass> result = Common.Where(cl.ListClemClass, ConditionImpossible);
+		
+		
+		ClemClass firstresult = Common.First(cl.ListClemClass, int1Is1);
+		
 		
 		System.out.println(result.size());
 		if (result.size() != 0)

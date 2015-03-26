@@ -11,20 +11,16 @@ public class ReadInput {
 	public static void main(String[] args) {
 		
 		ReadInput ri = new ReadInput();
-		Scanner scanInput = ri.ScannerInputFileForUnitTest();
+		Scanner scanInput = ri.ScannerInputFile(Common.InputFilePathUnitTest);
 		Problem pbMod = ri.ProcessReadInputToModel(scanInput);
 		ri.ProcessProblemModelToVerifFile(pbMod, Common.InputFileVerifPath);
 	}
 	
-	public Scanner ScannerInputFile()
+	public Scanner ScannerInputFile(String fileFullPath)
 	{
-		return Common.FU.ScannerFile(Common.InputFilePath);
+		return Common.FU.ScannerFile(fileFullPath);
 	}
 	
-	public Scanner ScannerInputFileForUnitTest()
-	{
-		return Common.FU.ScannerFile(Common.InputFilePathUnitTest);
-	}
 			
 	// From Input file to Input Model
 	public Problem ProcessReadInputToModel(Scanner scIn)

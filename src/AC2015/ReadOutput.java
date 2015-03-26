@@ -50,7 +50,7 @@ public class ReadOutput {
 		if (scanOut != null)
 		{				
 			//  !!!!!!!!!!!!!!!!!!! //
-			// TODO	CODE here parsing and processing of output file to obtain input model	
+			// TODO	CODE here parsing and processing of output file to obtain problem model	
 			//  !!!!!!!!!!!!!!!!!!! //
 					
 			pb.testint = scanOut.nextInt();
@@ -61,6 +61,7 @@ public class ReadOutput {
 	
 	}
 	
-
+	// CLEM : Faire un ProcessReadOutputToSol ?
+	
 	
 }
