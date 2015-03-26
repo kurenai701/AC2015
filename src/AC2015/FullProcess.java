@@ -12,38 +12,28 @@ public class FullProcess {
 		ReadInput ri = new ReadInput();
 		ProblemSimplifyer simplifyer = new ProblemSimplifyer();
 		AlgoInputToOutput algo = new AlgoInputToOutput();
-		GenerateOutput genOut = new GenerateOutput();
 		ReadOutput ro = new ReadOutput();
+		
 				
-		// Get Problem Model
+		// Get Problem Model from file
 		Problem pbMod = FromInputFileToProblem(Common.InputFilePath);
 		
-		// TODO step for Simplification of Problem		
-		Problem pbModSimplified = simplifyer.SimplifyProblem(pbMod); // TODO TODO TODO
+		// Simplify Problem		
+		Problem pbModSimplified = simplifyer.SimplifyProblem(pbMod);
 		
-		////**************** process Algorithm ***********************	
+		////**************** process Algorithm *******************////
 		
 		Solution sol = algo.AlgoSimple(pbModSimplified);	
 		
-		////**********************************************************
-				
-		//// GenerateOutputFile
-		genOut.GenerateOutputFileFromOutputModel(sol, Common.OutputGeneratedFullPath);
+		////******************************************************////
 		
-		//// To Verify Output correctly linked to Input		
-		Scanner scanOutput = ro.ScannerOutputFile();			
-		Problem pbModVerif = ro.ProcessReadOutputToProblemModel(scanOutput);
-				
-		ri.ProcessProblemModelToVerifFile(pbModVerif, Common.InputFileVerifPathFromOutputRead);	
+		GenerateOutputFileFromSolutionAndVerify(sol, Common.OutputGeneratedFullPath);		
 		
-		ro.EvaluateScoreFromOutput(sol);
+		// GET SCORE
+		sol.PrintScore();
 	
-		//// Serialize Solution class
-		sol.SaveSolutionAsRaw(Common.SaveSerialFileName);
-		
-		//// Deserialize to verify there is no problem	
-		Solution testdes = (Solution)(Common.FU.DeserializeFileToObject(Common.ACFileFolderPath+Common.SaveSerialFileName));
-		System.out.println(testdes.testSolInt);		
+		// Serialize Sol, and Verify Deserialisation possible
+		VerifySerializeDeserializeSolution(sol);
 			
 		// BACK-UP to a folder with score and time
 		ProcessAllBackupOfSolutionToFolder(sol);		
@@ -55,13 +45,43 @@ public class FullProcess {
 	public static Problem FromInputFileToProblem(String fullFilePath)
 	{
 		ReadInput ri = new ReadInput();
+		// Create the scanner for file
 		Scanner scanInput = ri.ScannerInputFile(fullFilePath);
+		// And build the problem model from parsing
 		Problem pbMod = ri.ProcessReadInputToModel(scanInput);		
 		
 		// Generate again an InputFile from the ProblemModel for verification purpose
 		ri.ProcessProblemModelToVerifFile(pbMod, Common.InputFileVerifPath);	
 		
 		return pbMod;
+	}
+	
+	
+	public static void GenerateOutputFileFromSolutionAndVerify(Solution sol, String fullGeneratedFilePath)
+	{	
+			GenerateOutput genOut = new GenerateOutput();
+			genOut.GenerateOutputFileFromOutputModel(sol, fullGeneratedFilePath);
+			
+			ReadOutput ro = new ReadOutput();		
+			
+			// TODO VOIR SI CA S Y PRETE
+			// To Verify Output correctly linked to Input	(si ça s'y prête)	
+			
+			Scanner scanOutput = ro.ScannerOutputFile(fullGeneratedFilePath);			
+			Problem pbModVerif = ro.ProcessReadOutputToProblemModel(scanOutput);
+					
+			ReadInput ri = new ReadInput();
+			ri.ProcessProblemModelToVerifFile(pbModVerif, Common.InputFileVerifPathFromOutputRead);	
+	}
+	
+	public static void VerifySerializeDeserializeSolution(Solution sol)
+	{
+		//// Serialize Solution class
+		sol.SaveSolutionAsRaw(Common.SaveSerialFileName);
+		
+		//// De-serialize to verify there is no problem	
+		Solution testdes = (Solution)(Common.FU.DeserializeFileToObject(Common.ACFileFolderPath+Common.SaveSerialFileName));
+		System.out.println(testdes.testSolInt);		
 	}
 	
 	public static String getDirectoryNameWithScoreAndDate(int scorePrefix, String prefixDate)

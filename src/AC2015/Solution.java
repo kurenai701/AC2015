@@ -31,17 +31,31 @@ public class Solution implements Serializable {
 		this.pb = pb;			
 	}
 		
-	public int GetScore()
-	{
-		ScoreInfo scoringInfo = this.GetScoreModel();
-		return scoringInfo.score;
-	}
+	
 	
 	public ScoreInfo GetScoreModel()
 	{
 		ScoreInfo scoringInfo = new ScoreInfo(-314159);
 		return scoringInfo;
 	}
+	
+	public int GetScore()
+	{
+		ScoreInfo scoringInfo = this.GetScoreModel();
+		return scoringInfo.score;
+	}
+	
+	public int PrintScore()
+	{ 	
+		int scoreInt = GetScore();
+		
+		System.out.println("/////////////////////////");
+		System.out.println("EvalScore : " + scoreInt);
+		System.out.println("/////////////////////////");
+		
+		return scoreInt;
+	}
+
 	
 	
 	public void SaveSolutionAsRaw(String fileName)

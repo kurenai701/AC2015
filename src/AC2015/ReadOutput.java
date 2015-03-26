@@ -9,7 +9,7 @@ public class ReadOutput {
 	public static void main(String[] args) {
 		
 		ReadOutput ro = new ReadOutput();
-		Scanner scanOutputFile = ro.ScannerOutputFileForUnitTest();
+		Scanner scanOutputFile = ro.ScannerOutputFile(Common.OutputTestFileFullPathUnitTest);
 		scanOutputFile.hashCode();
 		
 		Problem pbModVerif = ro.ProcessReadOutputToProblemModel(scanOutputFile);
@@ -19,49 +19,54 @@ public class ReadOutput {
 	
 	}
 	
-	public Scanner ScannerOutputFile()
+	public Scanner ScannerOutputFile(String OutputFilePath)
 	{
-		return Common.FU.ScannerFile(Common.OutputTestFileFullPath);
-	}
-	
-
-	public Scanner ScannerOutputFileForUnitTest()
-	{
-		return Common.FU.ScannerFile(Common.OutputTestFileFullPathUnitTest);
+		return Common.FU.ScannerFile(OutputFilePath);
 	}
 	
 	
 	
-	public int EvaluateScoreFromOutput( Solution sol)
-	{ 			
-		ScoreInfo score =  sol.GetScoreModel();
-		System.out.println("EvalScore : " +score.score);
-
-		return score.score;
-	}
-
-	
-	
-	public Problem ProcessReadOutputToProblemModel(Scanner scanOut)
+	///// SI CA S'Y PRETE POUR DES TESTS, DEPUIS L'OUTPUT, RECREER LE MODELE DU PROBLEME /////
+	public Problem ProcessReadOutputToProblemModel(Scanner scOut)
 	{
 		System.out.println("ProcessReadOutputToProblemModel");
 		Problem pb = new Problem();
 		
-		if (scanOut != null)
+		if (scOut != null)
 		{				
 			//  !!!!!!!!!!!!!!!!!!! //
-			// TODO	CODE here parsing and processing of output file to obtain problem model	
+			// TODO	CODE here parsing and processing of output file to obtain problem model	(si ça s'y prête)
 			//  !!!!!!!!!!!!!!!!!!! //
 					
-			pb.testint = scanOut.nextInt();
-			pb.testString = scanOut.next();
+			pb.testint = scOut.nextInt();
+			pb.testString = scOut.next();
 			//  !!!!!!!!!!!!!!!!!!! //
 		}			
 		return pb;
 	
 	}
 	
-	// CLEM : Faire un ProcessReadOutputToSol ?
+	
+	
+///// SI CA S'Y PRETE POUR DES TESTS, DEPUIS L'OUTPUT, RECREER LA SOLUTION  (l'inverse de GenerateOutputFile) /////
+	public Solution ProcessReadOutputBackToSolution(Scanner scOut)
+	{
+		System.out.println("ProcessReadOutputBackToSolutionModel");
+		Solution sol = new Solution();
+		
+		if (scOut != null)
+		{
+			//  !!!!!!!!!!!!!!!!!!! //
+			// TODO	CODE here parsing and processing of output file to obtain problem model	(si ça s'y prête)
+			//  !!!!!!!!!!!!!!!!!!! //
+			
+			sol.testSolInt = scOut.nextInt();			
+			
+			//  !!!!!!!!!!!!!!!!!!! //			
+		}
+		
+		return sol;
+	}
 	
 	
 }

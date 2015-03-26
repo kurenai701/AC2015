@@ -2,7 +2,13 @@ package AC2015;
 
 import java.io.Serializable;
 
+
+
+
+// Cette classe ScoreInfo permettra de modeliser de façon plus comlexe
+
 public class ScoreInfo implements Serializable {
+	
 	
 
 	private static final long serialVersionUID = 43L;
