@@ -27,6 +27,8 @@ public class FileUtil {
 			// Open Text File
 			Scanner fileScan = new Scanner(new FileReader(fileFullpath));
 			System.out.println("File Found : " + fileFullpath);
+			fileScan.useLocale(Common.ScannerLocale);
+			
 			return fileScan;
 		}
 		catch (FileNotFoundException fnfe)

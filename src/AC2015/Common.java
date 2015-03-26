@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -29,6 +30,7 @@ public class Common {
 	/////////////// INPUT ///////////
 	/////////////////////////////////
 	public static final String InputEncoding = "UTF-8";
+	public static final Locale ScannerLocale = Locale.US;
 	
 	public static final String InputFileName = "INPUT-dc.in";
 	public static final String InputFilePath = ACFileFolderPath+InputFileName;
