@@ -1,9 +1,9 @@
 package AC2015;
 
 import java.io.Serializable;
-
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.TreeSet;
 
 /*
  *  OutputModel : classe Output
@@ -12,11 +12,16 @@ import java.util.ArrayList;
   
 public class Solution implements Serializable {
 	
-	// private for test
+	
+	private static final long serialVersionUID = 42L;
+	
+	// for test
 	int testSolInt;
 	String testSolString;
+	List<ClemClass> testSolListClemClass = new ArrayList<ClemClass>();
+	TreeSet testTreeSet = new TreeSet();
 	
-	// private
+	// problem
 	Problem pb;
 		
 	public Solution(){}

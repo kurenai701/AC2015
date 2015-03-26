@@ -3,6 +3,9 @@ package AC2015;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class Common {
 
@@ -77,5 +80,18 @@ public class Common {
 		String prefixDate = Common.FilePrefixdateFormat.format(currentDate);
 		return prefixDate;	
 	}
+	
+	
+
+	public static <T> List<T> WherePredicate(List<T> list, Predicate<T> pred)
+	{
+		List<T> resultList = 
+				list.stream()
+				.filter(pred)
+				.collect(Collectors.toList());
+	
+		return resultList;		
+	}
+	
 	
 }

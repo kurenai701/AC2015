@@ -1,7 +1,14 @@
-test text file, to keep some snippets
+text file, to keep some snippets
 
 
-// syntaxe for
+
+System.out.println(" ");
+
+
+
+///////////////////////
+///// FOR
+//////////////////////
 
 for (int i = 0; i < 42; i++)
 {
@@ -9,7 +16,9 @@ for (int i = 0; i < 42; i++)
 }
 
 
-// syntaxe foreach
+///////////////////////
+///// FOREACH
+//////////////////////
 
 for(final MyClass cl: itemList) 
 {
@@ -17,21 +26,37 @@ for(final MyClass cl: itemList)
 }				
 	
 	
-// double boucle
+
+///////////////////////
+///// DOUBLE BOUCLE
+//////////////////////
 for (int ii = 0; ii < 100; ii++)
 {
 
 	for (int jj = 0; jj < 42; jj++)
 	{
-	
+		System.out.println(ii + " " + jj);
 	}
 
 }
 
-//
+///////////////////////
+///// DECLARATION MATRICE
+//////////////////////		
+// declaration d'une matrice
+		String[][] matrix = new String[21][23]; 		
 
 
+////////////////
+///// EXEMPLE LIST
+//////////////////////////
 
+List<ClemClass> myList = new ArrayList<ClemClass>();	
+
+
+////////////////////////
+/// Forme de WHERE
+////////////////////////
 	public <T> List<T> WherePredicate(List<T> list, Predicate<T> pred)
 	{
 		List<T> resultList = 
@@ -41,4 +66,7 @@ for (int ii = 0; ii < 100; ii++)
 	
 		return resultList;		
 	}
+	
+	
+	
 	

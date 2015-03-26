@@ -1,8 +1,6 @@
 package AC2015;
 
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 
@@ -41,10 +39,28 @@ public class ReadInput {
 			//  !!!!!!!!!!!!!!!!!!! //
 					
 			int A = scIn.nextInt();
+			
 			String test = scIn.next();
 			
 			pb = new Problem(A, null, test);
-													
+			
+			// SOME PIECES OF CODE FOR REFERENCE
+//			
+//			int tempInt;
+//			String tempString;
+//			double tempDouble;
+//			String tempLine;
+//			
+//			for (int counter = 0; counter < 42/*TODO change*/; counter++)
+//			{				
+//				tempInt = scIn.nextInt();
+//				tempString = scIn.next(); 
+//				tempDouble = scIn.nextDouble();
+//				tempLine = scIn.nextLine();
+//				
+//				// faire qqch 
+//			}
+//			
 			//  !!!!!!!!!!!!!!!!!!! //
 		}	
 		
@@ -74,6 +90,7 @@ public class ReadInput {
 				writer.println("print 1st line of ProcessProblemModelToVeriFile");
 				writer.println(pb.testint);
 				writer.println(pb.testString);	
+			
 				
 				//  !!!!!!!!!!!!!!!!!!! //
 		    }				

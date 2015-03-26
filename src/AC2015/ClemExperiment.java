@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 public class ClemExperiment {
 
@@ -41,23 +40,29 @@ public class ClemExperiment {
 		// mes predicats
 		Predicate<ClemClass> stringIsTest = item -> item.stringClem == "test";
 		Predicate<ClemClass> int1Is1 = c -> c.intClem == 1;
+		Predicate<ClemClass> Is42AndContainsReponse = c -> c.intClem == 42 && c.stringClem.contains("reponse");
+		Predicate<ClemClass> ConditionImpossible = c -> c.intClem == 42 && c.intClem == 43;
+//		
+//		
+//		List<ClemClass> resultInt1 = 
+//				cl.ListClemClass.stream()
+//				.filter(int1Is1)
+//				.collect(Collectors.toList());
 		
+		List<ClemClass> resultInt1 = Common.WherePredicate(cl.ListClemClass, int1Is1);
+		List<ClemClass> result = Common.WherePredicate(cl.ListClemClass, ConditionImpossible);
 		
-		List<ClemClass> resultStringTest = cl.ApplyPredicateToList(stringIsTest, cl.ListClemClass);
-		List<ClemClass> resultInt1 = 
-				cl.ListClemClass.stream()
-				.filter(int1Is1)
-				.collect(Collectors.toList());
-		
-		
-		System.out.println(resultStringTest.toString());	
-		System.out.println(resultStringTest.toArray().length);			
+		System.out.println(result.size());
+		if (result.size() != 0)
+			System.out.println(result.get(0).stringClem);
+		else 
+			System.out.println("pas de result");
 		
 		System.out.println(resultInt1.toString());
 		System.out.println(resultInt1.toArray().length);	
-		
-		
-	
+				
+		System.out.println("test du foreach avec lambda");
+		resultInt1.forEach(a -> System.out.println(a.stringClem));		
 		
 		Predicate<ClemClass> predicateForRemove = ccitem -> ccitem.intClem2 > 0;
 		
@@ -72,7 +77,17 @@ public class ClemExperiment {
 		
 		System.out.println(dateFormatString);
 		
+		Solution testSolution = new Solution();
+		testSolution.testSolListClemClass.add(clemcl6);
+		testSolution.testSolListClemClass.add(clemcl5);
+				
+		testSolution.SaveSolutionAsRaw("TestSolutionSerialize");
 		
+		
+		Solution desSolution = 
+				(Solution)(Common.FU.DeserializeFileToObject("C:\\ACFile\\TestSolutionSerialize"));
+		
+		System.out.println(desSolution.testSolListClemClass.toString());
 	}
 	
 	// Constructeur
@@ -81,30 +96,5 @@ public class ClemExperiment {
 		;
 	}
 	
-	
-
-	List<ClemClass> ApplyPredicateToList(Predicate<ClemClass>  pred, List<ClemClass> listCC)
-	{
-		List<ClemClass> resultList = new ArrayList<ClemClass>();
-		for(ClemClass cc : listCC)
-		{
-			if(pred.test(cc))
-			{
-				resultList.add(cc);
-			}
-		}
-		return resultList;
-	}
-	
-		
-	public <T> List<T> WherePredicate(List<T> list, Predicate<T> pred)
-	{
-		List<T> resultList = 
-				list.stream()
-				.filter(pred)
-				.collect(Collectors.toList());
-	
-		return resultList;		
-	}
 	
 }
