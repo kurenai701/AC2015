@@ -1,7 +1,12 @@
 package AC2015;
 
-public class Slice {
+import java.io.Serializable;
 
+public class Slice implements Serializable {
+
+	
+	private static final long serialVersionUID = 300L;
+	
 	int rowS;
 	int rowE;
 	int colS;

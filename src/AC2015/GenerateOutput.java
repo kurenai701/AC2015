@@ -57,7 +57,6 @@ public class GenerateOutput {
 		for(final Slice sl: sol.slices) 
 		{
 			writer.println(sl.rowS + " " + sl.colS + " " + sl.rowE + " " + sl.colE);
-	
 		}				
 					
 		//  !!!!!!!!!!!!!!!!!!! //					
