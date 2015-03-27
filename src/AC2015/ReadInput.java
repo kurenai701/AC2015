@@ -33,31 +33,32 @@ public class ReadInput {
 			//  !!!!!!!!!!!!!!!!!!! //
 			// TODO	CODE here parsing of file, and saving to model	
 			//  !!!!!!!!!!!!!!!!!!! //
-					
-			int A = scIn.nextInt();
 			
-			String test = scIn.next();
+			int R;
+			int C;
+			int H;
+			int S;
 			
-			pb = new Problem(A, null, test);
+			R = scIn.nextInt();
+			C = scIn.nextInt();
+			H = scIn.nextInt();
+			S = scIn.nextInt();
 			
-			// SOME PIECES OF CODE FOR REFERENCE
-//			
-//			int tempInt;
-//			String tempString;
-//			double tempDouble;
-//			String tempLine;
-//			
-//			for (int counter = 0; counter < 42/*TODO change*/; counter++)
-//			{				
-//				tempInt = scIn.nextInt();
-//				tempString = scIn.next(); 
-//				tempDouble = scIn.nextDouble();
-//				tempLine = scIn.nextLine();
-//				
-//				// faire qqch 
-//			}
-//			
-			//  !!!!!!!!!!!!!!!!!!! //
+			
+			pb = new Problem(R,C,H,S);
+			pb.Pizza = new char[R][C];
+						
+			String line;
+			for (int rcounter = 0; rcounter < R; rcounter++)
+			{	
+				line = scIn.next();
+				
+				for (int c=0; c<C; c++)
+				{
+					pb.Pizza[rcounter][c] = line.charAt(c);
+				}
+			}
+			
 		}	
 		
 		return pb;
@@ -83,10 +84,10 @@ public class ReadInput {
 				
 				
 				// write first line
-				writer.println("print 1st line of ProcessProblemModelToVeriFile");
-				writer.println(pb.testint);
-				writer.println(pb.testString);	
-			
+//				writer.println("print 1st line of ProcessProblemModelToVeriFile");
+//				writer.println(pb.testint);
+//				writer.println(pb.testString);	
+//			
 				
 				//  !!!!!!!!!!!!!!!!!!! //
 		    }				
