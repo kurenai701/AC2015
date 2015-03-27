@@ -25,6 +25,7 @@ public class Problem {
 	
 	
 	char[][] Pizza; 
+	int[][] sumAdd;
     		
 
 	public Problem(){}

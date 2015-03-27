@@ -32,9 +32,9 @@ public class AlgoInputToOutput {
 			return null;
 		}
 		
-		if(  isValid(Rmax,Rmin,Cmin,Cmax))
+		if(  isValid(pb,Rmax,Rmin,Cmin,Cmax))
 		{
-			return new Solution( new Slice(Rmin, Rmax, Cmin-1, Cmax-1 , area)  )
+			return new Solution( new Slice(Rmin, Rmax, Cmin-1, Cmax-1 , area)  );
 		}
 		
 		int Ccentre = (int)((Rmin+Rmax)/2);
@@ -51,7 +51,7 @@ public class AlgoInputToOutput {
 		}else
 		{
 			 A = AlgoDandQ(pb, Rmin, Rmax ,Cmin,Ccentre);
-			 B = AlgoDandQ(pb, Rmmin,Rmax ,Ccentre,Cmax);
+			 B = AlgoDandQ(pb, Rmin,Rmax ,Ccentre,Cmax);
 			A.slices.addAll(B.slices);
 			
 		}
@@ -60,6 +60,24 @@ public class AlgoInputToOutput {
 		return A;
 	
 	}
+	
+	boolean  isValid(Problem pb, int Rmax,int Rmin,int Cmin,int Cmax)
+	{
+		int Rsize = (Rmax-Rmin);
+		int Csize = (Rmax-Rmin);
+		
+		if( Rsize*Csize > pb.S)
+		{
+			return false;
+		}
+		
+		return ( pb.sumAdd[Rmax-1][Cmax-1]+pb.sumAdd[Rmin-1][Cmin-1]-
+				(pb.sumAdd[Rmax-1][Cmin-1] + pb.sumAdd[Rmin-1][Cmax-1])) > pb.H ;
+		
+		
+	}
+	
+	
 	public Solution AlgoSimple(Problem pb)
 	{
 		System.out.println("Starting simple algo");
@@ -72,7 +90,36 @@ public class AlgoInputToOutput {
 		// TODO Write THE ALGORITHM :-) //
 		//////////////////////////////////
 				
-		sol = AlgoDandQ(pb,0,R,0,C);
+	//	char[][] Pizza; 
+	//	int[][] sumAdd;
+		for(int rr = 0;rr<pb.R;rr++)
+		{
+			for(int cc = 0;cc<pb.R;cc++)
+			{
+				int sum=0 ;
+				if(pb.Pizza[rr][cc]=='H')
+				{
+					sum++;
+				}
+				if(rr>0)
+				{
+					sum += pb.sumAdd[rr-1][cc];
+				}
+				if(cc>0)
+				{
+					sum += pb.sumAdd[rr][cc-1];
+				}
+				if(cc>0&&rr>0)
+				{
+					sum -= pb.sumAdd[rr-1][cc-1];
+				}
+				
+				pb.sumAdd[rr][cc] = sum;
+			}
+		}
+		
+		
+		sol = AlgoDandQ(pb,0,pb.R,0,pb.C);
 		
 		
 		
