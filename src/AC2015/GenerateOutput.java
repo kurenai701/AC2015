@@ -13,10 +13,13 @@ public class GenerateOutput {
 		
 		// Obtain output model.
 	
-		Problem pbMod = mock.getProblemModTestAlgo();
+		Problem pbMod = new Problem();
+		//Problem pbMod = mock.getProblemModTestAlgo();
 		//Problem pbMod = mock.getProblemTestFromReadInput();
 		
 		Solution outModTest = mock.getSolutionTest(pbMod);
+		
+		
 		go.GenerateOutputFileFromOutputModel(outModTest, Common.OutputTestFileFullPathUnitTest);
 	}	
 
