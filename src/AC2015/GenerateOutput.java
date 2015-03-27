@@ -11,13 +11,11 @@ public class GenerateOutput {
 		GenerateOutput go = new GenerateOutput();
 		MockTestGenerator mock = new MockTestGenerator();
 		
-		ReadInput ri = new ReadInput();
-		
-		Scanner scanInput = ri.ScannerInputFile(Common.InputFilePathUnitTest);
-		Problem pbMod = ri.ProcessReadInputToModel(scanInput);
-		
 		// Obtain output model.
 	
+		Problem pbMod = mock.getProblemModTestAlgo();
+		//Problem pbMod = mock.getProblemTestFromReadInput();
+		
 		Solution outModTest = mock.getSolutionTest(pbMod);
 		go.GenerateOutputFileFromOutputModel(outModTest, Common.OutputTestFileFullPathUnitTest);
 	}	

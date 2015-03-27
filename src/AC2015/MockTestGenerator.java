@@ -1,5 +1,7 @@
 package AC2015;
 
+import java.util.Scanner;
+
 public class MockTestGenerator {
 
 	
@@ -11,6 +13,18 @@ public class MockTestGenerator {
 		pbtest.testString = "problemTestString";
 		
 		return pbtest;
+	}
+	
+	
+	public Problem getProblemTestFromReadInput()
+	{
+
+		ReadInput ri = new ReadInput();
+		
+		Scanner scanInput = ri.ScannerInputFile(Common.InputFilePathUnitTest);
+		Problem pbMod = ri.ProcessReadInputToModel(scanInput);
+		
+		return pbMod;
 	}
 	
 	// TO Initialize TEST
