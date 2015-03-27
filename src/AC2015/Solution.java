@@ -53,7 +53,13 @@ public class Solution implements Serializable {
 	
 	public ScoreInfo GetScoreModel()
 	{
-		ScoreInfo scoringInfo = new ScoreInfo(-314159);
+		int scoreCalc = 0;
+		for(final Slice sl: slices) 
+		{
+			scoreCalc = (scoreCalc + sl.area);
+		}				
+		
+		ScoreInfo scoringInfo = new ScoreInfo(scoreCalc);
 		return scoringInfo;
 	}
 	
