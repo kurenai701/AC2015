@@ -36,33 +36,34 @@ public class AlgoInputToOutput {
 		{
 			return new Solution( new Slice(Rmin, Rmax-1, Cmin, Cmax-1 , area)  );
 		}
-		
-		int Rcentre = (int)((Rmin+Rmax)/2);
-		int Ccentre = (int)((Cmin+Cmax)/2);
-		Solution A;
-		Solution B;
-		
-		if(Rsize>Csize)
-		{	
-			 A = AlgoDandQ(pb, Rmin, Rcentre ,Cmin,Cmax);
-			 B = AlgoDandQ(pb, Rcentre,Rmax ,Cmin,Cmax);
-
-			
-		}else
-		{
-			 A = AlgoDandQ(pb, Rmin, Rmax ,Cmin,Ccentre);
-			 B = AlgoDandQ(pb, Rmin,Rmax ,Ccentre,Cmax);
-
-		}
-		 if(A==null){
-			 A=B;
-		 }else if(B!=null)
-		 {
-			 A.slices.addAll(B.slices);
-		 }
-			
-		
-		return A;
+		return null;
+//		
+//		int Rcentre = (int)((Rmin+Rmax)/2);
+//		int Ccentre = (int)((Cmin+Cmax)/2);
+//		Solution A;
+//		Solution B;
+//		
+//		if(Rsize>Csize)
+//		{	
+//			 A = AlgoDandQ(pb, Rmin, Rcentre ,Cmin,Cmax);
+//			 B = AlgoDandQ(pb, Rcentre,Rmax ,Cmin,Cmax);
+//
+//			
+//		}else
+//		{
+//			 A = AlgoDandQ(pb, Rmin, Rmax ,Cmin,Ccentre);
+//			 B = AlgoDandQ(pb, Rmin,Rmax ,Ccentre,Cmax);
+//
+//		}
+//		 if(A==null){
+//			 A=B;
+//		 }else if(B!=null)
+//		 {
+//			 A.slices.addAll(B.slices);
+//		 }
+//			
+//		
+//		return A;
 	
 	}
 	
@@ -102,7 +103,7 @@ public class AlgoInputToOutput {
 				
 				for(int ii = Rmin;ii<Rmax;ii++ )
 				{
-					for(int jj = Rmin;jj<Cmax;jj++ )
+					for(int jj = Cmin;jj<Cmax;jj++ )
 					{
 						if(pb.BLOCKED[ii][jj])
 						{
@@ -173,19 +174,25 @@ public class AlgoInputToOutput {
 		{
 			for(CSIZE = 12;CSIZE>0;CSIZE--)
 			{
-		
+				while(true)
+				{
+					
 	    	 Solution soladd= firstAdd( pb,  RSIZE,  CSIZE);
 				if(soladd!=null)
 				{
-					for(int ii = 0;ii<RSIZE;ii++ )
-					{
-						for(int jj = 0;jj<CSIZE;jj++ )
+					
+						for(int ii = soladd.slices.get(0).rowS;ii<=soladd.slices.get(0).rowE;ii++ )
 						{
-							pb.BLOCKED[ii][jj]=true;
-	
+							for(int jj = soladd.slices.get(0).colS;jj<=soladd.slices.get(0).colE;jj++ )
+							{
+								pb.BLOCKED[ii][jj]=true;
+		
+							}
 						}
+						sol.slices.addAll(soladd.slices);
+				}else{
+					break;
 					}
-					sol.slices.addAll(soladd.slices);
 				}
 				
 						
@@ -220,10 +227,11 @@ public class AlgoInputToOutput {
 	
 		for(int Rstart = 0;Rstart<pb.R-RSIZE;Rstart++ )
 		{
-			for(int Cstart = 0;Rstart<pb.R-CSIZE;Rstart++ )
+			for(int Cstart = 0;Cstart<pb.C-CSIZE;Cstart++ )
 			{
 
-				Solution soladd = AlgoDandQ(pb,Rstart,Rstart+CSIZE,Cstart,Cstart+RSIZE);
+				
+				Solution soladd = AlgoDandQ(pb,Rstart,Rstart+RSIZE,Cstart,Cstart+CSIZE);
 				if(soladd!=null)
 				{
 					return soladd;
