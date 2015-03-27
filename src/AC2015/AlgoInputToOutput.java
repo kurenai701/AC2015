@@ -11,20 +11,20 @@ public class AlgoInputToOutput {
 	
 	
 
-	public static void main(String[] args) {
-		
-		AlgoInputToOutput algo = new AlgoInputToOutput();
-		MockTestGenerator mock = new MockTestGenerator();
-		
-		Problem pbModTest = mock.getProblemModTestAlgo();		
-		algo.AlgoSimple(pbModTest);
-	}	
+//	public static void main(String[] args) {
+//		
+//		AlgoInputToOutput algo = new AlgoInputToOutput();
+//		MockTestGenerator mock = new MockTestGenerator();
+//		
+//		Problem pbModTest = mock.getProblemModTestAlgo();		
+//		algo.AlgoSimple(pbModTest);
+//	}	
 		
 	
 	public Solution AlgoDandQ(Problem pb, int Rmin, int Rmax,int Cmin,int Cmax) //Cmax & Rmaax excluded
 	{
 		int Rsize = (Rmax-Rmin);
-		int Csize = (Rmax-Rmin);
+		int Csize = (Cmax-Cmin);
 		
 		int area = Rsize*Csize;
 		if( area <=1)
@@ -37,24 +37,29 @@ public class AlgoInputToOutput {
 			return new Solution( new Slice(Rmin, Rmax, Cmin-1, Cmax-1 , area)  );
 		}
 		
-		int Ccentre = (int)((Rmin+Rmax)/2);
-		int Rcentre = (int)((Cmin+Cmax)/2);
+		int Rcentre = (int)((Rmin+Rmax)/2);
+		int Ccentre = (int)((Cmin+Cmax)/2);
 		Solution A;
 		Solution B;
 		
 		if(Rsize>Csize)
 		{	
 			 A = AlgoDandQ(pb, Rmin, Rcentre ,Cmin,Cmax);
-			 B = AlgoDandQ(pb, Rcentre+1,Rmax ,Cmin,Cmax);
-			A.slices.addAll(B.slices);
+			 B = AlgoDandQ(pb, Rcentre,Rmax ,Cmin,Cmax);
+
 			
 		}else
 		{
 			 A = AlgoDandQ(pb, Rmin, Rmax ,Cmin,Ccentre);
 			 B = AlgoDandQ(pb, Rmin,Rmax ,Ccentre,Cmax);
-			A.slices.addAll(B.slices);
-			
+
 		}
+		 if(A==null){
+			 A=B;
+		 }else if(B!=null)
+		 {
+			 A.slices.addAll(B.slices);
+		 }
 			
 		
 		return A;
@@ -70,9 +75,28 @@ public class AlgoInputToOutput {
 		{
 			return false;
 		}
+		int NHAM = 0;
 		
-		return ( pb.sumAdd[Rmax-1][Cmax-1]+pb.sumAdd[Rmin-1][Cmin-1]-
-				(pb.sumAdd[Rmax-1][Cmin-1] + pb.sumAdd[Rmin-1][Cmax-1])) > pb.H ;
+		if(Rmax>0 && Cmax>0)
+		{
+			 NHAM += pb.sumAdd[Rmax-1][Cmax-1];
+		}
+		if(Rmin>0 && Cmin>0)
+		{
+			 NHAM += pb.sumAdd[Rmin-1][Cmin-1];
+		}
+		if(Rmax>0 && Cmin>0)
+		{
+			 NHAM -= pb.sumAdd[Rmax-1][Cmin-1];
+		}
+		if(Rmin>0 && Cmax>0)
+		{
+			 NHAM -= pb.sumAdd[Rmin-1][Cmax-1];
+		}
+		
+	
+		
+		return NHAM > pb.H ;
 		
 		
 	}
@@ -84,7 +108,7 @@ public class AlgoInputToOutput {
 				
 		////////////////
 		
-		Solution sol = new Solution();
+		Solution sol = new Solution(pb);
 		
 		//////////////////////////////////
 		// TODO Write THE ALGORITHM :-) //
@@ -92,9 +116,10 @@ public class AlgoInputToOutput {
 				
 	//	char[][] Pizza; 
 	//	int[][] sumAdd;
+		pb.sumAdd = new int[pb.R][pb.C];
 		for(int rr = 0;rr<pb.R;rr++)
 		{
-			for(int cc = 0;cc<pb.R;cc++)
+			for(int cc = 0;cc<pb.C;cc++)
 			{
 				int sum=0 ;
 				if(pb.Pizza[rr][cc]=='H')
@@ -109,7 +134,7 @@ public class AlgoInputToOutput {
 				{
 					sum += pb.sumAdd[rr][cc-1];
 				}
-				if(cc>0&&rr>0)
+				if( (cc>0) && (rr>0) )
 				{
 					sum -= pb.sumAdd[rr-1][cc-1];
 				}
@@ -119,8 +144,25 @@ public class AlgoInputToOutput {
 		}
 		
 		
-		sol = AlgoDandQ(pb,0,pb.R,0,pb.C);
 		
+		int CSIZE = 2;
+		int RSIZE = 4;
+		
+		for(int Rstart = 0;Rstart<pb.R;Rstart++ )
+		{
+			for(int Cstart = 0;Rstart<pb.R;Rstart++ )
+			{
+
+				sol = AlgoDandQ(pb,Rstart,Rstart+CSIZE,Cstart,Cstart+RSIZE);
+				if(sol!=null)
+				{
+					return sol;
+				}
+				
+				
+			}
+			
+		}
 		
 		
 		

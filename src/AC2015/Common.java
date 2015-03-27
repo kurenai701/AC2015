@@ -45,7 +45,10 @@ public class Common {
 	public static final String InputEncoding = "UTF-8";
 	public static final Locale ScannerLocale = Locale.US;
 
-	public static final String InputFileName = "INPUT-dc.in";
+	//public static final String InputFileName = "INPUT-dc.in";
+	public static final String InputFileName = "test.in";
+	
+	
 	public static final String InputFilePath = ACFileFolderPath+InputFileName;
 
 	public static final String InputFileNameUnitTest = "INPUT-UNITTEST.txt";
