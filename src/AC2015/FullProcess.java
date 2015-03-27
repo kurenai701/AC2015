@@ -27,7 +27,7 @@ public class FullProcess {
 		
 		
 		// Serialize Sol, and Verify Deserialisation possible
-		VerifySerializeDeserializeSolution(sol);
+		VerifySerializeDeserializeSolution(sol); 
 			
 		// BACK-UP to a folder with score and time
 		ProcessAllBackupOfSolutionToFolder(sol);
