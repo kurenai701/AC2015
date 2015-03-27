@@ -12,6 +12,15 @@ import java.util.TreeSet;
   
 public class Solution implements Serializable {
 	
+	ArrayList<Slice> slices;
+	
+	Solution( Slice s)
+	{
+		slices = new ArrayList<Slice>();
+		slices.add(s);
+	}
+	
+	
 	
 	private static final long serialVersionUID = 42L;
 	
