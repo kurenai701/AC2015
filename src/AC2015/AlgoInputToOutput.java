@@ -9,8 +9,7 @@ import java.util.Random;
 public class AlgoInputToOutput {
 
 	
-	
-
+/*
 	public static void main(String[] args) {
 		
 		AlgoInputToOutput algo = new AlgoInputToOutput();
@@ -19,7 +18,7 @@ public class AlgoInputToOutput {
 		Problem pbModTest = mock.getProblemModTestAlgo();		
 		algo.AlgoSimple(pbModTest);
 	}	
-		
+*/	
 	
 	public Solution AlgoSimple(Problem pb)
 	{
