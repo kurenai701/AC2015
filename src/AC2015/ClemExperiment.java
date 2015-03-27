@@ -128,6 +128,8 @@ public class ClemExperiment {
 		System.out.println(cl.ListClemClass.toString());
 		System.out.println(deepCopytest.get(2).stringClem);
 		
+		Sys.pln("test test test pln");
+		Sys.disp("test test disp");
 		
 	}
 	
