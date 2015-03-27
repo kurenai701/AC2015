@@ -35,7 +35,7 @@ public class Common {
 	public static final String OUTPUT_ZIP_FULLPROC_FILE_NAME = "FullSourceMEGEClemAlex.zip"; 
 
 	//  /!\ Folder ClemJava pour mon code Source
-	public static final String SOURCE_FOLDER = "C:\\ClemJava\\HC\\AC2015\\src";
+	public static final String SOURCE_FOLDER = "C:\\ClemJava\\HCtestround\\AC2015\\src";
 	// /!\ Folder Alex
 	//	public static final String SOURCE_FOLDER = "C:\\AlexPath\\HashCode\\AC2015\\src";
 
