@@ -96,7 +96,27 @@ public class AlgoInputToOutput {
 		
 	
 		
-		return NHAM > pb.H ;
+		if(NHAM > pb.H)
+		{
+			boolean resp = true;
+				
+				for(int ii = Rmin;ii<Rmax;ii++ )
+				{
+					for(int jj = Rmin;jj<Cmax;jj++ )
+					{
+						if(pb.BLOCKED[ii][jj])
+						{
+							resp = false;
+						}
+
+					}
+				}
+				return resp;
+				
+		}else
+		{
+			return false;
+		}
 		
 		
 	}
@@ -109,7 +129,8 @@ public class AlgoInputToOutput {
 		////////////////
 		
 		Solution sol = new Solution(pb);
-		
+		sol.slices = new ArrayList<Slice>(); 
+	
 		//////////////////////////////////
 		// TODO Write THE ALGORITHM :-) //
 		//////////////////////////////////
@@ -142,21 +163,30 @@ public class AlgoInputToOutput {
 				pb.sumAdd[rr][cc] = sum;
 			}
 		}
-		
+		pb.BLOCKED = new boolean[pb.R][pb.C];
 		
 		
 		int CSIZE = 2;
 		int RSIZE = 4;
 		
-		for(int Rstart = 0;Rstart<pb.R;Rstart++ )
+	
+		for(int Rstart = 0;Rstart<pb.R-RSIZE;Rstart++ )
 		{
-			for(int Cstart = 0;Rstart<pb.R;Rstart++ )
+			for(int Cstart = 0;Rstart<pb.R-CSIZE;Rstart++ )
 			{
 
-				sol = AlgoDandQ(pb,Rstart,Rstart+CSIZE,Cstart,Cstart+RSIZE);
-				if(sol!=null)
+				Solution soladd = AlgoDandQ(pb,Rstart,Rstart+CSIZE,Cstart,Cstart+RSIZE);
+				if(soladd!=null)
 				{
-					return sol;
+					for(int ii = 0;ii<RSIZE;ii++ )
+					{
+						for(int jj = 0;jj<CSIZE;jj++ )
+						{
+							pb.BLOCKED[ii][jj]=true;
+
+						}
+					}
+					sol.slices.addAll(soladd.slices);
 				}
 				
 				

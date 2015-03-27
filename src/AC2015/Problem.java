@@ -14,7 +14,7 @@ public class Problem {
 	int testint;
 	String testString;
 	List<String> testList;
-	
+	boolean BLOCKED[][];
 	
 	
 	

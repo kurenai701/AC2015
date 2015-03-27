@@ -23,10 +23,18 @@ public class Solution implements Serializable {
 	}
 
 	
-	Solution( Slice s)
+	public Solution( Slice s)
 	{
 		slices = new ArrayList<Slice>();
 		slices.add(s);
+	}
+	
+
+
+
+	public Solution( )
+	{
+		slices = new ArrayList<Slice>();
 	}
 	
 	
@@ -41,8 +49,6 @@ public class Solution implements Serializable {
 	
 	// problem
 	Problem pb;
-		
-	public Solution(){}
 		
 	public Solution(Problem pb) {
 		super();
