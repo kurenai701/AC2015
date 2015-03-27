@@ -17,16 +17,13 @@ public class FullProcess {
 				
 		// Get Problem Model from file
 		Problem pbMod = FromInputFileToProblem(Common.InputFilePath);
-		
-		// Simplify Problem		
+		// Simplify
 		Problem pbModSimplified = simplifyer.SimplifyProblem(pbMod);
 		
-		////**************** process Algorithm *******************////
+		// Process Algorithm to find Solution
+		Solution sol = algo.AlgoSimple(pbModSimplified);			
 		
-		Solution sol = algo.AlgoSimple(pbModSimplified);	
-		
-		////******************************************************////
-		
+		// Generate
 		GenerateOutputFileFromSolutionAndVerify(sol, Common.OutputGeneratedFullPath);		
 		
 		// GET SCORE
@@ -109,7 +106,7 @@ public class FullProcess {
 		genOut.GenerateOutputFileFromOutputModel(sol, targetBKPFolderPath +"\\"+ Common.OutputGeneratedFileName);
 	
 		// Zip Sources for BKP	
-		SrcZipUtil appZip = new SrcZipUtil();
+		UtilSrcZip appZip = new UtilSrcZip();
 		appZip.ZipSourceOfProject(targetBKPFolderPath+"\\"+Common.OUTPUT_ZIP_FULLPROC_FILE_NAME);	
 	}
 

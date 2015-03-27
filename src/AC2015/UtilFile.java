@@ -17,7 +17,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.Scanner;
 
 
-public class FileUtil {
+public class UtilFile {
 
 	
 	public Scanner ScannerFile(String fileFullpath)
@@ -39,8 +39,7 @@ public class FileUtil {
 		}	
 		catch (Exception e)
 		{
-			System.out.println("ScannerFile Exception ");
-			e.printStackTrace();
+			Common.GeneralCatch(e, "ScannerFile");
 			return null;
 		}
 	}
@@ -74,8 +73,7 @@ public class FileUtil {
 		}
 		catch (Exception e)
 		{
-			System.out.println("WriterFile Exception " + e.toString());
-			e.printStackTrace();
+			Common.GeneralCatch(e, "CreateWriterFile");
 			return null;
 		}
 	}

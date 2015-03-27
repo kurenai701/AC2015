@@ -118,6 +118,16 @@ public class ClemExperiment {
 				(Solution)(Common.FU.DeserializeFileToObject("C:\\ACFile\\TestSolutionSerialize"));
 		
 		System.out.println(desSolution.testSolListClemClass.toString());
+		
+		
+		List<ClemClass> deepCopytest = Common.DeepCopy(cl.ListClemClass);
+		
+		System.out.println("Deep Copy test");
+		System.out.println(deepCopytest.toString());
+		
+		System.out.println(cl.ListClemClass.toString());
+		System.out.println(deepCopytest.get(2).stringClem);
+		
 	}
 	
 	// Constructeur

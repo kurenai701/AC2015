@@ -22,7 +22,9 @@ import java.util.stream.Collectors;
 public class Common {
 
 	// FileUtil
-	public static final FileUtil FU = new FileUtil();
+	public static final UtilFile FU = new UtilFile();
+	// SerializeDeserializeUtil
+	// public static final UtilSerDes SerDes = new UtilSerDes();
 
 	//	public static final String QualifFilesFolderPath = "C:\\ACQualifFile\\";
 	public static final String ACFileFolderPath = "C:\\ACFile\\";
@@ -122,109 +124,34 @@ public class Common {
 
 
 
-	public static ByteArrayOutputStream SerializeObjectToStream(Object objToCopy)
-	{		
-		ObjectOutputStream oos = null;
-		ByteArrayOutputStream bos = null;
-
-		try
-		{
-			bos = new ByteArrayOutputStream(); 
-			oos = new ObjectOutputStream(bos); 
-			// serialize and pass the object
-			try
-			{
-				oos.writeObject(objToCopy);   					
-			}			
-			catch (Exception e)
-			{
-				System.out.println(" encountered Exception on oos.writeObject");
-				e.printStackTrace();
-				return null;
-			}
-		}
-		catch (Exception e)
-		{
-			System.out.println("encountered Exception in SerializeToStream");
-			e.printStackTrace();
-			return null;
-		}		
-		finally
-		{
-			if (oos != null)
-			{
-				try
-				{
-					oos.flush();
-				} 
-				catch (Exception e)
-				{
-					System.out.println("encountered Exception in oos.flush");
-					e.printStackTrace();
-				}    			
-			}
-		}				
-		return bos;
-	}
-	
-	
-	
-	public static Object DeserializeStreamToObject(ByteArrayOutputStream bos)
-	{
-		Object newObj = null;
-		
-		ObjectInputStream ois = null;		
-		ByteArrayInputStream bin = null;
-		
-		try
-		{
-			bin = new ByteArrayInputStream(bos.toByteArray());
-			ois = new ObjectInputStream(bin); 
-
-			// deserialize by reading
-			try
-			{
-				newObj = (ois.readObject()); // On va supposer qu'il n'y aura pas de problem de cast
-			}
-			catch(Exception e)
-			{
-				System.out.println("encountered Exception in DeserializeStreamToObject ois.readObject()");
-				e.printStackTrace();
-			}
-			finally
-			{		
-				try
-				{
-					ois.close();
-				}
-				catch (Exception e)
-				{
-					System.out.println("encountered Exception in DeserializeStreamToObject ois.close()");
-					e.printStackTrace();
-				}   
-
-			}
-		}
-		catch (Exception e)
-		{
-			System.out.println("encountered Exception in DeserializeStreamToObject");
-			e.printStackTrace();
-		}
-		return newObj;
-	}
 	
 
 	public static <T> T DeepCopy(T objToCopy)
 	{
-
-		T newObj = (T)DeserializeStreamToObject(SerializeObjectToStream(objToCopy)); // on va supposer que le cast fonctionne
+		T newObj = null;
 		
+		try
+		{
+		newObj = (T) (UtilSerDes.DeserializeStreamToObject(
+				UtilSerDes.SerializeObjectToStream(objToCopy)
+				)); // on va supposer que le cast fonctionne
+		}
+		catch (Exception e)
+		{
+			Common.GeneralCatch(e, "DeepCopy");
+		}
 
 		return newObj;
 
 	}
-
-
+	
+	public static void GeneralCatch(Exception e, String extraInfo)
+	{
+		System.out.println("Exception encountered  : " + extraInfo);
+		e.printStackTrace();
+	}
+	
+	
 
 
 

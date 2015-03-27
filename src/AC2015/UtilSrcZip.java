@@ -15,19 +15,19 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-public class SrcZipUtil
+public class UtilSrcZip
 {
 
 	private List<String> fileList;
 
-	public SrcZipUtil()
+	public UtilSrcZip()
 	{
 		fileList = new ArrayList<String>();
 	}
 
 	public static void main(String[] args)
 	{
-		SrcZipUtil appZip = new SrcZipUtil();
+		UtilSrcZip appZip = new UtilSrcZip();
 		appZip.ZipSourceOfProject(Common.OUTPUT_ZIP_FILE);		
 	}
 
