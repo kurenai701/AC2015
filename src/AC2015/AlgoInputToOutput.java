@@ -39,17 +39,19 @@ public class AlgoInputToOutput {
 		
 		int Ccentre = (int)((Rmin+Rmax)/2);
 		int Rcentre = (int)((Cmin+Cmax)/2);
+		Solution A;
+		Solution B;
 		
 		if(Rsize>Csize)
 		{	
-			Solution A = AlgoDandQ(pb, Rmin, Rcentre ,Cmin,Cmax);
-			Solution B = AlgoDandQ(pb, Rcentre+1,Rmax ,Cmin,Cmax);
+			 A = AlgoDandQ(pb, Rmin, Rcentre ,Cmin,Cmax);
+			 B = AlgoDandQ(pb, Rcentre+1,Rmax ,Cmin,Cmax);
 			A.slices.addAll(B.slices);
 			
 		}else
 		{
-			Solution A = AlgoDandQ(pb, Rmin, Rcentre ,Cmin,Cmax);
-			Solution B = AlgoDandQ(pb, Rcentre+1,Rmax ,Cmin,Cmax);
+			 A = AlgoDandQ(pb, Rmin, Rmax ,Cmin,Ccentre);
+			 B = AlgoDandQ(pb, Rmmin,Rmax ,Ccentre,Cmax);
 			A.slices.addAll(B.slices);
 			
 		}
