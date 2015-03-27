@@ -56,7 +56,7 @@ public class Solution implements Serializable {
 		int scoreCalc = 0;
 		for(final Slice sl: slices) 
 		{
-			scoreCalc = (scoreCalc + sl.area);
+			scoreCalc = (scoreCalc + sl.getSliceArea());
 		}				
 		
 		ScoreInfo scoringInfo = new ScoreInfo(scoreCalc);

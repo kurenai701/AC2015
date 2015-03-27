@@ -16,5 +16,10 @@ public class Slice {
 		this.area = area;
 	}
 	
+
+	
+	public int getSliceArea() {
+		return (rowE - rowS) * (colE - colS);
+	}
 	
 }
