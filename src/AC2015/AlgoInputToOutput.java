@@ -168,6 +168,16 @@ public class AlgoInputToOutput {
 		
 		int CSIZE = 2;
 		int RSIZE = 4;
+		for(RSIZE = 12;RSIZE>0;RSIZE--)
+		{
+			for(CSIZE = 12;CSIZE>0;CSIZE--)
+			{
+			
+		if(RSIZE*CSIZE>pb.S)
+		{
+			break;
+		}
+		
 		
 	
 		for(int Rstart = 0;Rstart<pb.R-RSIZE;Rstart++ )
@@ -193,6 +203,8 @@ public class AlgoInputToOutput {
 			}
 			
 		}
+			}//CSIZE
+		}//RSIZE
 		
 		
 		

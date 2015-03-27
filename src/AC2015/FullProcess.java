@@ -26,12 +26,12 @@ public class FullProcess {
 		GenerateOutputFileFromSolutionAndVerify(sol, Common.OutputGeneratedFullPath);		
 		
 		
-		// Serialize Sol, and Verify Deserialisation possible
-		VerifySerializeDeserializeSolution(sol); 
-			
-		// BACK-UP to a folder with score and time
-		ProcessAllBackupOfSolutionToFolder(sol);
-		
+//		// Serialize Sol, and Verify Deserialisation possible
+//		VerifySerializeDeserializeSolution(sol); 
+//			
+//		// BACK-UP to a folder with score and time
+//		ProcessAllBackupOfSolutionToFolder(sol);
+//		
 		// GET SCORE
 		sol.PrintScore();			
 	}
