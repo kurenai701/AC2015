@@ -18,7 +18,9 @@ public class GenerateOutput {
 		
 		// Obtain output model.
 	
+		
 		Solution outModTest = mock.getSolutionTest(pbMod);
+		System.out.println(outModTest.GetScore());
 		go.GenerateOutputFileFromOutputModel(outModTest, Common.OutputTestFileFullPathUnitTest);
 	}	
 

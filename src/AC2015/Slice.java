@@ -19,7 +19,7 @@ public class Slice {
 
 	
 	public int getSliceArea() {
-		return (rowE - rowS) * (colE - colS);
+		return ((rowE - rowS)+1) * ((colE - colS)+1);
 	}
 	
 }
