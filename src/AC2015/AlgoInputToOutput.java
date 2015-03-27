@@ -34,7 +34,7 @@ public class AlgoInputToOutput {
 		
 		if(  isValid(pb,Rmax,Rmin,Cmin,Cmax))
 		{
-			return new Solution( new Slice(Rmin, Rmax, Cmin-1, Cmax-1 , area)  );
+			return new Solution( new Slice(Rmin, Rmax-1, Cmin, Cmax-1 , area)  );
 		}
 		
 		int Rcentre = (int)((Rmin+Rmax)/2);
