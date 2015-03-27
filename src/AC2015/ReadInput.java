@@ -84,7 +84,9 @@ public class ReadInput {
 				
 				
 				// write first line
-//				writer.println("print 1st line of ProcessProblemModelToVeriFile");
+//				
+				
+				writer.println(pb.R + " " +  pb.C + " " + pb.H + " " + pb.S);
 //				writer.println(pb.testint);
 //				writer.println(pb.testString);	
 //			

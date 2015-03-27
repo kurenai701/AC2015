@@ -14,6 +14,15 @@ public class Solution implements Serializable {
 	
 	ArrayList<Slice> slices;
 	
+		
+	public int getU() {
+		if (slices != null)
+		return  slices.size();
+		else
+			return -42;
+	}
+
+	
 	Solution( Slice s)
 	{
 		slices = new ArrayList<Slice>();
