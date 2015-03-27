@@ -173,36 +173,36 @@ public class AlgoInputToOutput {
 			for(CSIZE = 12;CSIZE>0;CSIZE--)
 			{
 			
-		if(RSIZE*CSIZE>pb.S)
-		{
-			break;
-		}
-		
-		
-	
-		for(int Rstart = 0;Rstart<pb.R-RSIZE;Rstart++ )
-		{
-			for(int Cstart = 0;Rstart<pb.R-CSIZE;Rstart++ )
-			{
-
-				Solution soladd = AlgoDandQ(pb,Rstart,Rstart+CSIZE,Cstart,Cstart+RSIZE);
-				if(soladd!=null)
-				{
-					for(int ii = 0;ii<RSIZE;ii++ )
-					{
-						for(int jj = 0;jj<CSIZE;jj++ )
-						{
-							pb.BLOCKED[ii][jj]=true;
-
-						}
-					}
-					sol.slices.addAll(soladd.slices);
-				}
-				
-				
-			}
-			
-		}
+							if(RSIZE*CSIZE<=pb.S)
+							{
+								
+							
+							
+						
+							for(int Rstart = 0;Rstart<pb.R-RSIZE;Rstart++ )
+							{
+								for(int Cstart = 0;Rstart<pb.R-CSIZE;Rstart++ )
+								{
+					
+									Solution soladd = AlgoDandQ(pb,Rstart,Rstart+CSIZE,Cstart,Cstart+RSIZE);
+									if(soladd!=null)
+									{
+										for(int ii = 0;ii<RSIZE;ii++ )
+										{
+											for(int jj = 0;jj<CSIZE;jj++ )
+											{
+												pb.BLOCKED[ii][jj]=true;
+					
+											}
+										}
+										sol.slices.addAll(soladd.slices);
+									}
+									
+									
+								}
+								
+							}
+							}
 			}//CSIZE
 		}//RSIZE
 		
