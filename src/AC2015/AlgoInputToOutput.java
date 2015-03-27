@@ -38,9 +38,27 @@ public class AlgoInputToOutput {
 		
 		////////////////
 				
+		System.out.println("Finished algo simple");
+		return sol ;
+	}
+	
+	
+	public Solution AlgoComplicatedFromProblem(Problem pb)
+	{
+		System.out.println("Starting complicatedalgo");
+		Solution sol = new Solution();
+		
+		//////////////////////////////////
+		// TODO Write THECOMPLICATED ALGORITHM :-) //
+		//////////////////////////////////
+				
+	
+		////////////////
+				
+		System.out.println("Finished complicatedalgo");
 		return sol ;
 	}
 	
 	
 	
-	}
+}

@@ -97,7 +97,12 @@ public class Common {
 	}
 
 
-
+	// Where Clause sur List
+	/**
+	 * @param list
+	 * @param pred
+	 * @return
+	 */
 	public static <T> List<T> Where(List<T> list, Predicate<T> pred)
 	{
 		List<T> resultList = 

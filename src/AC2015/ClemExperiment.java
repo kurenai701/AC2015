@@ -128,6 +128,7 @@ public class ClemExperiment {
 		System.out.println(cl.ListClemClass.toString());
 		System.out.println(deepCopytest.get(2).stringClem);
 		
+		
 	}
 	
 	// Constructeur

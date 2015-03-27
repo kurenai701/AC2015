@@ -9,31 +9,31 @@ public class FullProcess {
 	public static void main(String[] args) {
 	
 		//// Initialization of our Tool Classes;
-		ReadInput ri = new ReadInput();
+		
 		ProblemSimplifyer simplifyer = new ProblemSimplifyer();
 		AlgoInputToOutput algo = new AlgoInputToOutput();
-		ReadOutput ro = new ReadOutput();
 		
 				
-		// Get Problem Model from file
+		// ****** Get Problem Model from file
 		Problem pbMod = FromInputFileToProblem(Common.InputFilePath);
-		// Simplify
+		// ****** Simplify
 		Problem pbModSimplified = simplifyer.SimplifyProblem(pbMod);
 		
-		// Process Algorithm to find Solution
+		// ****** Process Algorithm to find Solution
 		Solution sol = algo.AlgoSimple(pbModSimplified);			
 		
-		// Generate
+		// ****** Generate output file
 		GenerateOutputFileFromSolutionAndVerify(sol, Common.OutputGeneratedFullPath);		
 		
-		// GET SCORE
-		sol.PrintScore();
-	
+		
 		// Serialize Sol, and Verify Deserialisation possible
 		VerifySerializeDeserializeSolution(sol);
 			
 		// BACK-UP to a folder with score and time
-		ProcessAllBackupOfSolutionToFolder(sol);		
+		ProcessAllBackupOfSolutionToFolder(sol);
+		
+		// GET SCORE
+		sol.PrintScore();			
 	}
 		
 
