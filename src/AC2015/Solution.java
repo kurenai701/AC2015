@@ -24,13 +24,18 @@ public class Solution implements Serializable {
 	
 	
 	// problem
-	Problem pb;
+	transient Problem pb;
 		
-	public Solution(){}
+//	public Solution(int Nballons){
+//		this.ballons = new Ballon[Nballons];
+//		this.curScore = 0;
+//	}
 		
 	public Solution(Problem pb) {
 		super();
-		this.pb = pb;			
+		this.pb = pb;	
+		this.ballons = new Ballon[pb.B];
+		this.curScore = 0;
 	}
 		
 	
