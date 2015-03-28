@@ -22,7 +22,7 @@ public class AlgoInputToOutput {
 	
 	public Solution AlgoSimple(Problem pb)
 	{
-		System.out.println("Starting simple algo");
+		Sys.pln("Starting simple algo");
 				
 		////////////////
 		
@@ -31,13 +31,12 @@ public class AlgoInputToOutput {
 		//////////////////////////////////
 		// TODO Write THE ALGORITHM :-) //
 		//////////////////////////////////
-				
-		sol.testSolInt = pb.testint;
-		sol.testSolString = pb.testString;
+		
+		
 		
 		////////////////
 				
-		System.out.println("Finished algo simple");
+		Sys.pln("Finished algo simple");
 		return sol ;
 	}
 	
