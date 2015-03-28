@@ -98,7 +98,7 @@ public class FullProcess {
 		
 		//// De-serialize to verify there is no problem	
 		Solution testdes = (Solution)(Common.FU.DeserializeFileToObject(Common.ACFileFolderPath+Common.SaveSerialFileName));
-		System.out.println(testdes.testSolInt);		
+		//System.out.println(testdes.testSolInt);		
 	}
 	
 	public static String getDirectoryNameWithScoreAndDate(int scorePrefix, String prefixDate)
