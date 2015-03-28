@@ -35,7 +35,7 @@ public class Dijkstra {
 	
 	    public static void computePaths(Pos source)
 	    {
-	        source.minDistance = 0.;
+	        source.minDistance = 0;
 	        PriorityQueue<Pos> posQueue = new PriorityQueue<Pos>();
 	      	posQueue.add(source);
 
@@ -47,8 +47,8 @@ public class Dijkstra {
 	            for (Move m : u.moves)
 	            {
 	                Pos v = m.nextPos;
-	                double weight = e.weight;
-	                double distanceThroughU = u.minDistance + weight;
+	                int cost = m.cost;
+	                int distanceThroughU = u.minDistance + cost;
 						if (distanceThroughU < v.minDistance) {
 						    posQueue.remove(v);
 						    v.minDistance = distanceThroughU ;
@@ -62,10 +62,17 @@ public class Dijkstra {
 	    }
 	    
 	    
-	    
-	    
-	    
-
+	    public static void computeAllPaths(Problem pb)
+	    {
+	    	for(r=0;r<pb.R;r++)
+	    	{
+	    		for(c=0;c<pb.C;c++)
+	    		{
+	    			pb.allPos.minDistance = Integer.MAX_VALUE;
+	    				
+	    		}
+	    	}
+	    }
 //	    public static List<Vertex> getShortestPathTo(Vertex target)
 //	    {
 //	        List<Vertex> path = new ArrayList<Vertex>();
