@@ -74,7 +74,7 @@ public class ReadInput {
 			
 			int drc;
 			int crc;
-			for (int Acounter = 0; Acounter < A; Acounter++)
+			for (int Acounter = 1; Acounter <= A; Acounter++)
 			{				
 				// R lignes
 				for (int Rcounter = 0; Rcounter < R; Rcounter++)
@@ -95,7 +95,7 @@ public class ReadInput {
 			// Améliorer le problème model, parcourir le monde et voir les next positions
 			
 			// A Sections 
-			for (int Acounter = 0; Acounter < pb.A; Acounter++)
+			for (int Acounter = 1; Acounter <= pb.A; Acounter++)
 			{				
 				// R lignes
 				for (int Rcounter = 0; Rcounter < pb.R; Rcounter++)
@@ -110,7 +110,7 @@ public class ReadInput {
 						{
 							int aa = Acounter+i;						
 							
-							if (aa >= 0 && aa < pb.A)
+							if (aa >= 1 && aa <= pb.A)
 							{
 								Mvt mv = pb.WorldWindMvt[Rcounter][Ccounter][aa];						
 								

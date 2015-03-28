@@ -32,6 +32,9 @@ public class MockTestGenerator implements Serializable {
 	public Solution getSolutionTest(Problem pb)
 	{
 		Solution sol = new Solution(pb);
+		
+		sol.ballons = new Ballon[pb.B];
+		
 		//sol.testSolInt = 789;
 		//sol.testSolString = "solutionTestString";
 		return sol;	

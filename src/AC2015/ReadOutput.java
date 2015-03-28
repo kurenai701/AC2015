@@ -52,7 +52,7 @@ public class ReadOutput {
 	public Solution ProcessReadOutputBackToSolution(Scanner scOut)
 	{
 		System.out.println("ProcessReadOutputBackToSolutionModel");
-		Solution sol = new Solution();
+		Solution sol = new Solution(new Problem());
 		
 		if (scOut != null)
 		{

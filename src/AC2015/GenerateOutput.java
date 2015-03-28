@@ -13,10 +13,9 @@ public class GenerateOutput implements Serializable{
 		
 		// Obtain output model.
 	
-		Problem pbMod = new Problem();
+		// Problem pbMod = new Problem();
 		//Problem pbMod = mock.getProblemModTestAlgo();
-		//Problem pbMod = mock.getProblemTestFromReadInput();
-		
+		Problem pbMod = mock.getProblemTestFromReadInput();
 		Solution outModTest = mock.getSolutionTest(pbMod);
 		
 		
@@ -51,25 +50,21 @@ public class GenerateOutput implements Serializable{
 		//  !!!!!!!!!!!!!!!!!!! //
 
 
-//		String buildLine = null;
-//		// T Tours de simu
-//		for (int i = 0; i < sol.pb.T; i++)
-//		{
-//			
-//			// B ballons
-//			for (int b = 0; )
-//			buildLine = ; 
-//					
-//					writer.println(
-//		}
-//		
-//		
-//		writer.println(sol.testSolInt);
-//		writer.println(sol.testSolString);
-//					
-//		writer.println("4242424242");
-//		writer.println("output generator");
-//					
+		String buildLine = "";
+		// T Tours de simu
+		for (int i = 0; i < sol.pb.T; i++)
+		{
+			
+			for(final Ballon ball: sol.ballons) 
+			{
+				buildLine = buildLine + " " + (ball.aChanges.get(i).toString());
+			}				
+		
+			
+			Sys.pln(buildLine);
+			writer.println(buildLine);
+		}
+		
 //		//  !!!!!!!!!!!!!!!!!!! //					
 		
 	}

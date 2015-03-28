@@ -60,7 +60,7 @@ public class Problem implements Serializable {
 	
 
 	TargetPos = new Pos[L];
-	WorldWindMvt = new Mvt[R][C][A];	
+	WorldWindMvt = new Mvt[R][C][A+1];	
 	
 	AllPos = new ArrayList<Pos>();
 	
