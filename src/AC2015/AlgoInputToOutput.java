@@ -42,11 +42,13 @@ public class AlgoInputToOutput {
 			for(Ballon b : sol.ballons)
 			{
 				int mymove = 0;
-				if(tt==0)
+				if(tt<3)
 				{
 					mymove = 1;
-					}
-				b.addMove(mymove);
+     			}
+				b.addMove(mymove,pb);
+				
+				
 			}
 		}
 

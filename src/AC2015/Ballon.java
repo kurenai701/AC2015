@@ -18,7 +18,7 @@ public class Ballon implements Serializable {
 	}
 	
 	
-	public void addMove(int mymove)
+	public void addMove(int mymove, Problem pb)
 	{
 		aChanges.add(mymove);
 		Pos curPos = posList.get(posList.size()-1);
@@ -28,7 +28,7 @@ public class Ballon implements Serializable {
 		{
 			if( mov.aChange == mymove)
 			{
-				posList.add( mov.nextPos   );
+				posList.add( pb.AllPosMat[   mov.nextPos.x][   mov.nextPos.y][   mov.nextPos.z]   );
 				valid = true;
 			}
 		}

@@ -50,7 +50,7 @@ public class Solution implements Serializable {
 		//Time step
 		int score = 0;
 
-		for(int tt=0; tt<pb.T;tt++)
+		for(int tt=0; tt<=pb.T;tt++)
 		{
 			int covered[] = new int[pb.L];// init to 0
 			boolean stillAlive = false;

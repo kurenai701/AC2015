@@ -124,9 +124,13 @@ public class ReadInput {
 								{
 									nextp = Pos.OUTOFMAP;
 									Sys.pln("out of map from " + Rcounter + ","+ Ccounter + "," + aa + " to : " + newR + ","+ newC + "," + aa);	
+									p.moves.add(Move.INVALID);
 								}
-								Move move = new Move(nextp, 0,i);
-								p.moves.add(Move.INVALID);
+								else // normal
+								{
+									Move move = new Move(nextp, 0,i);
+									p.moves.add(move);
+								}
 							}
 						}
 																
@@ -170,7 +174,7 @@ public class ReadInput {
 			Pos curCible = pb.TargetPos[Ncible];
 			for(int rDiff = -pb.V ; rDiff<=pb.V;rDiff++)
 			{
-				for(int cDiff = -pb.V ; rDiff<=pb.V;rDiff++)
+				for(int cDiff = -pb.V ; cDiff<=pb.V;cDiff++)
 				{
 					if(cDiff*cDiff + rDiff*rDiff <= pb.V*pb.V)
 					{
@@ -191,7 +195,11 @@ public class ReadInput {
 			}
 		}
 //Add start move		
-		pb.StartPos.moves.add(new Move( pb.AllPosMat[pb.StartPos.x  ][pb.StartPos.y] [1], 1, 1));
+		Pos temp = pb.AllPosMat[pb.StartPos.x  ][pb.StartPos.y][1];
+		
+		Pos nPosStart = temp.moves.get(0).nextPos;//ugly hack
+				
+		pb.StartPos.moves.add(new Move(  nPosStart  , 1, 1));
 
 		
 		

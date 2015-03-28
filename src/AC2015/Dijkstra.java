@@ -56,12 +56,10 @@ public static void computePaths(Pos source)
 
 public static void computeAllPaths(Problem pb, List posInterest)
 {
-	for(int r=0;r<pb.R;r++)
+	for(Pos p : pb.AllPos)
 	{
-		for(int c=0;c<pb.C;c++)
-		{
-			pb.allPos[r][c].minDistance = Integer.MAX_VALUE;
-		}
+			p.minDistance = Integer.MAX_VALUE;
+		
 	}
 	
 	for(Pos curP : posInterest)

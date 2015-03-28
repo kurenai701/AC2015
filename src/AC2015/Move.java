@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 public class Move implements Serializable{
 	
-	public static Move INVALID = new Move( Pos.OUTOFMAP, 1, 0  );
+	public static Move INVALID = new Move( Pos.OUTOFMAP, 1, 20  );
 
 	
 	public Pos nextPos;
