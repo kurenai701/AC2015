@@ -24,7 +24,10 @@ public class FullProcess {
 		
 				
 		// ****** Get Problem Model from file
+		
+		//Problem pbMod = FromInputFileToProblem(Common.InputFilePath);
 		Problem pbMod = FromInputFileToProblem(Common.InputFilePath);
+		
 		
 		// ****** Simplify
 		Problem pbModSimplified = simplifyer.SimplifyProblem(pbMod);

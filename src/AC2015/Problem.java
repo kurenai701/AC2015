@@ -38,9 +38,13 @@ public class Problem implements Serializable {
 	public Pos StartPos;
 	public Pos[] TargetPos;
 	
+	
 	public Mvt[][][] WorldWindMvt;
 	
 	public List<Pos> AllPos;
+	public Pos AllPosMat[][];// To acces all pos as matrix
+	
+	
 	
 	public Problem(int R, int C, int A, int L, int V, int B, int T) {
 		super();

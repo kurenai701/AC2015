@@ -13,6 +13,8 @@ public class Pos implements Serializable{
 	public int numInPosInterest;
 	
 	public ArrayList<Move> moves = new ArrayList<Move>();
+	
+	
 	public ArrayList<Integer> coverList = new ArrayList<Integer>();//list of indices of the cible covered
 	
 	public int minDistance;// Used only for dijkstra
@@ -30,6 +32,12 @@ public class Pos implements Serializable{
 		this.z = z;
 	}
 	
+	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "Num " + num + " R " + x +" C " + y+" A " + y;
+	}
 	
 	
 }

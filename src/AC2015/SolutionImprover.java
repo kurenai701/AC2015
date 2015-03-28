@@ -36,47 +36,48 @@ public class SolutionImprover {
 
 	public Solution IterateImprover(Solution initSol, int nbIterations, int acceptIterationNoImprove)
 	{
-		Solution solCurrent = initSol;
-		Solution solTry;	
-
-		Solution bestSolution = Common.DeepCopy(initSol);
-		bestSolution.SaveSolutionAsRaw("BestSolutionInProcess.ser");
-		
-		int countIterNoImprove = 0;
-
-		// itérer
-		for (int nIter = 0; nIter <= nbIterations; nIter++)
-		{
-			solTry = TryImprove(solCurrent);
-
-			// Si on dépasse notre "meilleur score", procéder à sauvegarde de cette best sol.
-			if (solTry.GetScore() > bestSolution.GetScore())
-			{				
-				bestSolution = Common.DeepCopy(solTry);
-			
-				// Serialize best solution in path = Common.ACFileFolderPath+fileName
-				bestSolution.SaveSolutionAsRaw("BestSolutionInProcess.ser");
-			}
-			else
-			{
-				countIterNoImprove++; // incrémentation nb itération sans amélioration
-			}
-
-			// ALWAYS "shift".   TODO (add some random condition ?) TODO
-			solCurrent = solTry;	
-
-		
-			
-			
-			
-			// au bout d'un certain nombre d'itérations sans amélioration, repartir de la best solution
-			if (countIterNoImprove > acceptIterationNoImprove)
-			{
-				solCurrent = Common.DeepCopy(bestSolution);
-			}
-		}
-		
-		return bestSolution;
+		return initSol;
+//		Solution solCurrent = initSol;
+//		Solution solTry;	
+//
+//		Solution bestSolution = Common.DeepCopy(initSol);
+//		bestSolution.SaveSolutionAsRaw("BestSolutionInProcess.ser");
+//		
+//		int countIterNoImprove = 0;
+//
+//		// itérer
+//		for (int nIter = 0; nIter <= nbIterations; nIter++)
+//		{
+//			solTry = TryImprove(solCurrent);
+//
+//			// Si on dépasse notre "meilleur score", procéder à sauvegarde de cette best sol.
+//			if (solTry.GetScore() > bestSolution.GetScore())
+//			{				
+//				bestSolution = Common.DeepCopy(solTry);
+//			
+//				// Serialize best solution in path = Common.ACFileFolderPath+fileName
+//				bestSolution.SaveSolutionAsRaw("BestSolutionInProcess.ser");
+//			}
+//			else
+//			{
+//				countIterNoImprove++; // incrémentation nb itération sans amélioration
+//			}
+//
+//			// ALWAYS "shift".   TODO (add some random condition ?) TODO
+//			solCurrent = solTry;	
+//
+//		
+//			
+//			
+//			
+//			// au bout d'un certain nombre d'itérations sans amélioration, repartir de la best solution
+//			if (countIterNoImprove > acceptIterationNoImprove)
+//			{
+//				solCurrent = Common.DeepCopy(bestSolution);
+//			}
+//		}
+//		
+//		return bestSolution;
 	}
 
 	

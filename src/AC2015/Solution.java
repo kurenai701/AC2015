@@ -35,6 +35,10 @@ public class Solution implements Serializable {
 		super();
 		this.pb = pb;	
 		this.ballons = new Ballon[pb.B];
+		for(int ii=0;ii<pb.B;ii++)
+		{
+			ballons[ii] = new Ballon(ii);
+		}
 		this.curScore = 0;
 	}
 		

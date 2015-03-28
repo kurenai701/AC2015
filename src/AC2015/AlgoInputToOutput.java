@@ -27,6 +27,10 @@ public class AlgoInputToOutput {
 		////////////////
 		
 		Solution sol = new Solution(pb);
+		for(int ii=0;ii<pb.B;ii++)
+		{
+			sol.ballons[ii].posList.add( pb.AllPosMat[ pb.StartPos.x][pb.StartPos.y ]);
+		}
 		
 		//////////////////////////////////
 		// TODO Write THE ALGORITHM :-) //
@@ -37,14 +41,16 @@ public class AlgoInputToOutput {
 			for(Ballon b : sol.ballons)
 			{
 				int mymove = 0;
-				b.aChanges.add(mymove);
+				b.addMove(mymove);
 			}
 		}
 
 		
 		////////////////
 				
-		Sys.pln("Finished algo simple");
+		
+		int score = sol.GetScore();
+		Sys.pln("Finished algo simple:Score " + score);
 		return sol ;
 	}
 	
@@ -52,7 +58,7 @@ public class AlgoInputToOutput {
 	public Solution AlgoComplicatedFromProblem(Problem pb)
 	{
 		System.out.println("Starting complicatedalgo");
-		Solution sol = new Solution();
+		Solution sol = new Solution(pb);
 		
 		//////////////////////////////////
 		// TODO Write THECOMPLICATED ALGORITHM :-) //

@@ -118,7 +118,7 @@ public class ReadInput {
 								int newC = Ccounter+mv.crc;
 								
 								Pos nextp = new Pos(newR, newC, aa);
-								Move move = new Move(nextp, 0);
+								Move move = new Move(nextp, 0,i);
 								p.moves.add(move);
 							}
 						}
@@ -136,9 +136,46 @@ public class ReadInput {
 			
 		}
 		
+		setCoveredList(pb);
+		
 		Sys.pln("pb with more info");
 		
 		return pb;
+	}
+	
+	
+	public void setCoveredList(Problem pb)
+	{
+		//create allPosMat
+		pb.AllPosMat = new Pos[pb.R][pb.C];
+		
+		for(Pos p : pb.AllPos)
+		{
+			pb.AllPosMat[p.x][p.y]=p;
+		}
+		
+		for(int Ncible = 0;Ncible < pb.L;Ncible++)
+		{
+			Pos curCible = pb.TargetPos[Ncible];
+			for(int rDiff = -pb.V ; rDiff<=pb.V;rDiff++)
+			{
+				for(int cDiff = -pb.V ; rDiff<=pb.V;rDiff++)
+				{
+					if(cDiff*cDiff + rDiff*rDiff <= pb.V*pb.V)
+					{
+						// Covered cell
+						int cellR = curCible.x+rDiff;
+						int cellC = ((curCible.y+cDiff+2*pb.C)%pb.C);// modulo C
+						if(cellR>0 && cellR< pb.R)
+						{
+			pb.AllPosMat[cellR][cellC].coverList.add(Ncible);
+						}
+					}
+					
+				}
+				
+			}
+		}
 	}
 	
 		
