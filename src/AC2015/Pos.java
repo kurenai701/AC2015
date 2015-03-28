@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Pos implements Serializable{
-
+	public static Pos OUTOFMAP = new Pos(0,0,0);
 	
 	public int x;
 	public int y; 
@@ -36,7 +36,7 @@ public class Pos implements Serializable{
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "Num " + num + " R " + x +" C " + y+" A " + y;
+		return "Num " + num + " R " + x +" C " + y+" A " + z;
 	}
 	
 	

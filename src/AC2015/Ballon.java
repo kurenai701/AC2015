@@ -34,9 +34,13 @@ public class Ballon implements Serializable {
 		}
 		if(!valid)
 		{
-			assert(false);
+			if(!(curPos.x == 0 && curPos.y==0))
+			{
+				Sys.pln("Not valid move, Killing baloon" + Num);
+			}
+			posList.add( Move.INVALID.nextPos   );
 		}
-		Sys.pln("baloon : " + Num + " moved to " + posList.get(posList.size()-1));
+		Sys.pln("baloon : " + Num + " moved from " +posList.get(posList.size()-2)+ "to " + posList.get(posList.size()-1));
 			
 		
 	}

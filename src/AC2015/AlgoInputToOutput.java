@@ -27,10 +27,10 @@ public class AlgoInputToOutput {
 		////////////////
 		
 		Solution sol = new Solution(pb);
+		Pos startPos = pb.AllPosMat[ pb.StartPos.x][pb.StartPos.y ][0];
 		for(int ii=0;ii<pb.B;ii++)
 		{
-			sol.ballons[ii].posList.add( 
-					pb.AllPosMat[ pb.StartPos.x][pb.StartPos.y ][0]	);
+			sol.ballons[ii].posList.add( startPos		);
 		}
 		
 		//////////////////////////////////
@@ -42,6 +42,10 @@ public class AlgoInputToOutput {
 			for(Ballon b : sol.ballons)
 			{
 				int mymove = 0;
+				if(tt==0)
+				{
+					mymove = 1;
+					}
 				b.addMove(mymove);
 			}
 		}

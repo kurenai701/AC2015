@@ -153,6 +153,10 @@ public class ReadInput {
 		{
 			pb.AllPosMat[p.x][p.y][p.z]=p;
 		}
+		pb.AllPosMat[ pb.StartPos.x][pb.StartPos.y ][0] =  pb.StartPos;
+	
+		
+		
 		
 		for(int Ncible = 0;Ncible < pb.L;Ncible++)
 		{
@@ -166,7 +170,7 @@ public class ReadInput {
 						// Covered cell
 						int cellR = curCible.x+rDiff;
 						int cellC = ((curCible.y+cDiff+2*pb.C)%pb.C);// modulo C
-						if(cellR>0 && cellR< pb.R)
+						if(cellR>=0 && cellR< pb.R)
 						{
 							for(int a=1;a<=pb.A;a++)
 							{
@@ -179,6 +183,13 @@ public class ReadInput {
 				
 			}
 		}
+//Add start move		
+		pb.StartPos.moves.add(new Move( pb.AllPosMat[pb.StartPos.x  ][pb.StartPos.y] [1], 1, 1));
+
+		
+		
+		Sys.pln("Fin");
+		
 	}
 	
 		
