@@ -118,7 +118,15 @@ public class ReadInput {
 								int newC = (Ccounter+mv.crc)%pb.C;
 								
 								Pos nextp = new Pos(newR, newC, aa);
+								
+								// si sors des "rows" => move invalid
+								if (newR < 0 || newR >= pb.R)
+								{
+									nextp = Pos.OUTOFMAP;
+								}
 								Move move = new Move(nextp, 0,i);
+								
+								
 								p.moves.add(move);
 							}
 						}
