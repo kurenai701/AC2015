@@ -26,17 +26,21 @@ public class AlgoInputToOutput {
 				
 		////////////////
 		
-		Solution sol = new Solution();
+		Solution sol = new Solution(pb);
 		
 		//////////////////////////////////
 		// TODO Write THE ALGORITHM :-) //
 		//////////////////////////////////
 		
-		
-		
-		
-		
-		
+		for(int tt=0;tt<pb.T;tt++)
+		{
+			for(Ballon b : sol.ballons)
+			{
+				int mymove = 0;
+				b.aChanges.add(mymove);
+			}
+		}
+
 		
 		////////////////
 				
