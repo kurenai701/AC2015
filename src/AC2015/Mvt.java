@@ -1,6 +1,8 @@
 package AC2015;
 
-public class Mvt {
+import java.io.Serializable;
+
+public class Mvt implements Serializable {
 
 	
 	int drc;

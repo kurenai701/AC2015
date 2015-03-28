@@ -95,24 +95,24 @@ public class ReadInput {
 			// Améliorer le problème model, parcourir le monde et voir les next positions
 			
 			// A Sections 
-			for (int Acounter = 0; Acounter < A; Acounter++)
+			for (int Acounter = 0; Acounter < pb.A; Acounter++)
 			{				
 				// R lignes
-				for (int Rcounter = 0; Rcounter < R; Rcounter++)
+				for (int Rcounter = 0; Rcounter < pb.R; Rcounter++)
 				{				
 					// C paires d'entier
 					
-					for (int Ccounter = 0; Ccounter < C; Ccounter++)
+					for (int Ccounter = 0; Ccounter < pb.C; Ccounter++)
 					{					
 						
-						// bouh copier coller c'est mal
+						
 						Pos p = new Pos(Rcounter, Ccounter, Acounter);
 						
-						for (int i = 0; i < 3; i++)
+						for (int i = -1; i <= +1; i++)
 						{
-							int aa = Acounter-1;						
+							int aa = Acounter+i;						
 							
-							if (aa >= 0)
+							if (aa >= 0 && aa < pb.A)
 							{
 								Mvt mv = pb.WorldWindMvt[Rcounter][Ccounter][aa];						
 								

@@ -26,21 +26,21 @@ public class Problem implements Serializable {
 //	}
 //	
 	
-	int R;
-	int C;	
-	int A;
+	public int R;
+	public int C;	
+	public int A;
 	
-	int L;
-	int V;
-	int B;
-	int T;
+	public int L;
+	public int V;
+	public int B;
+	public int T;
 	
-	Pos StartPos;
-	Pos[] TargetPos;
+	public Pos StartPos;
+	public Pos[] TargetPos;
 	
-	Mvt[][][] WorldWindMvt;
+	public Mvt[][][] WorldWindMvt;
 	
-	List<Pos> AllPos;
+	public List<Pos> AllPos;
 	
 	public Problem(int R, int C, int A, int L, int V, int B, int T) {
 		super();
