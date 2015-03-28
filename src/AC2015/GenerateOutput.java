@@ -12,6 +12,9 @@ public class GenerateOutput implements Serializable{
 		MockTestGenerator mock = new MockTestGenerator();
 		AlgoInputToOutput al = new AlgoInputToOutput();
 		
+		AlgoClem algoCl = new AlgoClem();
+		
+		
 		// Obtain output model.
 	
 		// Problem pbMod = new Problem();
@@ -20,8 +23,8 @@ public class GenerateOutput implements Serializable{
 		
 		
 		// Solution outModTest = mock.getSolutionTest(pbMod);
-		Solution outModTest = al.AlgoSimple(pbMod);
-		
+		//Solution outModTest = al.AlgoSimple(pbMod);
+		Solution outModTest = algoCl.ClemAlgo(pbMod);
 		
 		go.GenerateOutputFileFromOutputModel(outModTest, Common.OutputTestFileFullPathUnitTest);
 	}	
@@ -58,10 +61,15 @@ public class GenerateOutput implements Serializable{
 		// T Tours de simu
 		for (int i = 0; i < sol.pb.T; i++)
 		{
-			
+			buildLine = "";
 			for(final Ballon ball: sol.ballons) 
 			{
-				buildLine = buildLine + " " + (ball.aChanges.get(i).toString());
+				int instruction = ball.aChanges.get(i);
+				if (instruction == 20) //instruction d'un ballon tué
+				{
+					instruction = 0;
+				}						
+				buildLine = buildLine + " " + (instruction);
 			}				
 		
 			buildLine = buildLine.trim();
