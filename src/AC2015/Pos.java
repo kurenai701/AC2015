@@ -6,14 +6,17 @@ import java.util.ArrayList;
 public class Pos implements Serializable{
 
 	
-	int x;
-	int y; 
-	int z;
-	ArrayList<Move> moves = new ArrayList<Move>();
-	ArrayList<Integer> coverList = new ArrayList<Integer>();//list of indices of the cible covered
+	public int x;
+	public int y; 
+	public int z;
+	public int num;
+	public int numInPosInterest;
 	
-	int minDistance;// Used only for dijkstra
-	Pos previous;// Used only for dijkstra
+	public ArrayList<Move> moves;
+	public ArrayList<Integer> coverList;//list of indices of the cible covered
+	
+	public int minDistance;// Used only for dijkstra
+	public Pos previous;// Used only for dijkstra
 	
 
 	public Pos()

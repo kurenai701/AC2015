@@ -34,6 +34,10 @@ public class AlgoInputToOutput {
 		
 		
 		
+		
+		
+		
+		
 		////////////////
 				
 		Sys.pln("Finished algo simple");
