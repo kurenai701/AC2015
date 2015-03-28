@@ -51,17 +51,11 @@ public class ReadInput {
 			pb = new Problem(R, C, A, L, V, B, T);
 			
 
-			// cases départs des ballons
-			for (int Bcounter = 0; Bcounter < B; Bcounter++)
-			{				
 				rs = scIn.nextInt();
 				cs = scIn.nextInt();
 
-				// TODO
-
-				pb.StartPos[Bcounter] = new Pos(rs, cs, 0);
-			}
-
+				pb.StartPos = new Pos(rs, cs, 0);
+			
 
 			int ri;
 			int ci;

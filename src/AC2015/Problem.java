@@ -34,7 +34,7 @@ public class Problem implements Serializable {
 	int B;
 	int T;
 	
-	Pos[] StartPos;
+	Pos StartPos;
 	Pos[] TargetPos;
 	
 	Mvt[][][] WorldWindMvt;
@@ -52,7 +52,6 @@ public class Problem implements Serializable {
 	this.B = B;
 	this.T = T;
 	
-	StartPos = new Pos[B];
 	TargetPos = new Pos[L];
 	WorldWindMvt = new Mvt[R][C][A];	 
 	
