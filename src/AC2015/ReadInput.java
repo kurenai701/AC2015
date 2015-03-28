@@ -58,6 +58,8 @@ public class ReadInput {
 				cs = scIn.nextInt();
 
 				// TODO
+
+				pb.StartPos[Bcounter] = new Pos(rs, cs, 0);
 			}
 
 
@@ -68,9 +70,9 @@ public class ReadInput {
 			{
 				ri = scIn.nextInt();
 				ci = scIn.nextInt();
-				
-				
 				// TODO
+
+				pb.TargetPos[Lcounter] = new Pos(ri, ci, 0);
 			}
 			
 			
@@ -93,6 +95,8 @@ public class ReadInput {
 					
 					// TODO
 				}
+				
+				
 				
 				
 				// TODO
@@ -124,8 +128,8 @@ public class ReadInput {
 				
 				
 				// write first line
-				writer.println("print 1st line of ProcessProblemModelToVeriFile");
-				writer.println(pb.testint);
+				writer.println(pb.R + " " + pb.C + " " + pb.A);
+				writer.println(pb.L + " " + pb.V + " " + pb.B + " " + pb.T);
 				writer.println(pb.testString);	
 			
 				
