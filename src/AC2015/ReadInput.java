@@ -34,31 +34,72 @@ public class ReadInput {
 			// TODO	CODE here parsing of file, and saving to model	
 			//  !!!!!!!!!!!!!!!!!!! //
 					
-			int A = scIn.nextInt();
+			int R, C, A, L, V, B, T;
 			
-			String test = scIn.next();
+			R = scIn.nextInt();
+			C = scIn.nextInt();
+			A = scIn.nextInt();
 			
-			pb = new Problem(A, null, test);
+			L = scIn.nextInt();
+			V = scIn.nextInt();
+			B = scIn.nextInt();
+			T = scIn.nextInt();
 			
-			// SOME PIECES OF CODE FOR REFERENCE
-//			
-//			int tempInt;
-//			String tempString;
-//			double tempDouble;
-//			String tempLine;
-//			
-//			for (int counter = 0; counter < 42/*TODO change*/; counter++)
-//			{				
-//				tempInt = scIn.nextInt();
-//				tempString = scIn.next(); 
-//				tempDouble = scIn.nextDouble();
-//				tempLine = scIn.nextLine();
-//				
-//				// faire qqch 
-//			}
-//			
-			//  !!!!!!!!!!!!!!!!!!! //
-		}	
+			int rs;
+			int cs;
+			
+			pb = new Problem(R, C, A, L, V, B, T);
+			
+
+			// cases départs des ballons
+			for (int Bcounter = 0; Bcounter < B; Bcounter++)
+			{				
+				rs = scIn.nextInt();
+				cs = scIn.nextInt();
+
+				// TODO
+			}
+
+
+			int ri;
+			int ci;
+			// cases cibles
+			for (int Lcounter = 0; Lcounter < L; Lcounter++)
+			{
+				ri = scIn.nextInt();
+				ci = scIn.nextInt();
+				
+				
+				// TODO
+			}
+			
+			
+			// A Sections 
+			
+			int drc;
+			int crc;
+			for (int Acounter = 0; Acounter < A; Acounter++)
+			{
+				
+				// R lignes
+				for (int Rcounter = 0; Rcounter < R; Rcounter++)
+				{				
+					for (int Ccounter = 0; Ccounter < C; Ccounter++)
+					{
+						// C paires d'entier
+						drc = scIn.nextInt();
+						crc = scIn.nextInt();
+					}
+					
+					// TODO
+				}
+				
+				
+				// TODO
+			}
+			
+			
+		}
 		
 		return pb;
 	}
