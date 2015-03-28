@@ -18,6 +18,12 @@ public class Ballon implements Serializable {
 	}
 	
 	
+	public Pos getLastPos()
+	{
+		return posList.get(posList.size()-1);
+	}
+	
+	
 	public void addMove(int mymove, Problem pb)
 	{
 		//aChanges.add(mymove);

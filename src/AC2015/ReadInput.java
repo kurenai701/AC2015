@@ -123,7 +123,7 @@ public class ReadInput {
 								if (newR < 0 || newR >= pb.R)
 								{
 									nextp = Pos.OUTOFMAP;
-									Sys.pln("out of map from " + Rcounter + ","+ Ccounter + "," + aa + " to : " + newR + ","+ newC + "," + aa);	
+						//			Sys.pln("out of map from " + Rcounter + ","+ Ccounter + "," + aa + " to : " + newR + ","+ newC + "," + aa);	
 									p.moves.add(Move.INVALID);
 								}
 								else // normal
@@ -198,9 +198,9 @@ public class ReadInput {
 		Pos temp = pb.AllPosMat[pb.StartPos.x  ][pb.StartPos.y][1];
 		
 		Pos nPosStart = temp.moves.get(0).nextPos;//ugly hack
-				
 		pb.StartPos.moves.add(new Move(  nPosStart  , 1, 1));
 
+		pb.StartPos.moves.add(new Move(  pb.StartPos  , 1,0));
 		
 		
 		Sys.pln("Fin");
