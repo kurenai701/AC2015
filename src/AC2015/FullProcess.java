@@ -8,23 +8,31 @@ public class FullProcess {
 	
 	public static void main(String[] args) {
 	
-		//// Initialization of our Tool Classes;
+		// PARAMETRES !!
+		int paramNbIterations = 1;
+		int paramAcceptIterationNoImprove = 50;
 		
+		
+		//// Initialization of our Tool Classes		
 		ProblemSimplifyer simplifyer = new ProblemSimplifyer();
 		AlgoInputToOutput algo = new AlgoInputToOutput();
+		SolutionImprover si = new SolutionImprover(); 
 		
 				
 		// ****** Get Problem Model from file
 		Problem pbMod = FromInputFileToProblem(Common.InputFilePath);
+		
 		// ****** Simplify
 		Problem pbModSimplified = simplifyer.SimplifyProblem(pbMod);
 		
 		// ****** Process Algorithm to find Solution
 		Solution sol = algo.AlgoSimple(pbModSimplified);			
 		
+		// ****** Solution Improver ATTENTION AUX PARAMETRES;
+		sol = si.IterateImprover(sol, paramNbIterations, paramAcceptIterationNoImprove);
+		
 		// ****** Generate output file
 		GenerateOutputFileFromSolutionAndVerify(sol, Common.OutputGeneratedFullPath);		
-		
 		
 		// Serialize Sol, and Verify Deserialisation possible
 		VerifySerializeDeserializeSolution(sol); 
@@ -102,6 +110,7 @@ public class FullProcess {
 	
 		// Backup serialized solution class to BKP folder
 		sol.SaveSolutionAsRawToFullPath(targetBKPFolderPath+"\\"+ Common.SaveSerialFileName);
+		
 		// Backup generated output
 		genOut.GenerateOutputFileFromOutputModel(sol, targetBKPFolderPath +"\\"+ Common.OutputGeneratedFileName);
 	

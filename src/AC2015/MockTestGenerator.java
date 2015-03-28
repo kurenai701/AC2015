@@ -1,8 +1,9 @@
 package AC2015;
 
+import java.io.Serializable;
 import java.util.Scanner;
 
-public class MockTestGenerator {
+public class MockTestGenerator implements Serializable {
 
 	
 	public Problem getProblemModTestAlgo()

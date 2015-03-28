@@ -94,7 +94,12 @@ public class UtilFile {
 	
 
 
-	// object must implement Serializable
+	
+	
+	
+	// TODO For later, refactor and use the new UtilSerDes for the BufferedSteam
+	
+	// all objects must implement Serializable
 	public void SerializeObjectToFile (Object objectToSave, String fileFullpath)
 	{
 	
@@ -142,7 +147,7 @@ public class UtilFile {
 	}
 	
 	
-	// object must implement Serializable
+	// all objects must implement Serializable
 	public Object DeserializeFileToObject(String fileFullpath)
 	{
 	      try

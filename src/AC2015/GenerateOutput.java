@@ -1,9 +1,9 @@
 package AC2015;
 
 import java.io.PrintWriter;
-import java.util.Scanner;
+import java.io.Serializable;
 
-public class GenerateOutput {
+public class GenerateOutput implements Serializable{
 
 	
 	public static void main(String[] args) {
