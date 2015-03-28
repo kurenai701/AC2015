@@ -60,7 +60,7 @@ public class ReadOutput {
 			// TODO	CODE here parsing and processing of output file to obtain problem model	(si ça s'y prête)
 			//  !!!!!!!!!!!!!!!!!!! //
 			
-			sol.testSolInt = scOut.nextInt();			
+			//sol.testSolInt = scOut.nextInt();			
 			
 			//  !!!!!!!!!!!!!!!!!!! //			
 		}

@@ -107,27 +107,7 @@ public class ClemExperiment {
 		
 		System.out.println(dateFormatString);
 		
-		Solution testSolution = new Solution();
-		testSolution.testSolListClemClass.add(clemcl6);
-		testSolution.testSolListClemClass.add(clemcl5);
-				
-		testSolution.SaveSolutionAsRaw("TestSolutionSerialize");
-		
-		
-		Solution desSolution = 
-				(Solution)(Common.FU.DeserializeFileToObject("C:\\ACFile\\TestSolutionSerialize"));
-		
-		System.out.println(desSolution.testSolListClemClass.toString());
-		
-		
-		List<ClemClass> deepCopytest = Common.DeepCopy(cl.ListClemClass);
-		
-		System.out.println("Deep Copy test");
-		System.out.println(deepCopytest.toString());
-		
-		System.out.println(cl.ListClemClass.toString());
-		System.out.println(deepCopytest.get(2).stringClem);
-		
+
 		Sys.pln("test test test pln");
 		Sys.disp("test test disp");
 		

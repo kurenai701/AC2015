@@ -43,30 +43,34 @@ public class GenerateOutput implements Serializable{
 		}
 	}
 	
-//	
-//	public void WriteOutputFileGenerationLogic(PrintWriter writer, Solution sol)
-//	{		
-//		writer.println(sol.testSolInt);
-//		writer.println(sol.testSolString);
-//					
-//		writer.println("4242424242");
-//		writer.println("output generator");					
-//	}
-//	
 	
 	public void WriteOutputFileGenerationLogic(PrintWriter writer, Solution sol)
 	{
 		//  !!!!!!!!!!!!!!!!!!! //
 		// TODO CODE HERE Output Generation Logic from Output Model
 		//  !!!!!!!!!!!!!!!!!!! //
-			
-		writer.println(sol.testSolInt);
-		writer.println(sol.testSolString);
-					
-		writer.println("4242424242");
-		writer.println("output generator");
-					
-		//  !!!!!!!!!!!!!!!!!!! //					
+
+
+//		String buildLine = null;
+//		// T Tours de simu
+//		for (int i = 0; i < sol.pb.T; i++)
+//		{
+//			
+//			// B ballons
+//			for (int b = 0; )
+//			buildLine = ; 
+//					
+//					writer.println(
+//		}
+//		
+//		
+//		writer.println(sol.testSolInt);
+//		writer.println(sol.testSolString);
+//					
+//		writer.println("4242424242");
+//		writer.println("output generator");
+//					
+//		//  !!!!!!!!!!!!!!!!!!! //					
 		
 	}
 

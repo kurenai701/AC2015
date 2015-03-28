@@ -32,8 +32,8 @@ public class MockTestGenerator implements Serializable {
 	public Solution getSolutionTest(Problem pb)
 	{
 		Solution sol = new Solution(pb);
-		sol.testSolInt = 789;
-		sol.testSolString = "solutionTestString";
+		//sol.testSolInt = 789;
+		//sol.testSolString = "solutionTestString";
 		return sol;	
 		
 	}

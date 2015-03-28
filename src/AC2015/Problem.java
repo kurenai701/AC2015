@@ -1,6 +1,7 @@
 package AC2015;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -39,6 +40,7 @@ public class Problem implements Serializable {
 	
 	Mvt[][][] WorldWindMvt;
 	
+	List<Pos> AllPos;
 	
 	public Problem(int R, int C, int A, int L, int V, int B, int T) {
 		super();
@@ -52,11 +54,15 @@ public class Problem implements Serializable {
 	this.B = B;
 	this.T = T;
 	
+
 	TargetPos = new Pos[L];
-	WorldWindMvt = new Mvt[R][C][A];	 
+	WorldWindMvt = new Mvt[R][C][A];	
+	
+	AllPos = new ArrayList<Pos>();
+	
+	 
 	
 	}
-	
 	
 	
 	

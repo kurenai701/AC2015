@@ -89,15 +89,56 @@ public class ReadInput {
 						pb.WorldWindMvt[Rcounter][Ccounter][Acounter] = new Mvt(drc, crc);
 					}
 				}
-				
-				
-				
-				
-				// TODO
 			}
 			
 			
+			// Améliorer le problème model, parcourir le monde et voir les next positions
+			
+			// A Sections 
+			for (int Acounter = 0; Acounter < A; Acounter++)
+			{				
+				// R lignes
+				for (int Rcounter = 0; Rcounter < R; Rcounter++)
+				{				
+					// C paires d'entier
+					
+					for (int Ccounter = 0; Ccounter < C; Ccounter++)
+					{					
+						
+						// bouh copier coller c'est mal
+						Pos p = new Pos(Rcounter, Ccounter, Acounter);
+						
+						for (int i = 0; i < 3; i++)
+						{
+							int aa = Acounter-1;						
+							
+							if (aa >= 0)
+							{
+								Mvt mv = pb.WorldWindMvt[Rcounter][Ccounter][aa];						
+								
+								int newR = Rcounter+mv.drc;
+								int newC = Ccounter+mv.crc;
+								
+								Pos nextp = new Pos(newR%pb.R, newC, aa);
+								Move move = new Move(nextp, 0);
+								p.moves.add(move);
+							}
+						}
+																
+						pb.AllPos.add(p);
+						
+						
+					}
+				}
+			} 
+		
+		
+		
+			
+			
 		}
+		
+		Sys.pln("pb with more info");
 		
 		return pb;
 	}

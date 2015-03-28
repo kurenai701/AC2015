@@ -25,10 +25,7 @@ public class AlgoClem {
 		//////////////////////////////////
 		// TODO Write THE ALGORITHM :-) //
 		//////////////////////////////////
-				
-		sol.testSolInt = pb.testint;
-		sol.testSolString = pb.testString;
-		
+	
 		////////////////
 				
 		System.out.println("Finished Clem algo");
