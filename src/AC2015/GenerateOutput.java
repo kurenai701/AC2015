@@ -73,7 +73,7 @@ public class GenerateOutput implements Serializable{
 			}				
 		
 			buildLine = buildLine.trim();
-			Sys.pln(buildLine);
+		//	Sys.pln(buildLine);
 			writer.println(buildLine);
 		}
 		
