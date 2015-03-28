@@ -40,7 +40,8 @@ public class SolutionImprover {
 		Solution solTry;	
 
 		Solution bestSolution = Common.DeepCopy(initSol);
-
+		bestSolution.SaveSolutionAsRaw("BestSolutionInProcess.ser");
+		
 		int countIterNoImprove = 0;
 
 		// itérer
@@ -54,7 +55,7 @@ public class SolutionImprover {
 				bestSolution = Common.DeepCopy(solTry);
 			
 				// Serialize best solution in path = Common.ACFileFolderPath+fileName
-				bestSolution.SaveSolutionAsRaw("BestSolutionInProcess");
+				bestSolution.SaveSolutionAsRaw("BestSolutionInProcess.ser");
 			}
 			else
 			{
@@ -80,7 +81,11 @@ public class SolutionImprover {
 
 	
 	
-	
+	public Solution DeserializeBestSol(String filename)
+	{
+		Solution DesSol = (Solution)(Common.FU.DeserializeFileToObject(Common.ACFileFolderPath+filename));
+		return DesSol;
+	}
 	
 
 }

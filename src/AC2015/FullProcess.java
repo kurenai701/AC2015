@@ -8,9 +8,13 @@ public class FullProcess {
 	
 	public static void main(String[] args) {
 	
+		
 		// PARAMETRES !!
-		int paramNbIterations = 1;
-		int paramAcceptIterationNoImprove = 50;
+		int paramNbIterations = (50);
+		int paramAcceptIterationNoImprove = 10;
+		// PARAMETRES !!
+		
+		
 		
 		
 		//// Initialization of our Tool Classes		
@@ -27,9 +31,17 @@ public class FullProcess {
 		
 		// ****** Process Algorithm to find Solution
 		Solution sol = algo.AlgoSimple(pbModSimplified);			
+
+		//!!!!!*-+---*+-**+ ****** ou pour partir d'une autre initialisation	
+		// sol = si.DeserializeBestSol("BestSolutionInProcess.ser");
 		
 		// ****** Solution Improver ATTENTION AUX PARAMETRES;
 		sol = si.IterateImprover(sol, paramNbIterations, paramAcceptIterationNoImprove);
+		
+		
+		
+		
+		
 		
 		// ****** Generate output file
 		GenerateOutputFileFromSolutionAndVerify(sol, Common.OutputGeneratedFullPath);		
