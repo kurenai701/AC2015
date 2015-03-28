@@ -123,11 +123,10 @@ public class ReadInput {
 								if (newR < 0 || newR >= pb.R)
 								{
 									nextp = Pos.OUTOFMAP;
+									Sys.pln("out of map from " + Rcounter + ","+ Ccounter + "," + aa + " to : " + newR + ","+ newC + "," + aa);	
 								}
 								Move move = new Move(nextp, 0,i);
-								
-								
-								p.moves.add(move);
+								p.moves.add(Move.INVALID);
 							}
 						}
 																
