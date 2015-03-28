@@ -81,8 +81,7 @@ public class ReadInput {
 			int drc;
 			int crc;
 			for (int Acounter = 0; Acounter < A; Acounter++)
-			{
-				
+			{				
 				// R lignes
 				for (int Rcounter = 0; Rcounter < R; Rcounter++)
 				{				
@@ -91,9 +90,10 @@ public class ReadInput {
 						// C paires d'entier
 						drc = scIn.nextInt();
 						crc = scIn.nextInt();
+						
+						// TODO
+						pb.WorldWindMvt[Rcounter][Ccounter][Acounter] = new Mvt(drc, crc);
 					}
-					
-					// TODO
 				}
 				
 				

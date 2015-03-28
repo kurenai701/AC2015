@@ -37,6 +37,9 @@ public class Problem implements Serializable {
 	Pos[] StartPos;
 	Pos[] TargetPos;
 	
+	Mvt[][][] WorldWindMvt;
+	
+	
 	public Problem(int R, int C, int A, int L, int V, int B, int T) {
 		super();
 		
@@ -51,7 +54,8 @@ public class Problem implements Serializable {
 	
 	StartPos = new Pos[B];
 	TargetPos = new Pos[L];
-	 
+	WorldWindMvt = new Mvt[R][C][A];	 
+	
 	}
 	
 	
