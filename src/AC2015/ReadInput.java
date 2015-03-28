@@ -51,17 +51,11 @@ public class ReadInput {
 			pb = new Problem(R, C, A, L, V, B, T);
 			
 
-			// cases départs des ballons
-			for (int Bcounter = 0; Bcounter < B; Bcounter++)
-			{				
 				rs = scIn.nextInt();
 				cs = scIn.nextInt();
 
-				// TODO
-
-				pb.StartPos[Bcounter] = new Pos(rs, cs, 0);
-			}
-
+				pb.StartPos = new Pos(rs, cs, 0);
+			
 
 			int ri;
 			int ci;
@@ -81,8 +75,7 @@ public class ReadInput {
 			int drc;
 			int crc;
 			for (int Acounter = 0; Acounter < A; Acounter++)
-			{
-				
+			{				
 				// R lignes
 				for (int Rcounter = 0; Rcounter < R; Rcounter++)
 				{				
@@ -91,9 +84,10 @@ public class ReadInput {
 						// C paires d'entier
 						drc = scIn.nextInt();
 						crc = scIn.nextInt();
+						
+						// TODO
+						pb.WorldWindMvt[Rcounter][Ccounter][Acounter] = new Mvt(drc, crc);
 					}
-					
-					// TODO
 				}
 				
 				
