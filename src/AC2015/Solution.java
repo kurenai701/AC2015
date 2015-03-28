@@ -17,7 +17,7 @@ public class Solution implements Serializable {
 	
 	// for concours : list of ballons and movements
 	Ballon ballons[];
-	
+	int curScore; // current score
 	
 	
 	
@@ -37,7 +37,45 @@ public class Solution implements Serializable {
 	
 	public ScoreInfo GetScoreModel()
 	{
-		ScoreInfo scoringInfo = new ScoreInfo(-314159);
+		
+		//Time step
+		int score = 0;
+
+		for(int tt=0; tt<pb.T;tt++)
+		{
+			int covered[] = new int[pb.L];// init to 0
+			boolean stillAlive = false;
+			
+			for( int nb=0;nb<pb.B;nb++)
+			{
+				 Ballon curB = ballons[nb];
+				
+				if( tt < curB.posList.size())
+				{
+					
+					Pos curPos = curB.posList.get(tt);
+//					
+					for(int Ncible : curPos.coverList)
+					{
+						// For all cible covered by pos
+						
+						if(covered[Ncible]==0)
+						{
+							score++;//NEw cible reached
+						}
+						covered[Ncible]++;
+					}
+					stillAlive=true;
+				}//if				
+				if(!stillAlive)
+				{
+				break;//Fast evaluate end
+				}
+			}//for Ballon
+		}//For tt
+		
+
+		ScoreInfo scoringInfo = new ScoreInfo(score);
 		return scoringInfo;
 	}
 	

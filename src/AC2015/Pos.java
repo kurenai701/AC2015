@@ -10,6 +10,7 @@ public class Pos implements Serializable{
 	int y; 
 	int z;
 	ArrayList<Move> moves;
+	ArrayList<Integer> coverList;//list of indices of the cible covered
 	
 	int minDistance;// Used only for dijkstra
 	Pos previous;// Used only for dijkstra

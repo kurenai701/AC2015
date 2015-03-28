@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Ballon {
 	int Num;
-	ArrayList<Integer> aChanges;
+	ArrayList<Integer> aChanges;// Contient 0,-1 ou 1;
 
 	ArrayList<Pos> posList;
 	
