@@ -114,8 +114,8 @@ public class ReadInput {
 							{
 								Mvt mv = pb.WorldWindMvt[Rcounter][Ccounter][aa];						
 								
-								int newR = (Rcounter+mv.drc)%(pb.R);
-								int newC = Ccounter+mv.crc;
+								int newR = (Rcounter+mv.drc);
+								int newC = (Ccounter+mv.crc)%pb.C;
 								
 								Pos nextp = new Pos(newR, newC, aa);
 								Move move = new Move(nextp, 0,i);
