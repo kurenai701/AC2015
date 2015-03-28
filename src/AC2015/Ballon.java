@@ -1,8 +1,9 @@
 package AC2015;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Ballon {
+public class Ballon implements Serializable {
 	int Num;
 	ArrayList<Integer> aChanges= new ArrayList<Integer>();// Contient -1, 0, ou 1 pour mouvements réels (-1,0,1);
 
