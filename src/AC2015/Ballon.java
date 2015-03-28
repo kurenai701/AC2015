@@ -40,7 +40,7 @@ public class Ballon implements Serializable {
 			}
 			posList.add( Move.INVALID.nextPos   );
 		}
-		Sys.pln("baloon : " + Num + " moved from " +posList.get(posList.size()-2)+ "to " + posList.get(posList.size()-1));
+		//Sys.pln("baloon : " + Num + " moved from " +posList.get(posList.size()-2)+ "to " + posList.get(posList.size()-1));
 			
 		
 	}
