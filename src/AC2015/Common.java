@@ -48,7 +48,7 @@ public class Common {
 	public static final String InputFileName = "INPUT-dc.in";
 	public static final String InputFilePath = ACFileFolderPath+InputFileName;
 
-	public static final String InputFileNameUnitTest = "INPUT-UNITTEST.txt";
+	public static final String InputFileNameUnitTest = "inputSimple.in";
 	public static final String InputFilePathUnitTest =  ACFileFolderPath+InputFileNameUnitTest;
 
 	// ForInputVerification

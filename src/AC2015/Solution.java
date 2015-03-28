@@ -63,7 +63,10 @@ public class Solution implements Serializable {
 				{
 					
 					Pos curPos = curB.posList.get(tt);
-//					
+					if(curPos.z>0)
+					{
+						
+					
 					for(int Ncible : curPos.coverList)
 					{
 						// For all cible covered by pos
@@ -73,6 +76,8 @@ public class Solution implements Serializable {
 							score++;//NEw cible reached
 						}
 						covered[Ncible]++;
+					}
+					
 					}
 					stillAlive=true;
 				}//if				

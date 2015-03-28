@@ -42,7 +42,7 @@ public class Problem implements Serializable {
 	public Mvt[][][] WorldWindMvt;
 	
 	public List<Pos> AllPos;
-	public Pos AllPosMat[][];// To acces all pos as matrix
+	public Pos AllPosMat[][][];// To acces all pos as matrix
 	
 	
 	

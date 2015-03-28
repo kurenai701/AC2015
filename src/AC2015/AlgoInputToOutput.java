@@ -29,7 +29,8 @@ public class AlgoInputToOutput {
 		Solution sol = new Solution(pb);
 		for(int ii=0;ii<pb.B;ii++)
 		{
-			sol.ballons[ii].posList.add( pb.AllPosMat[ pb.StartPos.x][pb.StartPos.y ]);
+			sol.ballons[ii].posList.add( 
+					pb.AllPosMat[ pb.StartPos.x][pb.StartPos.y ][0]	);
 		}
 		
 		//////////////////////////////////

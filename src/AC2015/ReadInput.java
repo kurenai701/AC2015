@@ -147,11 +147,11 @@ public class ReadInput {
 	public void setCoveredList(Problem pb)
 	{
 		//create allPosMat
-		pb.AllPosMat = new Pos[pb.R][pb.C];
+		pb.AllPosMat = new Pos[pb.R][pb.C][pb.A+1];
 		
 		for(Pos p : pb.AllPos)
 		{
-			pb.AllPosMat[p.x][p.y]=p;
+			pb.AllPosMat[p.x][p.y][p.z]=p;
 		}
 		
 		for(int Ncible = 0;Ncible < pb.L;Ncible++)
@@ -168,7 +168,10 @@ public class ReadInput {
 						int cellC = ((curCible.y+cDiff+2*pb.C)%pb.C);// modulo C
 						if(cellR>0 && cellR< pb.R)
 						{
-			pb.AllPosMat[cellR][cellC].coverList.add(Ncible);
+							for(int a=1;a<=pb.A;a++)
+							{
+									pb.AllPosMat[cellR][cellC][a].coverList.add(Ncible);
+							}
 						}
 					}
 					
