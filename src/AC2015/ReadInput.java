@@ -104,8 +104,6 @@ public class ReadInput {
 					
 					for (int Ccounter = 0; Ccounter < pb.C; Ccounter++)
 					{					
-						
-						
 						Pos p = new Pos(Rcounter, Ccounter, Acounter);
 						
 						for (int i = -1; i <= +1; i++)
@@ -116,10 +114,10 @@ public class ReadInput {
 							{
 								Mvt mv = pb.WorldWindMvt[Rcounter][Ccounter][aa];						
 								
-								int newR = Rcounter+mv.drc;
+								int newR = (Rcounter+mv.drc)%(pb.R);
 								int newC = Ccounter+mv.crc;
 								
-								Pos nextp = new Pos(newR%pb.R, newC, aa);
+								Pos nextp = new Pos(newR, newC, aa);
 								Move move = new Move(nextp, 0);
 								p.moves.add(move);
 							}
