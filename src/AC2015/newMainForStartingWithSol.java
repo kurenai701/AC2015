@@ -25,7 +25,7 @@ public class newMainForStartingWithSol {
 		// ****** Solution Improver ATTENTION AUX PARAMETRES; ATTENTION AUX PARAMETRES;
 		if (!ONLYBACKUP)
 		{
-			sol = si.IterateImprover(sol, paramNbIterations, paramAcceptIterationNoImprove);
+		//	sol = si.IterateImprover(sol, paramNbIterations, paramAcceptIterationNoImprove);
 		}
 		
 		// ****** Generate output file

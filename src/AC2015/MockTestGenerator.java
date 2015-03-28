@@ -22,7 +22,7 @@ public class MockTestGenerator implements Serializable {
 
 		ReadInput ri = new ReadInput();
 		
-		Scanner scanInput = ri.ScannerInputFile(Common.InputFilePathUnitTest);
+		Scanner scanInput = ri.ScannerInputFile(Common.InputFilePath);
 		Problem pbMod = ri.ProcessReadInputToModel(scanInput);
 		
 		return pbMod;

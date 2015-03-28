@@ -8,6 +8,8 @@ import AC2015.Move;
 import AC2015.Pos;
 import AC2015.Problem;
 public class Dijkstra {
+	
+	/*
 //
 // class Vertex implements Comparable<Vertex>
 // {
@@ -88,4 +90,7 @@ public static fillFullPaths(Vertex target)
 	Collections.reverse(path);
 	return path;
 }
+
+
+*/
 }

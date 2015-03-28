@@ -1,9 +1,9 @@
 package AC2015;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.function.Predicate;
 
 
 public class AlgoInputToOutput {
@@ -20,7 +20,7 @@ public class AlgoInputToOutput {
 	}	
 */	
 	
-	public Solution AlgoSimple(Problem pb)
+	public Solution AlgoSimple(Problem pb, Random rand)
 	{
 		Sys.pln("Starting simple algo");
 				
@@ -36,7 +36,7 @@ public class AlgoInputToOutput {
 		//////////////////////////////////
 		// TODO Write THE ALGORITHM :-) //
 		//////////////////////////////////
-		Random rand = new Random(42);
+		
 		for(int tt=0;tt<pb.T;tt++)
 		{
 			List<Pos >Otherpos = new ArrayList<Pos>();
@@ -101,12 +101,8 @@ public class AlgoInputToOutput {
 				{
 					mymove = Integer.min(0,mymove);
 				}
-				
-				
-				b.addMove(mymove,pb);
-				
-				
-				
+							
+				b.addMove(mymove,pb);			
 				
 				
 			}
@@ -150,6 +146,18 @@ public class AlgoInputToOutput {
 		System.out.println("Finished complicatedalgo");
 		return sol ;
 	}
+	
+	
+	
+	public List<Pos> LotsCoverMove0(int nbCov, Problem pb)
+	{
+		Predicate<Pos> PosLotsCover = p-> (p.coverList.size() > nbCov && p.moves.get(1).nextPos.coverList.size() > nbCov);
+		// Predicate<Pos> PosLotsCover = p-> p.coverList.size() > 7 && p.moves.get(1).nextPos.coverList.size() > 7 ));
+		List<Pos> listTest = Common.Where(pb.AllPos, PosLotsCover);
+		Sys.pln(listTest.size());
+		
+		return listTest;	}
+	
 	
 	
 	

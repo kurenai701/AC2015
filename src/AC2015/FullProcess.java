@@ -2,6 +2,7 @@ package AC2015;
 
 import java.io.File;
 import java.util.Date;
+import java.util.Random;
 import java.util.Scanner;
 
 public class FullProcess {
@@ -33,13 +34,14 @@ public class FullProcess {
 		Problem pbModSimplified = simplifyer.SimplifyProblem(pbMod);
 		
 		// ****** Process Algorithm to find Solution
-		Solution sol = algo.AlgoSimple(pbModSimplified);			
+		Random rand = new Random(42);
+		Solution sol = algo.AlgoSimple(pbModSimplified,rand);			
 
 		//!!!!!*-+---*+-**+ ****** ou pour partir d'une autre initialisation	
 		// sol = si.DeserializeBestSol("BestSolutionInProcess.ser");
 		
 		// ****** Solution Improver ATTENTION AUX PARAMETRES;
-		sol = si.IterateImprover(sol, paramNbIterations, paramAcceptIterationNoImprove);
+		sol = si.IterateImprover(sol, paramNbIterations, paramAcceptIterationNoImprove,pbModSimplified);
 		
 		
 		
