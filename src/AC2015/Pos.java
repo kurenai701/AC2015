@@ -11,6 +11,8 @@ public class Pos implements Serializable{
 	int z;
 	ArrayList<Move> moves;
 	
+	int minDistance;// Used only for dijkstra
+	
 	
 
 	public Pos()
