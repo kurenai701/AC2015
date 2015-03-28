@@ -10,13 +10,17 @@ public class GenerateOutput implements Serializable{
 
 		GenerateOutput go = new GenerateOutput();
 		MockTestGenerator mock = new MockTestGenerator();
+		AlgoInputToOutput al = new AlgoInputToOutput();
 		
 		// Obtain output model.
 	
 		// Problem pbMod = new Problem();
 		//Problem pbMod = mock.getProblemModTestAlgo();
 		Problem pbMod = mock.getProblemTestFromReadInput();
-		Solution outModTest = mock.getSolutionTest(pbMod);
+		
+		
+		// Solution outModTest = mock.getSolutionTest(pbMod);
+		Solution outModTest = al.AlgoSimple(pbMod);
 		
 		
 		go.GenerateOutputFileFromOutputModel(outModTest, Common.OutputTestFileFullPathUnitTest);
@@ -60,7 +64,7 @@ public class GenerateOutput implements Serializable{
 				buildLine = buildLine + " " + (ball.aChanges.get(i).toString());
 			}				
 		
-			
+			buildLine = buildLine.trim();
 			Sys.pln(buildLine);
 			writer.println(buildLine);
 		}
