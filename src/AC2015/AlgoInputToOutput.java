@@ -41,6 +41,13 @@ public class AlgoInputToOutput {
 		{
 			for(Ballon b : sol.ballons)
 			{
+				
+				// si tout seul, alors : 
+				
+				
+				
+				
+				
 				int mymove = 0;
 				if(tt<3)
 				{
@@ -49,8 +56,24 @@ public class AlgoInputToOutput {
 				b.addMove(mymove,pb);
 				
 				
+				
+				
+				
 			}
 		}
+		
+		
+		
+		
+		////
+		
+		
+		
+		
+		
+		
+		
+		
 
 		
 		////////////////
