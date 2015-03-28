@@ -48,7 +48,20 @@ public class Ballon implements Serializable {
 		
 	}
 	
-	
-	
 
+	public void addMultipleMove(int mymove, int my2ndmove,  int my3rdmove, int my4thmove, Problem pb)
+	{
+		if (mymove == 0 || mymove == -1 || mymove ==1) 
+		addMove(mymove, pb);
+		
+		if (my2ndmove == 0 || my2ndmove == -1 || my2ndmove ==1) 
+			addMove(my2ndmove, pb);
+			
+		if (my3rdmove == 0 || my3rdmove == -1 || my3rdmove ==1) 
+			addMove(my3rdmove, pb);
+			
+		if (my4thmove == 0 || my4thmove == -1 || my4thmove ==1) 
+			addMove(my4thmove, pb);
+			
+	}
 }
