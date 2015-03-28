@@ -2,5 +2,6 @@
 <classpath>
 	<classpathentry excluding="AC2015/Dijkstra.java" kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="src/AC2015/Dijkstra.java"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

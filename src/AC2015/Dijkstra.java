@@ -64,11 +64,11 @@ public class Dijkstra {
 	    
 	    public static void computeAllPaths(Problem pb)
 	    {
-	    	for(r=0;r<pb.R;r++)
+	    	for(int r=0;r<pb.R;r++)
 	    	{
-	    		for(c=0;c<pb.C;c++)
+	    		for(int c=0;c<pb.C;c++)
 	    		{
-	    			pb.allPos.minDistance = Integer.MAX_VALUE;
+	    			pb.allPos[r][c].minDistance = Integer.MAX_VALUE;
 	    				
 	    		}
 	    	}
