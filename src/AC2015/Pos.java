@@ -14,10 +14,8 @@ public class Pos implements Serializable {
 	public int numInPosInterest;
 	
 	
-	public LinkedList<Integer> curTbestPath;
-	public LinkedList<Integer> nextTbestPath;
 	
-	public ArrayList<Move> moves = new ArrayList<Move>();
+	transient public ArrayList<Move> moves = new ArrayList<Move>();
 	
 	
 	public ArrayList<Integer> coverList = new ArrayList<Integer>();//list of indices of the cible covered

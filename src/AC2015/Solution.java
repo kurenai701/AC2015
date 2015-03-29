@@ -37,7 +37,7 @@ public class Solution implements Serializable {
 		this.ballons = new Ballon[pb.B];
 		for(int ii=0;ii<pb.B;ii++)
 		{
-			ballons[ii] = new Ballon(ii);
+			ballons[ii] = new Ballon(ii,pb.StartPos);
 		}
 		this.curScore = 0;
 	}

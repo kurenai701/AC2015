@@ -11,7 +11,7 @@ public class FullProcess {
 	
 		
 		// PARAMETRES !!
-		int paramNbIterations = (1000);
+		int paramNbIterations = (10);
 		int paramAcceptIterationNoImprove = paramNbIterations;
 		// PARAMETRES !!
 		
@@ -33,18 +33,26 @@ public class FullProcess {
 		// ****** Simplify
 		Problem pbModSimplified = simplifyer.SimplifyProblem(pbMod);
 		
+		
+	//	pbModSimplified.B=10;
+	//	Sys.pln("!!!!!!!!!!!! *******************   DANGER, changement du nommbre de ballon a 1 pour test");
+		
+		
+		
 		// ****** Process Algorithm to find Solution
 		Random rand = new Random(42);
 	//	Solution sol = algo.AlgoSimple(pbModSimplified,rand);			
 
 		Solution sol = algo.AlgoComplicatedFromProblem(pbModSimplified,rand);			
 
+		ProcessAllBackupOfSolutionToFolder(sol);
+			
 		
 		//!!!!!*-+---*+-**+ ****** ou pour partir d'une autre initialisation	
 		// sol = si.DeserializeBestSol("BestSolutionInProcess.ser");
 		
 		// ****** Solution Improver ATTENTION AUX PARAMETRES;
-		sol = si.IterateImprover(sol, paramNbIterations, paramAcceptIterationNoImprove,pbModSimplified);
+	//	sol = si.IterateImprover(sol, paramNbIterations, paramAcceptIterationNoImprove,pbModSimplified);
 		
 		
 		
@@ -52,13 +60,13 @@ public class FullProcess {
 		
 		
 		// ****** Generate output file
-		GenerateOutputFileFromSolutionAndVerify(sol, Common.OutputGeneratedFullPath);		
+	//	GenerateOutputFileFromSolutionAndVerify(sol, Common.OutputGeneratedFullPath);		
 		
 		// Serialize Sol, and Verify Deserialisation possible
-		VerifySerializeDeserializeSolution(sol); 
+	//	VerifySerializeDeserializeSolution(sol); 
 			
 		// BACK-UP to a folder with score and time
-		ProcessAllBackupOfSolutionToFolder(sol);
+	//	ProcessAllBackupOfSolutionToFolder(sol);
 		
 		// GET SCORE
 		sol.PrintScore();			

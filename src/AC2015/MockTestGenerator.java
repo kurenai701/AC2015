@@ -35,7 +35,7 @@ public class MockTestGenerator implements Serializable {
 		
 		sol.ballons = new Ballon[pb.B];
 		
-		sol.ballons[0] = new Ballon(0);
+		sol.ballons[0] = new Ballon(0,pb.StartPos);
 		
 		//sol.testSolInt = 789;
 		//sol.testSolString = "solutionTestString";

@@ -11,9 +11,10 @@ public class Ballon implements Serializable {
 	
 	
 	
-	public Ballon(int num) {
+	public Ballon(int num,Pos startPos) {
 		super();
 		Num = num;
+		posList.add(startPos);
 
 	}
 	

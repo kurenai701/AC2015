@@ -218,7 +218,7 @@ public class ReadInput {
 					{
 					for(Move m : p.moves)
 					{
-						if(m.nextPos!=null)
+						if(m.nextPos!=null && m.nextPos != Pos.OUTOFMAP)
 						{
 							m.nextPos = pb.AllPosMat[ m.nextPos.x ][ m.nextPos.y ][ m.nextPos.z ];
 					

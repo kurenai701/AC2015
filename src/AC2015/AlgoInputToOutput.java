@@ -28,11 +28,7 @@ public class AlgoInputToOutput {
 		
 		Solution sol = new Solution(pb);
 		Pos startPos = pb.AllPosMat[ pb.StartPos.x][pb.StartPos.y ][0];
-		for(int ii=0;ii<pb.B;ii++)
-		{
-			sol.ballons[ii].posList.add( startPos		);
-		}
-		
+
 		//////////////////////////////////
 		// TODO Write THE ALGORITHM :-) //
 		//////////////////////////////////
@@ -108,17 +104,8 @@ public class AlgoInputToOutput {
 			}
 		}
 		
-		
-		
-		
 		////
-		
-		
-		
-		
-		
-		
-		
+//Last move	
 		
 
 		
@@ -135,6 +122,10 @@ public class AlgoInputToOutput {
 	
 	public Solution AlgoComplicatedFromProblem(Problem pb, Random rand)
 	{
+//		pb.T = 100;//TODO : REMOEV
+//		Sys.pln("**********REMOVE PREVIOUS LINE*********");
+//		
+		
 		System.out.println("Starting complicatedalgo");
 		Solution sol = new Solution(pb);
 		
@@ -144,17 +135,18 @@ public class AlgoInputToOutput {
 					
 		OptimizeBallon OptB = new OptimizeBallon(pb);
 
-		for(int ii = 0;ii<pb.C;ii++)
+		for(int ii = 0;ii<pb.B;ii++)
 		{
-			OptB.optimize(pb, sol.ballons[ii]);
+			sol.ballons[ii] = OptB.optimize(pb, sol.ballons[ii]);
 		}
 		
 		
 		
 	
 		////////////////
-				
-		System.out.println("Finished complicatedalgo");
+		int score = sol.GetScore();
+
+		System.out.println("Finished complicatedalgo" + score);
 		return sol ;
 	}
 	

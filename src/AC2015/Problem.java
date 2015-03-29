@@ -41,8 +41,8 @@ public class Problem implements Serializable {
 	
 	public Mvt[][][] WorldWindMvt;
 	
-	public List<Pos> AllPos;
-	public Pos AllPosMat[][][];// To acces all pos as matrix
+	transient public List<Pos> AllPos;
+	transient public Pos AllPosMat[][][];// To acces all pos as matrix
 	
 	
 	
