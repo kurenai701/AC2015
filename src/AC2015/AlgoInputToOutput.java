@@ -48,7 +48,7 @@ public class AlgoInputToOutput {
 				
 				int mymove=0;
 				boolean closeToOther = false;
-				int RDIST = 8;
+				int RDIST = 7;
 				
 				
 				
@@ -65,11 +65,11 @@ public class AlgoInputToOutput {
 				}
 				Otherpos.add(curPos);
 				
-				int altCible = 100;
+				int altCible = 6;
 				
 				if(! closeToOther)
 				{
-					if(curPos.coverList.size()>6)// We are providing coverage
+					if(curPos.coverList.size()>10)// We are providing coverage
 					{
 						if( curPos.z>1)
 						{
@@ -131,7 +131,9 @@ public class AlgoInputToOutput {
 	}
 	
 	
-	public Solution AlgoComplicatedFromProblem(Problem pb)
+	
+	
+	public Solution AlgoComplicatedFromProblem(Problem pb, Random rand)
 	{
 		System.out.println("Starting complicatedalgo");
 		Solution sol = new Solution(pb);
@@ -139,7 +141,16 @@ public class AlgoInputToOutput {
 		//////////////////////////////////
 		// TODO Write THECOMPLICATED ALGORITHM :-) //
 		//////////////////////////////////
-				
+					
+		OptimizeBallon OptB = new OptimizeBallon(pb);
+
+		for(int ii = 0;ii<pb.C;ii++)
+		{
+			OptB.optimize(pb, sol.ballons[ii]);
+		}
+		
+		
+		
 	
 		////////////////
 				

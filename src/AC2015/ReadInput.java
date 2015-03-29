@@ -203,6 +203,35 @@ public class ReadInput {
 		pb.StartPos.moves.add(new Move(  pb.StartPos  , 1,0));
 		
 		
+		//Fix positions of start Pos and next moves to point to AllPosMat instances
+		pb.StartPos = pb.AllPosMat[ pb.StartPos.x][pb.StartPos.y ][0];
+		
+		
+		for(int r = 0;r<pb.R;r++)
+		{
+			for(int c=0;c<pb.C;c++)
+			{
+				for(int a=0;a<pb.A;a++)
+				{
+					Pos p = (pb.AllPosMat[r][c][a]);
+					if(p!=null)
+					{
+					for(Move m : p.moves)
+					{
+						if(m.nextPos!=null)
+						{
+							m.nextPos = pb.AllPosMat[ m.nextPos.x ][ m.nextPos.y ][ m.nextPos.z ];
+					
+						}
+					}
+					}
+				}
+			}
+		}
+				
+		
+		
+		
 		Sys.pln("Fin");
 		
 	}

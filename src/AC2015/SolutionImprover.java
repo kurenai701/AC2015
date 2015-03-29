@@ -4,10 +4,10 @@ import java.util.Random;
 
 public class SolutionImprover {
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		
-	}
+//	public static void main(String[] args) {
+//		// TODO Auto-generated method stub
+//		
+//	}
 
 	public SolutionImprover()
 	{
@@ -23,8 +23,16 @@ public class SolutionImprover {
 		//////////////////////////////////////
 		// TODO Code logic to improve solution
 		//////////////////////////////////////
+		double pchange = 0.01;
+		for(Ballon b : oldSol.ballons)
+		{
 		
-		
+			if(pchange > rand.nextDouble())
+			{
+				
+				
+			}
+		}
 		
 		
 		//////////////////////////////////////

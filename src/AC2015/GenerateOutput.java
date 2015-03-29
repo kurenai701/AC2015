@@ -24,9 +24,9 @@ public class GenerateOutput implements Serializable{
 		
 		// Solution outModTest = mock.getSolutionTest(pbMod);
 		//Solution outModTest = al.AlgoSimple(pbMod);
-		Solution outModTest = algoCl.ClemAlgo(pbMod);
+	//	Solution outModTest = algoCl.ClemAlgo(pbMod);
 		
-		go.GenerateOutputFileFromOutputModel(outModTest, Common.OutputTestFileFullPathUnitTest);
+	//	go.GenerateOutputFileFromOutputModel(outModTest, Common.OutputTestFileFullPathUnitTest);
 	}	
 
 	public void GenerateOutputFileFromOutputModel(Solution sol, String filePath)

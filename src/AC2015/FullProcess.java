@@ -11,8 +11,8 @@ public class FullProcess {
 	
 		
 		// PARAMETRES !!
-		int paramNbIterations = (50);
-		int paramAcceptIterationNoImprove = 10;
+		int paramNbIterations = (1000);
+		int paramAcceptIterationNoImprove = paramNbIterations;
 		// PARAMETRES !!
 		
 		
@@ -35,8 +35,11 @@ public class FullProcess {
 		
 		// ****** Process Algorithm to find Solution
 		Random rand = new Random(42);
-		Solution sol = algo.AlgoSimple(pbModSimplified,rand);			
+	//	Solution sol = algo.AlgoSimple(pbModSimplified,rand);			
 
+		Solution sol = algo.AlgoComplicatedFromProblem(pbModSimplified,rand);			
+
+		
 		//!!!!!*-+---*+-**+ ****** ou pour partir d'une autre initialisation	
 		// sol = si.DeserializeBestSol("BestSolutionInProcess.ser");
 		
