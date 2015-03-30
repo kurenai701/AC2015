@@ -1,5 +1,7 @@
 package AC2015;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class SolutionImprover {
@@ -29,15 +31,68 @@ public class SolutionImprover {
 //		{
 //		
 	
-//		if(pchange > rand.nextDouble())
-		int ii = rand.nextInt(pb.B);
-			{
-				oldSol.ballons[ii] = optB.optimize(pb,oldSol.ballons[ii]);
-			}
+//		
+		List<Ballon> ballonsRemoved = new ArrayList<Ballon>();
+		double pchange = 0.04;
 		
-				while(oldSol.ballons[ii].posList.size()<pb.T+1)
+//		ballonsRemoved.add(oldSol.ballons[ii]);
+//		for(int ii=0;ii<oldSol.ballons.length;ii++)
+//		{
+//			if(pchange > rand.nextDouble())
+//			{
+		int ii = rand.nextInt(pb.B);
+		int jj = rand.nextInt(pb.B);
+				ballonsRemoved.add(oldSol.ballons[ii]);
+				ballonsRemoved.add(oldSol.ballons[jj]);
+				
+			//	ballonsRemoved.add(oldSol.ballons[(ii+1)%pb.B]);// TODO : remove worst Ballon score
+//			}
+//		}
+		
+				int Nopt = 5;
+				
+				 List<Ballon> bOutList = optB.optimize(pb,ballonsRemoved);
+				
+				 for(Ballon b : bOutList)
+					{
+					while(b.posList.size()<pb.T+1)
+					{
+						b.addMove(0, pb);
+					}
+					}
+					
+					for(Ballon b : bOutList)
+					{
+						oldSol.ballons[b.Num] = b;
+					}
+				 
+				 
+				 int bestscore = oldSol.GetScore();
+				for(int copt = 0;copt<Nopt;copt++)
 				{
-					oldSol.ballons[ii].addMove(0, pb);
+					for( ii =0;ii<bOutList.size();ii++)
+					{
+						Ballon ans= optB.optimize(pb,bOutList.get(ii));
+						bOutList.remove(ii);
+						
+						
+						while(ans.posList.size()<pb.T+1)
+						{
+							ans.addMove(0, pb);
+						}
+						bOutList.add(ii, ans);
+						oldSol.ballons[ans.Num] = ans;
+							 
+					}
+					int curscore = oldSol.GetScore();
+					Sys.pln("CURS : " + curscore);
+					 if(curscore>bestscore)
+					 {
+						 bestscore = curscore;
+					 }else
+					 {
+						break; 
+					 }
 				}
 				
 			
@@ -72,10 +127,10 @@ public class SolutionImprover {
 		bestSolution.pb = pb;
 		int bestScore = bestSolution.GetScore();
 		// itérer
-		Random rand = new Random(57);
-		double PRESTORE = 0.2;
-		float  PARAMAVOIDCOEFF=-100;
-		float  PARAMHEAT = (float)0.0;
+		Random rand = new Random(42);
+		double PRESTORE = 0.4;
+		float  PARAMAVOIDCOEFF=100;//-1;
+		float  PARAMHEAT = (float)0;
 		for (int nIter = 0; nIter <= nbIterations; nIter++)
 		{
 			solCurrent.pb = pb;
@@ -83,15 +138,16 @@ public class SolutionImprover {
 			// Low probability to move back to best solution
 			if( rand.nextDouble() < PRESTORE )
 			{
+				Sys.pln("Restoring");
 				solCurrent = Common.DeepCopy(bestSolution);
 				solCurrent.pb = pb;
 			
 			}
 			// Change PARAMAVOID & HEAT to explore further solutions
-			OptB.PARAMAVOID= rand.nextFloat()*(PARAMAVOIDCOEFF-0.1);
+			OptB.PARAMAVOID= (rand.nextFloat()-(float)(0.4))*PARAMAVOIDCOEFF+50;
 			for(int Ncible = 0; Ncible < pb.L;Ncible++)
 			{
-				OptB.HEAT[Ncible] = 1+rand.nextFloat()*PARAMHEAT;
+				OptB.HEAT[Ncible] = 1+(rand.nextFloat()-(float)0.5)*PARAMHEAT;
 			}
 
 			
@@ -110,10 +166,14 @@ public class SolutionImprover {
 				// Serialize best solution in path = Common.ACFileFolderPath+fileName
 				bestSolution.SaveSolutionAsRaw("BestSolutionInProcess.ser");
 				FullProcess.ProcessAllBackupOfSolutionToFolder(bestSolution);
+				PARAMHEAT = Float.max( PARAMHEAT*(float)0.9,(float)0.1);
+				
 			}
 			else
 			{
 				countIterNoImprove++; // incrémentation nb itération sans amélioration
+				PARAMHEAT = Float.min( PARAMHEAT*(float)1.1,(float)1.01);
+				
 			}
 
 			// ALWAYS "shift".   TODO (add some random condition ?) TODO

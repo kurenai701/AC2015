@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 
 public class OptimizeBallon {
 	int coveredT[][];
@@ -106,6 +107,28 @@ public class OptimizeBallon {
 		updateEffect(pb,bOut,1);
 		return bOut;
 	}
+	
+	public List<Ballon> optimize(Problem pb,List<Ballon> bList)
+	{
+		// Remove b impact
+		for(Ballon b : bList)
+		{
+			updateEffect(pb,b,-1);
+		}
+		List<Ballon> bOutList = new ArrayList<Ballon>();
+		for(Ballon b : bList)
+		{
+			bOutList.add(findBestPath(pb,pb.StartPos,b));
+		}
+		//Add new b effect.
+		for(Ballon b : bOutList)
+		{
+			updateEffect(pb,b,1);
+		}
+		return bOutList;
+	}
+	
+	
 
 	
 	// Find the best path for Ballon b, starting at Start

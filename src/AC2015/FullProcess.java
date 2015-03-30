@@ -11,7 +11,7 @@ public class FullProcess {
 	
 		
 		// PARAMETRES !!
-		int paramNbIterations = (1000);
+		int paramNbIterations = (10000);
 		int paramAcceptIterationNoImprove = paramNbIterations;
 		// PARAMETRES !!
 		boolean RELOAD = true;
