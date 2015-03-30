@@ -34,8 +34,8 @@ public class FullProcess {
 		Problem pbModSimplified = simplifyer.SimplifyProblem(pbMod);
 		
 		
-	//	pbModSimplified.B=10;
-	//	Sys.pln("!!!!!!!!!!!! *******************   DANGER, changement du nommbre de ballon a 1 pour test");
+		pbModSimplified.B=20;
+		Sys.pln("!!!!!!!!!!!! *******************   DANGER, changement du nommbre de ballon a"+pbModSimplified.B+" pour test");
 		
 		
 		
@@ -43,7 +43,16 @@ public class FullProcess {
 		Random rand = new Random(42);
 	//	Solution sol = algo.AlgoSimple(pbModSimplified,rand);			
 
-		Solution sol = algo.AlgoComplicatedFromProblem(pbModSimplified,rand);			
+		Solution sol = algo.AlgoComplicatedFromProblem(pbModSimplified,rand);	
+		
+		for(Ballon b : sol.ballons)
+		{
+			while(b.posList.size()<pbModSimplified.T+1)
+			{
+				b.addMove(0, pbModSimplified);
+			}
+			
+		}
 
 		ProcessAllBackupOfSolutionToFolder(sol);
 			
