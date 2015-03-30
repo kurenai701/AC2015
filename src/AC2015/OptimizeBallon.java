@@ -7,12 +7,72 @@ import java.util.LinkedList;
 
 public class OptimizeBallon {
 	int coveredT[][];
-	int bestMoveT[][];
-
+	int bestMoveT[][];// [tt][jj] : best move to reached at tt pos Index jj
+	static final float SCORESHIFT = 60000;// Score shift, used to differentiate reached positions 
+	
+	
+	// Optimized mapping
+	int   successor[][];// [ii][jj] pos that can be reached from ii with move jj-1
+	Pos   mappedPos[];  // Pos associated to index ii	
+	// score at time T for index ii : 135k * 4 = 540 kB
+	float curScoreAtT[];
+	// [ii][jj]Score at time T+1 at pos index ii after move jj-1 : 3*135k*4 = 1620kB
+	float nextScoreAtTDependingAchange[][];// indices are optimized for Multithreading
+	
+	// [ii] Score at time T+1 at pos index ii :  135k*4 = 540kB
+	float nextScoreAtT[]; 
+	
+	//=> 3240 kB , should fit in L3 cache of core i7
+	
 	
 	public OptimizeBallon(Problem pb)
 	{
 		this.coveredT = new int[pb.L][pb.T+1];// init to 0
+
+		// The mapping to index has been optimized for performance (mostly processor cache L1 & L2)
+		int Nindex = 0;
+		for(int r = 0;r<pb.R;r++)
+		{
+			for(int c = 0;c<pb.C;c++)
+			{
+				for(int a = 0;a<=pb.A;a++)
+				{
+					if(pb.AllPosMat[r][c][a]!=null)
+					{
+						pb.AllPosMat[r][c][a].numOpt = Nindex; 
+						Nindex++;
+						
+					}
+				}
+			}
+		}
+		
+		
+		successor = new int[3][Nindex];// Initialized to 0, index of POSINVALID
+		mappedPos = new Pos[Nindex];  	
+// Only iterate to apply index, order irrelevant
+		for(int r = 0;r<pb.R;r++)
+		{
+			for(int c = 0;c<pb.C;c++)
+			{
+				for(int a = 0;a<=pb.A;a++)
+				{
+					Pos p = pb.AllPosMat[r][c][a];
+					if(p!=null)
+					{
+						mappedPos[p.numOpt] = pb.AllPosMat[r][c][a];
+						for(Move m : pb.AllPosMat[r][c][a].moves)
+						{
+							if(m.aChange<2)
+							{
+								successor[m.aChange+1][p.numOpt] = m.nextPos.numOpt;
+							}
+						}	
+					}
+				}
+			}
+		}		
+		
 	}
 
 	
@@ -33,86 +93,84 @@ public class OptimizeBallon {
 	// Find the best path for Ballon b, starting at Start
 	public Ballon findBestPath(Problem pb, Pos Start, Ballon b)
 	{
-		Pos fatherAtT[][][][] = new Pos[pb.T+1][pb.R][pb.C][pb.A+1];
+		long tstart = System.nanoTime();
+
+		int fatherAtT[][] = new int[pb.T+1][mappedPos.length];
 		
-		// Floyd MAsrshall algorithm. For all time, update all pos with score (ie onderated sum of customers served
-			HashSet<Pos> posAtT = new HashSet<Pos>();
-			double curbestPathScore[][][] = new double[pb.R][pb.C][pb.A+1];// Score to reach r,c,a
-			
-			posAtT.add(Start);
+		// Dijkstra algorithm with all distances of 1. For all time, update all pos with score (ie onderated sum of customers served
+			curScoreAtT = new float[mappedPos.length];
+	
+			//Add start position
+			curScoreAtT[pb.StartPos.numOpt] = SCORESHIFT;
 			
 			for(int tt=0;tt<pb.T;tt++)
 			{
-				HashSet<Pos> nextPosAtT = new HashSet<Pos>();
-				double nextBestPathScore[][][] = new double[pb.R][pb.C][pb.A+1];
+				int fatherAtTp1DependingAchange[][]    = new int[3][mappedPos.length];
+				nextScoreAtTDependingAchange = new float[3][mappedPos.length];// May need faster setting with multithread
+			
+				Sys.pln(" time : "+tt+" Npos accessed : ???" );
 				
-				Sys.pln(" time : "+tt+" Npos accessed : " + posAtT.size());
-				for(Pos curPos : posAtT)//TODO : replace by a matrix with all positions storing position Numbers+ a matrix of adjacency
+				for(int curIndex = 0;curIndex<mappedPos.length;curIndex++)
 				{
-					for(int kk = 0;kk < curPos.moves.size();kk++)//(Move m : curPos.moves)
+					// The following for loop can be parallelized!
+					for(int kk = 0;kk < 3;kk++)
 					{
-						
-						Move m = curPos.moves.get(kk);
-						Pos pp = m.nextPos;
-						double scoreMove = scoreAtT( pp,tt+1);
-						double candidateScore = scoreMove+curbestPathScore[curPos.x][curPos.y][curPos.z];
-						boolean update =false;
-						
-						if(pp != null)
-						{
-						
-							if(nextPosAtT.contains(pp))
-							{
-								 if( nextBestPathScore[ pp.x][ pp.y][pp.z]<	candidateScore)
-								 {
-									 update = true;
-								 }
-								
-							}else
-							{
-								nextPosAtT.add(pp);
-								 update = true;
-							}
-							if(update)
-							{
-								nextBestPathScore[ pp.x][ pp.y][ pp.z]= candidateScore;
-								fatherAtT[tt+1][pp.x][pp.y][pp.z] = curPos;
-							}
-						}
-					
+						int nextIndex = successor[kk][curIndex];
+						nextScoreAtTDependingAchange[kk][curIndex] = 
+								curScoreAtT[curIndex] + scoreAtT(mappedPos[nextIndex],tt+1);
+						fatherAtTp1DependingAchange[kk][nextIndex] = curIndex;
 					}
+					
 				}
 				
-				
-				//Swap cur & next
-				posAtT 				= nextPosAtT;
-				curbestPathScore    = nextBestPathScore;
+
+				////Swap cur & next + compute max values 
+				//Can be parallelize a lot
+				for(int curIndex = 0;curIndex<mappedPos.length;curIndex++)
+				{
+					int bestaChange = 0;
+					if(		nextScoreAtTDependingAchange[1][curIndex]>
+							nextScoreAtTDependingAchange[0][curIndex])
+					{
+						bestaChange = 1;
+						
+					}
+					if(	nextScoreAtTDependingAchange[2][curIndex] > 
+						nextScoreAtTDependingAchange[bestaChange][curIndex])
+					{
+						bestaChange = 2;
+					}
+					curScoreAtT[curIndex] = nextScoreAtTDependingAchange[bestaChange][curIndex];
+					fatherAtT[tt+1][curIndex] = fatherAtTp1DependingAchange[bestaChange][curIndex];
+					
+				}
 				
 			}
 			
 			
 			
 			// *********  Return best path to best final position
-			double bestScore = 0;
-			LinkedList<Integer> movListResult=null;
-			Pos bestPosEnd=null;
-			for(Pos curPos : posAtT)
+			float bestScore = 0;
+			int bestIndexEnd=-1;
+			for(int curIndex =0;curIndex <mappedPos.length;curIndex++)
 			{
-				if( curbestPathScore[curPos.x][curPos.y][curPos.z]  > bestScore)
+				
+				if( curScoreAtT[curIndex]  > bestScore)
 				{
-					bestScore = curbestPathScore[curPos.x][curPos.y][curPos.z];
-					bestPosEnd = curPos;
+					bestScore = curScoreAtT[curIndex];
+					bestIndexEnd = curIndex;
 				}
 			}
 
 			Ballon result = new Ballon(b.Num,pb.StartPos);
 			LinkedList<Integer> ResultPath= new LinkedList<Integer>();
-			Pos curPos = bestPosEnd;
+			int curIndex = bestIndexEnd;
 			int tt = pb.T;//To check
+			Pos curPos = mappedPos[curIndex];
 			while(tt>0)
 			{
-				Pos prevPos  = fatherAtT[tt][curPos.x][curPos.y][curPos.z];
-				
+				int prevIndex  = fatherAtT[tt][curIndex];
+				Pos prevPos = mappedPos[prevIndex];
 				for(Move m : prevPos.moves)
 				{
 					if(m.nextPos == curPos)
@@ -122,7 +180,7 @@ public class OptimizeBallon {
 				}
 				tt--;
 				curPos = prevPos;
-			
+				curIndex = prevIndex;
 			}
 			
 			for(int aChange : ResultPath)
@@ -133,17 +191,20 @@ public class OptimizeBallon {
 			// A last move was missing
 			result.addMove(0,pb);
 			
-			
+			long endTime = System.nanoTime();
+			Sys.pln("Ballon #"+b.Num+" took "+(endTime-tstart)/1e6+" ms");
+
+
 			return result;
 		
 	}
 	
 	
-	public double 	scoreAtT(Pos p,int tt)
+	public float 	scoreAtT(Pos p,int tt)
 	{
 		if(p==null)
 			return -1;
-		double score = 0;
+		float score = 0;
 		for(int Ncible : p.coverList)
 		{
 			// For all cible covered by pos

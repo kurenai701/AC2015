@@ -34,7 +34,7 @@ public class FullProcess {
 		Problem pbModSimplified = simplifyer.SimplifyProblem(pbMod);
 		
 		
-		pbModSimplified.B=20;
+		pbModSimplified.B=2;
 		Sys.pln("!!!!!!!!!!!! *******************   DANGER, changement du nommbre de ballon a"+pbModSimplified.B+" pour test");
 		
 		

@@ -11,7 +11,7 @@ public class Pos implements Serializable {
 	public int y; 
 	public int z;
 	public int num;
-	public int numInPosInterest;
+	public int numOpt;
 	
 	
 	
