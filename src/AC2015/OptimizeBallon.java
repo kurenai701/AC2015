@@ -12,6 +12,13 @@ public class OptimizeBallon {
 	
 	
 	// Optimized mapping
+	
+	
+	//int   coordinateMap[];// [ii] 
+	float ScorePosAtT[][];
+	
+	// [ii] Score at time T+1 at pos index ii :  135k*4 = 540kB
+	float nextScoreAtT[]; 
 	int   successor[][];// [ii][jj] pos that can be reached from ii with move jj-1
 	Pos   mappedPos[];  // Pos associated to index ii	
 	// score at time T for index ii : 135k * 4 = 540 kB
@@ -19,8 +26,7 @@ public class OptimizeBallon {
 	// [ii][jj]Score at time T+1 at pos index ii after move jj-1 : 3*135k*4 = 1620kB
 	float nextScoreAtTDependingAchange[][];// indices are optimized for Multithreading
 	
-	// [ii] Score at time T+1 at pos index ii :  135k*4 = 540kB
-	float nextScoreAtT[]; 
+	
 	
 	//=> 3240 kB , should fit in L3 cache of core i7
 	
@@ -31,6 +37,8 @@ public class OptimizeBallon {
 
 		// The mapping to index has been optimized for performance (mostly processor cache L1 & L2)
 		int Nindex = 0;
+		
+		
 		for(int r = 0;r<pb.R;r++)
 		{
 			for(int c = 0;c<pb.C;c++)
@@ -102,52 +110,66 @@ public class OptimizeBallon {
 	
 			//Add start position
 			curScoreAtT[pb.StartPos.numOpt] = SCORESHIFT;
+			ScorePosAtT = new float[pb.R][pb.C];
+			
 			
 			for(int tt=0;tt<pb.T;tt++)
 			{
-				int fatherAtTp1DependingAchange[][]    = new int[3][mappedPos.length];
-				nextScoreAtTDependingAchange = new float[3][mappedPos.length];// May need faster setting with multithread
-			
-				Sys.pln(" time : "+tt+" Npos accessed : ???" );
+//				long endTime = System.nanoTime();
+//				Sys.pln("Ballon #"+b.Num+" took up to start of precompute "+(endTime-tstart)/1e6+" ms");
 				
+				
+				// Precompute score of position  ~5ms
+				for(int r = 0;r< pb.R;r++)
+				{
+					for(int c=0;c<pb.C;c++)
+					{
+						Pos p = pb.AllPosMat[r][c][2];
+						ScorePosAtT[r][c] = scoreAtT(p,tt+1);
+					}
+				}
+				
+				
+//				endTime = System.nanoTime();
+//				Sys.pln("Ballon #"+b.Num+" took up to end of init "+(endTime-tstart)/1e6+" ms");
+
+				
+				nextScoreAtT= new float[mappedPos.length];// May need faster setting with multithread
+				if(tt%10==0)
+				{
+					Sys.pln("Start time : "+tt+" Npos accessed : ???" );
+				}
 				for(int curIndex = 0;curIndex<mappedPos.length;curIndex++)
 				{
-					// The following for loop can be parallelized!
+//					Sys.pln("index "+curIndex + " score : "+curScoreAtT[curIndex]);
+					
+					// The following for loop can be parallelized, but need to synchronize scurScoreAtT & fatherAtT
+					// Or to divide the index in non conflicting sets
 					for(int kk = 0;kk < 3;kk++)
 					{
 						int nextIndex = successor[kk][curIndex];
-						nextScoreAtTDependingAchange[kk][curIndex] = 
-								curScoreAtT[curIndex] + scoreAtT(mappedPos[nextIndex],tt+1);
-						fatherAtTp1DependingAchange[kk][nextIndex] = curIndex;
-					}
-					
-				}
-				
-
-				////Swap cur & next + compute max values 
-				//Can be parallelize a lot
-				for(int curIndex = 0;curIndex<mappedPos.length;curIndex++)
-				{
-					int bestaChange = 0;
-					if(		nextScoreAtTDependingAchange[1][curIndex]>
-							nextScoreAtTDependingAchange[0][curIndex])
-					{
-						bestaChange = 1;
+						Pos p = mappedPos[nextIndex];
+						float candidateScore = 	curScoreAtT[curIndex];
+						if(p.z>0)
+							candidateScore+= ScorePosAtT[ p.x  ][p.y];// Can be optimised scoreAtT(mappedPos[nextIndex],tt+1);
+						
+						if(candidateScore > nextScoreAtT[nextIndex])
+						{					
+							nextScoreAtT[nextIndex] = candidateScore;
+							fatherAtT[tt+1][nextIndex] = curIndex;				
+						}
 						
 					}
-					if(	nextScoreAtTDependingAchange[2][curIndex] > 
-						nextScoreAtTDependingAchange[bestaChange][curIndex])
-					{
-						bestaChange = 2;
-					}
-					curScoreAtT[curIndex] = nextScoreAtTDependingAchange[bestaChange][curIndex];
-					fatherAtT[tt+1][curIndex] = fatherAtTp1DependingAchange[bestaChange][curIndex];
 					
 				}
+				curScoreAtT = nextScoreAtT;
+
+				
 				
 			}
 			
-			
+			long endTime = System.nanoTime();
+			Sys.pln("Ballon #"+b.Num+" took up to end of path search "+(endTime-tstart)/1e6+" ms");
 			
 			// *********  Return best path to best final position
 			float bestScore = 0;
@@ -160,6 +182,8 @@ public class OptimizeBallon {
 					bestScore = curScoreAtT[curIndex];
 					bestIndexEnd = curIndex;
 				}
+//				Sys.pln("index "+curIndex + " score : "+curScoreAtT[curIndex]);
+				
 			}
 
 			Ballon result = new Ballon(b.Num,pb.StartPos);
@@ -191,7 +215,7 @@ public class OptimizeBallon {
 			// A last move was missing
 			result.addMove(0,pb);
 			
-			long endTime = System.nanoTime();
+			endTime = System.nanoTime();
 			Sys.pln("Ballon #"+b.Num+" took "+(endTime-tstart)/1e6+" ms");
 
 
@@ -202,8 +226,10 @@ public class OptimizeBallon {
 	
 	public float 	scoreAtT(Pos p,int tt)
 	{
-		if(p==null)
-			return -1;
+		if(p==null) //No score at altitude 0
+			return -1000000;
+		if(p.z==0)
+			return 0;
 		float score = 0;
 		for(int Ncible : p.coverList)
 		{

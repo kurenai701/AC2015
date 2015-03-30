@@ -205,6 +205,7 @@ public class ReadInput {
 		
 		//Fix positions of start Pos and next moves to point to AllPosMat instances
 		pb.StartPos = pb.AllPosMat[ pb.StartPos.x][pb.StartPos.y ][0];
+		pb.AllPosMat[0][0][0]=Pos.OUTOFMAP;//Add OUTOFMAP point
 		
 		
 		for(int r = 0;r<pb.R;r++)

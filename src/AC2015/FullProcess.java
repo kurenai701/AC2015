@@ -27,16 +27,16 @@ public class FullProcess {
 		// ****** Get Problem Model from file
 		
 		Problem pbMod = FromInputFileToProblem(Common.InputFilePath);
-	//	Problem pbMod = FromInputFileToProblem(Common.InputFilePathUnitTest);
+		//Problem pbMod = FromInputFileToProblem(Common.InputFilePathUnitTest);
 		
 		
 		// ****** Simplify
 		Problem pbModSimplified = simplifyer.SimplifyProblem(pbMod);
 		
 		
-		pbModSimplified.B=2;
-		Sys.pln("!!!!!!!!!!!! *******************   DANGER, changement du nommbre de ballon a"+pbModSimplified.B+" pour test");
-		
+//		pbModSimplified.B=1;
+//		Sys.pln("!!!!!!!!!!!! *******************   DANGER, changement du nommbre de ballon a"+pbModSimplified.B+" pour test");
+//		
 		
 		
 		// ****** Process Algorithm to find Solution
