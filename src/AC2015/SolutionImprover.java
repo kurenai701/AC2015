@@ -24,11 +24,13 @@ public class SolutionImprover {
 		
 		
 		
-		double pchange = 0.02;
-		for(int ii = 0;ii< oldSol.ballons.length;ii++)
-		{
-		
-			if(pchange > rand.nextDouble())
+//		double pchange = 0.02;
+//		for(int ii = 0;ii< oldSol.ballons.length;ii++)
+//		{
+//		
+	
+//		if(pchange > rand.nextDouble())
+		int ii = rand.nextInt(pb.B);
 			{
 				oldSol.ballons[ii] = optB.optimize(pb,oldSol.ballons[ii]);
 			}
@@ -39,7 +41,7 @@ public class SolutionImprover {
 				}
 				
 			
-		}
+//		}
 		
 		
 		//////////////////////////////////////
@@ -70,9 +72,29 @@ public class SolutionImprover {
 		bestSolution.pb = pb;
 		int bestScore = bestSolution.GetScore();
 		// itérer
+		Random rand = new Random(57);
+		double PRESTORE = 0.2;
+		float  PARAMAVOIDCOEFF=-100;
+		float  PARAMHEAT = (float)0.0;
 		for (int nIter = 0; nIter <= nbIterations; nIter++)
 		{
 			solCurrent.pb = pb;
+			
+			// Low probability to move back to best solution
+			if( rand.nextDouble() < PRESTORE )
+			{
+				solCurrent = Common.DeepCopy(bestSolution);
+				solCurrent.pb = pb;
+			
+			}
+			// Change PARAMAVOID & HEAT to explore further solutions
+			OptB.PARAMAVOID= rand.nextFloat()*(PARAMAVOIDCOEFF-0.1);
+			for(int Ncible = 0; Ncible < pb.L;Ncible++)
+			{
+				OptB.HEAT[Ncible] = 1+rand.nextFloat()*PARAMHEAT;
+			}
+
+			
 			solTry = TryImprove(solCurrent, new Random(nIter),pb, OptB);
 			solTry.pb = pb;
 			bestSolution.pb = pb;

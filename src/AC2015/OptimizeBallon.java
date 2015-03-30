@@ -1,5 +1,6 @@
 package AC2015;
 
+import java.sql.NClob;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -37,6 +38,12 @@ public class OptimizeBallon {
 	public OptimizeBallon(Problem pb)
 	{
 		this.coveredT = new int[pb.L][pb.T+1];// init to 0
+		HEAT = new float[pb.L];
+		this.PARAMAVOID = 10000;
+		for(int Ncible = 0; Ncible < pb.L;Ncible++)
+		{
+			HEAT[Ncible] = 1;
+		}
 
 		// The mapping to index has been optimized for performance (mostly processor cache L1 & L2)
 		int Nindex = 0;
@@ -237,7 +244,7 @@ public class OptimizeBallon {
 		for(int Ncible : p.coverList)
 		{
 			// For all cible covered by pos
-				score += 1/(1+10000*coveredT[Ncible][tt]);//NEw cible reached // Equation to tune
+				score += 1/(1+PARAMAVOID*coveredT[Ncible][tt])*HEAT[Ncible];//NEw cible reached // Equation to tune
 		}
 		return score;
 		
