@@ -10,6 +10,9 @@ public class OptimizeBallon {
 	int bestMoveT[][];// [tt][jj] : best move to reached at tt pos Index jj
 	static final float SCORESHIFT = 60000;// Score shift, used to differentiate reached positions 
 	
+	public float PARAMAVOID;// USed to modify Cible cost computation
+	public float HEAT[];// used to modify score provided by cibles (close to TABU Search)
+	
 	
 	// Optimized mapping
 	

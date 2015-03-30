@@ -11,9 +11,10 @@ public class FullProcess {
 	
 		
 		// PARAMETRES !!
-		int paramNbIterations = (10);
+		int paramNbIterations = (1000);
 		int paramAcceptIterationNoImprove = paramNbIterations;
 		// PARAMETRES !!
+		boolean RELOAD = true;
 		
 		
 		
@@ -42,8 +43,10 @@ public class FullProcess {
 		// ****** Process Algorithm to find Solution
 		Random rand = new Random(42);
 	//	Solution sol = algo.AlgoSimple(pbModSimplified,rand);			
-
-		Solution sol = algo.AlgoComplicatedFromProblem(pbModSimplified,rand);	
+		Solution sol;
+		if(!RELOAD)
+		{
+		sol = algo.AlgoComplicatedFromProblem(pbModSimplified,rand);	
 		
 		for(Ballon b : sol.ballons)
 		{
@@ -55,13 +58,17 @@ public class FullProcess {
 		}
 
 		ProcessAllBackupOfSolutionToFolder(sol);
-			
+		}else
+		{
+			sol = (Solution)(Common.FU.DeserializeFileToObject(Common.ACFileFolderPath +"BestSolutionInProcess.ser"));//0000671212_0330-2224\\SolutionSerialized.ser" ));			
+			sol.pb = pbModSimplified;
+		}
 		
 		//!!!!!*-+---*+-**+ ****** ou pour partir d'une autre initialisation	
 		// sol = si.DeserializeBestSol("BestSolutionInProcess.ser");
 		
 		// ****** Solution Improver ATTENTION AUX PARAMETRES;
-	//	sol = si.IterateImprover(sol, paramNbIterations, paramAcceptIterationNoImprove,pbModSimplified);
+		sol = si.IterateImprover(sol, paramNbIterations, paramAcceptIterationNoImprove,pbModSimplified);
 		
 		
 		

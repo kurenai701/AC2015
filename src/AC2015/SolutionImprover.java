@@ -14,29 +14,36 @@ public class SolutionImprover {
 
 	}
 
-	public Solution TryImprove(Solution oldSol, Random rand, Problem pb)
+	public Solution TryImprove(Solution oldSol, Random rand, Problem pb, OptimizeBallon optB)
 	{
 		// Deep copy is necessary so as not to mess up "old sol"
-		AlgoInputToOutput algo = new AlgoInputToOutput();
-		
-		Solution newSol  = algo.AlgoSimple(pb,rand);			
-		//////////////////////////////////////
+			//////////////////////////////////////
 		// TODO Code logic to improve solution
 		//////////////////////////////////////
-		double pchange = 0.01;
-		for(Ballon b : oldSol.ballons)
+
+		
+		
+		
+		double pchange = 0.02;
+		for(int ii = 0;ii< oldSol.ballons.length;ii++)
 		{
 		
 			if(pchange > rand.nextDouble())
 			{
-				
-				
+				oldSol.ballons[ii] = optB.optimize(pb,oldSol.ballons[ii]);
 			}
+		
+				while(oldSol.ballons[ii].posList.size()<pb.T+1)
+				{
+					oldSol.ballons[ii].addMove(0, pb);
+				}
+				
+			
 		}
 		
 		
 		//////////////////////////////////////
-		return newSol;
+		return oldSol;
 
 
 	}
@@ -53,20 +60,34 @@ public class SolutionImprover {
 		bestSolution.pb = pb;
 		int countIterNoImprove = 0;
 
+		OptimizeBallon OptB = new OptimizeBallon(pb);
+		for(Ballon b : initSol.ballons)
+		{
+			OptB.updateEffect(pb, b, 1);
+		}
+		
+
+		bestSolution.pb = pb;
+		int bestScore = bestSolution.GetScore();
 		// itérer
 		for (int nIter = 0; nIter <= nbIterations; nIter++)
 		{
 			solCurrent.pb = pb;
-			solTry = TryImprove(solCurrent, new Random(nIter),pb);
+			solTry = TryImprove(solCurrent, new Random(nIter),pb, OptB);
 			solTry.pb = pb;
 			bestSolution.pb = pb;
 			// Si on dépasse notre "meilleur score", procéder à sauvegarde de cette best sol.
-			if (solTry.GetScore() > bestSolution.GetScore())
+			int curScore = solTry.GetScore();
+			Sys.pln("Score : " + curScore);
+			if (curScore > bestScore)
 			{				
+				
 				bestSolution = Common.DeepCopy(solTry);
 				bestSolution.pb = pb;
+				bestScore = bestSolution.GetScore();
 				// Serialize best solution in path = Common.ACFileFolderPath+fileName
 				bestSolution.SaveSolutionAsRaw("BestSolutionInProcess.ser");
+				FullProcess.ProcessAllBackupOfSolutionToFolder(bestSolution);
 			}
 			else
 			{
