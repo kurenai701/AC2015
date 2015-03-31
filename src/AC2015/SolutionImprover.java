@@ -40,6 +40,8 @@ public class SolutionImprover {
 //		{
 //			if(pchange > rand.nextDouble())
 //			{
+		 int bestscore = oldSol.GetScore();
+			
 		int ii = rand.nextInt(pb.B);
 		int jj = rand.nextInt(pb.B);
 				ballonsRemoved.add(oldSol.ballons[ii]);
@@ -49,7 +51,7 @@ public class SolutionImprover {
 //			}
 //		}
 		
-				int Nopt = 5;
+				int Nopt = rand.nextInt(7);
 				
 				 List<Ballon> bOutList = optB.optimize(pb,ballonsRemoved);
 				
@@ -67,7 +69,6 @@ public class SolutionImprover {
 					}
 				 
 				 
-				 int bestscore = oldSol.GetScore();
 				for(int copt = 0;copt<Nopt;copt++)
 				{
 					for( ii =0;ii<bOutList.size();ii++)
@@ -88,11 +89,12 @@ public class SolutionImprover {
 					Sys.pln("CURS : " + curscore);
 					 if(curscore>bestscore)
 					 {
-						 bestscore = curscore;
-					 }else
-					 {
-						break; 
+						break;
 					 }
+					 //else
+//					 {
+//						break; 
+//					 }
 				}
 				
 			
@@ -128,8 +130,8 @@ public class SolutionImprover {
 		int bestScore = bestSolution.GetScore();
 		// itérer
 		Random rand = new Random(42);
-		double PRESTORE = 0.4;
-		float  PARAMAVOIDCOEFF=100;//-1;
+		double PRESTORE = 0.2;
+		float  PARAMAVOIDCOEFF=0;//-1;
 		float  PARAMHEAT = (float)0;
 		for (int nIter = 0; nIter <= nbIterations; nIter++)
 		{
@@ -144,7 +146,7 @@ public class SolutionImprover {
 			
 			}
 			// Change PARAMAVOID & HEAT to explore further solutions
-			OptB.PARAMAVOID= (rand.nextFloat()-(float)(0.4))*PARAMAVOIDCOEFF+50;
+			OptB.PARAMAVOID= (rand.nextFloat()-(float)(0.4))*PARAMAVOIDCOEFF+1000;
 			for(int Ncible = 0; Ncible < pb.L;Ncible++)
 			{
 				OptB.HEAT[Ncible] = 1+(rand.nextFloat()-(float)0.5)*PARAMHEAT;
