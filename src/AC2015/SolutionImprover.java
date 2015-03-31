@@ -46,10 +46,6 @@ public class SolutionImprover {
 		int jj = rand.nextInt(pb.B);
 				ballonsRemoved.add(oldSol.ballons[ii]);
 				ballonsRemoved.add(oldSol.ballons[jj]);
-				
-			//	ballonsRemoved.add(oldSol.ballons[(ii+1)%pb.B]);// TODO : remove worst Ballon score
-//			}
-//		}
 		
 				int Nopt = rand.nextInt(7);
 				

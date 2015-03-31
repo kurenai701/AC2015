@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 public class OptimizeBallon {
 	int coveredT[][];
@@ -30,6 +31,7 @@ public class OptimizeBallon {
 	float curScoreAtT[];
 	// [ii][jj]Score at time T+1 at pos index ii after move jj-1 : 3*135k*4 = 1620kB
 	float nextScoreAtTDependingAchange[][];// indices are optimized for Multithreading
+	Random rand;
 	
 	
 	
@@ -45,6 +47,7 @@ public class OptimizeBallon {
 		{
 			HEAT[Ncible] = 1;
 		}
+		this.rand = new Random(99);
 
 		// The mapping to index has been optimized for performance (mostly processor cache L1 & L2)
 		int Nindex = 0;
@@ -94,7 +97,6 @@ public class OptimizeBallon {
 		
 	}
 
-	
 	
 	public Ballon optimize(Problem pb,Ballon b)
 	{
@@ -207,10 +209,12 @@ public class OptimizeBallon {
 			// *********  Return best path to best final position
 			float bestScore = 0;
 			int bestIndexEnd=-1;
+			float pBestKeep = (float)0.5;
+			
 			for(int curIndex =0;curIndex <mappedPos.length;curIndex++)
 			{
 				
-				if( curScoreAtT[curIndex]  > bestScore)
+				if( curScoreAtT[curIndex]  > bestScore && rand.nextFloat()<pBestKeep)
 				{
 					bestScore = curScoreAtT[curIndex];
 					bestIndexEnd = curIndex;
