@@ -23,51 +23,51 @@ public class SolutionImprover {
 		// TODO Code logic to improve solution
 		//////////////////////////////////////
 
-		
-		
-		
-//		double pchange = 0.02;
-//		for(int ii = 0;ii< oldSol.ballons.length;ii++)
-//		{
-//		
-	
-//		
 		List<Ballon> ballonsRemoved = new ArrayList<Ballon>();
-		double pchange = 0.04;
-		
-//		ballonsRemoved.add(oldSol.ballons[ii]);
-//		for(int ii=0;ii<oldSol.ballons.length;ii++)
+    	 int bestscore = oldSol.GetScore();
+		int Nopt = 0;
+		int NBUPDATE = 1;
+//		
+//		double PremoveCible = 0.00;
+//		
+//		for(int Ncible = 0; Ncible < pb.L;Ncible++)
 //		{
-//			if(pchange > rand.nextDouble())
+//			if(rand.nextDouble()<PremoveCible)
 //			{
-		 int bestscore = oldSol.GetScore();
+//				optB.HEAT[Ncible] = (float)0;
+//			}else{
+//				optB.HEAT[Ncible] = (float)1;
+//			}
+//		}
 			
-		int ii = rand.nextInt(pb.B);
-		int jj = rand.nextInt(pb.B);
-				ballonsRemoved.add(oldSol.ballons[ii]);
-				ballonsRemoved.add(oldSol.ballons[jj]);
-		
-				int Nopt = rand.nextInt(7);
+		for(int Nb = 0;Nb<NBUPDATE;Nb++)
+		{
+			int ii = rand.nextInt(pb.B);
+			ballonsRemoved.add(oldSol.ballons[ii]);
+		}
+			 List<Ballon> bOutList = optB.optimize(pb,ballonsRemoved);
+			 
+			 for(Ballon b : bOutList)
+				{
+				while(b.posList.size()<pb.T+1)
+				{
+					b.addMove(0, pb);
+				}
+				}
 				
-				 List<Ballon> bOutList = optB.optimize(pb,ballonsRemoved);
+				for(Ballon b : bOutList)
+				{
+					oldSol.ballons[b.Num] = b;
+				}		
 				
-				 for(Ballon b : bOutList)
-					{
-					while(b.posList.size()<pb.T+1)
-					{
-						b.addMove(0, pb);
-					}
-					}
-					
-					for(Ballon b : bOutList)
-					{
-						oldSol.ballons[b.Num] = b;
-					}
-				 
+				for(int Ncible = 0; Ncible < pb.L;Ncible++)
+				{
+						optB.HEAT[Ncible] = (float)1;
+				} 
 				 
 				for(int copt = 0;copt<Nopt;copt++)
 				{
-					for( ii =0;ii<bOutList.size();ii++)
+					for(int ii =0;ii<bOutList.size();ii++)
 					{
 						Ballon ans= optB.optimize(pb,bOutList.get(ii));
 						bOutList.remove(ii);
@@ -126,7 +126,7 @@ public class SolutionImprover {
 		int bestScore = bestSolution.GetScore();
 		// itérer
 		Random rand = new Random(42);
-		double PRESTORE = 0.2;
+		double PRESTORE = 1;
 		float  PARAMAVOIDCOEFF=0;//-1;
 		float  PARAMHEAT = (float)0;
 		for (int nIter = 0; nIter <= nbIterations; nIter++)
@@ -143,10 +143,7 @@ public class SolutionImprover {
 			}
 			// Change PARAMAVOID & HEAT to explore further solutions
 			OptB.PARAMAVOID= (rand.nextFloat()-(float)(0.4))*PARAMAVOIDCOEFF+1000;
-			for(int Ncible = 0; Ncible < pb.L;Ncible++)
-			{
-				OptB.HEAT[Ncible] = 1+(rand.nextFloat()-(float)0.5)*PARAMHEAT;
-			}
+		
 
 			
 			solTry = TryImprove(solCurrent, new Random(nIter),pb, OptB);

@@ -40,7 +40,7 @@ public class OptimizeBallon {
 	
 	public OptimizeBallon(Problem pb)
 	{
-		this.coveredT = new int[pb.L][pb.T+1];// init to 0
+		this.coveredT = new int[pb.L][pb.T+2];// init to 0
 		HEAT = new float[pb.L];
 		this.PARAMAVOID = 10000;
 		for(int Ncible = 0; Ncible < pb.L;Ncible++)
@@ -138,7 +138,7 @@ public class OptimizeBallon {
 	{
 		long tstart = System.nanoTime();
 
-		int fatherAtT[][] = new int[pb.T+1][mappedPos.length];
+		int fatherAtT[][] = new int[pb.T+2][mappedPos.length];
 		
 		// Dijkstra algorithm with all distances of 1. For all time, update all pos with score (ie onderated sum of customers served
 			curScoreAtT = new float[mappedPos.length];
@@ -148,7 +148,7 @@ public class OptimizeBallon {
 			ScorePosAtT = new float[pb.R][pb.C];
 			
 			
-			for(int tt=0;tt<pb.T;tt++)
+			for(int tt=0;tt<pb.T+1;tt++)
 			{
 //				long endTime = System.nanoTime();
 //				Sys.pln("Ballon #"+b.Num+" took up to start of precompute "+(endTime-tstart)/1e6+" ms");
@@ -209,7 +209,7 @@ public class OptimizeBallon {
 			// *********  Return best path to best final position
 			float bestScore = 0;
 			int bestIndexEnd=-1;
-			float pBestKeep = (float)0.5;
+			float pBestKeep = (float)1;
 			
 			for(int curIndex =0;curIndex <mappedPos.length;curIndex++)
 			{
@@ -226,7 +226,7 @@ public class OptimizeBallon {
 			Ballon result = new Ballon(b.Num,pb.StartPos);
 			LinkedList<Integer> ResultPath= new LinkedList<Integer>();
 			int curIndex = bestIndexEnd;
-			int tt = pb.T;//To check
+			int tt = pb.T+1;//To check
 			Pos curPos = mappedPos[curIndex];
 			while(tt>0)
 			{
@@ -250,7 +250,7 @@ public class OptimizeBallon {
 			}
 			
 			// A last move was missing
-			result.addMove(0,pb);
+			//result.addMove(0,pb);
 			
 			endTime = System.nanoTime();
 			Sys.pln("Ballon #"+b.Num+" took "+(endTime-tstart)/1e6+" ms");
