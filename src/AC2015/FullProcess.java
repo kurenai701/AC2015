@@ -49,7 +49,7 @@ public class FullProcess {
 		if(!RELOAD)
 		{
 			// first optimize with 50
-			pbModSimplified.B=Integer.min(50,realB);
+			pbModSimplified.B=Integer.min(46,realB);
 			int paramNbIterationsLoc = 500;
 			sol = algo.AlgoComplicatedFromProblem(pbModSimplified,rand);	
 			sol = si.IterateImprover(sol, paramNbIterationsLoc, paramAcceptIterationNoImprove,pbModSimplified);
@@ -64,7 +64,7 @@ public class FullProcess {
 			{
 				bRestored[jj] = new Ballon(jj,pbModSimplified.StartPos);
 			}
-			
+			sol.ballons = bRestored;
 		
 		for(Ballon b : sol.ballons)
 		{
