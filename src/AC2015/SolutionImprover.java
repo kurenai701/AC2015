@@ -1,8 +1,11 @@
 package AC2015;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+import java.util.TreeSet;
 
 public class SolutionImprover {
 
@@ -15,7 +18,10 @@ public class SolutionImprover {
 	{
 
 	}
-
+	
+	LinkedList<Integer> tabuList = new LinkedList<Integer>();
+	int TABULENGTH = 50;
+	
 	public Solution TryImprove(Solution oldSol, Random rand, Problem pb, OptimizeBallon optB)
 	{
 		// Deep copy is necessary so as not to mess up "old sol"
@@ -27,23 +33,23 @@ public class SolutionImprover {
     	 int bestscore = oldSol.GetScore();
 		int Nopt = 0;
 		int NBUPDATE = 1;
-//		
-//		double PremoveCible = 0.00;
-//		
-//		for(int Ncible = 0; Ncible < pb.L;Ncible++)
-//		{
-//			if(rand.nextDouble()<PremoveCible)
-//			{
-//				optB.HEAT[Ncible] = (float)0;
-//			}else{
-//				optB.HEAT[Ncible] = (float)1;
-//			}
-//		}
-			
+		int MAXTEST = 30;
+		int cnt = MAXTEST;;
 		for(int Nb = 0;Nb<NBUPDATE;Nb++)
 		{
-			int ii = rand.nextInt(pb.B);
-			ballonsRemoved.add(oldSol.ballons[ii]);
+			while(cnt>0)
+			{
+				int ii = rand.nextInt(pb.B);
+				if( !tabuList.contains(ii))
+				{
+					ballonsRemoved.add(oldSol.ballons[ii]);
+					tabuList.add(ii);
+					while(tabuList.size()>TABULENGTH)
+						tabuList.pop();
+					break;
+				}
+				cnt--;
+			}
 		}
 			 List<Ballon> bOutList = optB.optimize(pb,ballonsRemoved);
 			 
@@ -59,42 +65,6 @@ public class SolutionImprover {
 				{
 					oldSol.ballons[b.Num] = b;
 				}		
-				
-//				for(int Ncible = 0; Ncible < pb.L;Ncible++)
-//				{
-//						optB.HEAT[Ncible] = (float)1;
-//				} 
-//				 
-//				for(int copt = 0;copt<Nopt;copt++)
-//				{
-//					for(int ii =0;ii<bOutList.size();ii++)
-//					{
-//						Ballon ans= optB.optimize(pb,bOutList.get(ii));
-//						bOutList.remove(ii);
-//						
-//						
-//						while(ans.posList.size()<pb.T+1)
-//						{
-//							ans.addMove(0, pb);
-//						}
-//						bOutList.add(ii, ans);
-//						oldSol.ballons[ans.Num] = ans;
-//							 
-//					}
-//					int curscore = oldSol.GetScore();
-//					Sys.pln("CURS : " + curscore);
-//					 if(curscore>bestscore)
-//					 {
-//						break;
-//					 }
-//					 //else
-////					 {
-////						break; 
-////					 }
-//				}
-				
-			
-//		}
 		
 		
 		//////////////////////////////////////
@@ -124,17 +94,23 @@ public class SolutionImprover {
 
 		bestSolution.pb = pb;
 		int bestScore = bestSolution.GetScore();
+		int globalBestScore = bestScore;
 		// itérer
 		Random rand = new Random(42);
 		double PRESTORE = 0.1;
-		float  PARAMAVOIDCOEFF=(float)1000;//-1;
-		float  PARAMHEAT = (float)0;
+		int  PARAMAVOIDCOEFF=50000;//-1;
+		float  PARAMHEAT =  (float)0;
 		for (int nIter = 0; nIter <= nbIterations; nIter++)
 		{
-			if(countIterNoImprove%100==0)  
-				PARAMAVOIDCOEFF=(float)2;//-1;
-			if(rand.nextDouble()<0.2) 
-				PARAMAVOIDCOEFF=(float)50000;//-1;
+			if(countIterNoImprove%80==79)
+			{
+				//Restart optimisation from another start point
+				PARAMAVOIDCOEFF=400;//-1;
+				countIterNoImprove = 0;
+				bestScore = 0;
+			}
+			if(rand.nextDouble()<0.4) 
+				PARAMAVOIDCOEFF=50000;//-1;
 				
 			  PRESTORE = 0.0;
 			  
@@ -166,8 +142,13 @@ public class SolutionImprover {
 				bestSolution.pb = pb;
 				bestScore = bestSolution.GetScore();
 				// Serialize best solution in path = Common.ACFileFolderPath+fileName
-				bestSolution.SaveSolutionAsRaw("BestSolutionInProcess.ser");
-				FullProcess.ProcessAllBackupOfSolutionToFolder(bestSolution);
+				if(curScore > globalBestScore )
+				{
+					globalBestScore = curScore;
+					bestSolution.SaveSolutionAsRaw("BestSolutionInProcess.ser");
+					FullProcess.ProcessAllBackupOfSolutionToFolder(bestSolution);
+				}
+				
 				PARAMHEAT = Float.max( PARAMHEAT*(float)0.9,(float)0.1);
 			//	PARAMAVOIDCOEFF = (float)1000;
 				countIterNoImprove = 0;

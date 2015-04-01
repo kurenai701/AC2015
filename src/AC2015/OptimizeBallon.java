@@ -7,14 +7,17 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicIntegerArray;
+import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 
 public class OptimizeBallon {
 	int coveredT[][];
 	int bestMoveT[][];// [tt][jj] : best move to reached at tt pos Index jj
-	static final float SCORESHIFT = 60000;// Score shift, used to differentiate reached positions 
+	static final int SCORESHIFT = 100000000;// Score shift, used to differentiate reached positions 
 	
-	public float PARAMAVOID;// USed to modify Cible cost computation
-	public float HEAT[];// used to modify score provided by cibles (close to TABU Search)
+	public int PARAMAVOID;// USed to modify Cible cost computation
+	public int HEAT[];// used to modify score provided by cibles (close to TABU Search)
 	
 	
 	
@@ -24,10 +27,10 @@ public class OptimizeBallon {
 	
 	
 	//int   coordinateMap[];// [ii] 
-	float ScorePosAtT[];
+	int ScorePosAtT[];
 	
 	// [ii] Score at time T+1 at pos index ii :  135k*4 = 540kB
-	float nextScoreAtT[]; 
+	AtomicIntegerArray nextScoreAtT; 
 	int   successor[][];// [ii][jj] pos that can be reached from ii with move jj-1
 	Pos   mappedPos[];  // Pos associated to index ii	
 	int mappedXY[];
@@ -36,9 +39,7 @@ public class OptimizeBallon {
 	
 	
 	// score at time T for index ii : 135k * 4 = 540 kB
-	float curScoreAtT[];
-	// [ii][jj]Score at time T+1 at pos index ii after move jj-1 : 3*135k*4 = 1620kB
-	float nextScoreAtTDependingAchange[][];// indices are optimized for Multithreading
+	AtomicIntegerArray curScoreAtT;
 	Random rand;
 	
 	
@@ -50,8 +51,8 @@ public class OptimizeBallon {
 	{
 		this.coveredT = new int[pb.L][pb.T+2];// init to 0
 	
-		HEAT = new float[pb.L];
-		this.PARAMAVOID = (float)2;
+		HEAT = new int[pb.L];
+		this.PARAMAVOID = 400;
 		for(int Ncible = 0; Ncible < pb.L;Ncible++)
 		{
 			HEAT[Ncible] = 1;
@@ -159,7 +160,7 @@ public class OptimizeBallon {
 	}
 	
 	
-
+	private int tt;
 	
 	// Find the best path for Ballon b, starting at Start
 	public Ballon findBestPath(Problem pb, Pos Start, Ballon b)
@@ -169,39 +170,57 @@ public class OptimizeBallon {
 		int fatherAtT[][] = new int[pb.T+2][mappedPos.length];
 		
 		// Dijkstra algorithm with all distances of 1. For all time, update all pos with score (ie onderated sum of customers served
-			curScoreAtT = new float[mappedPos.length];
+			curScoreAtT = new AtomicIntegerArray(mappedPos.length);
 	
 			//Add start position
-			curScoreAtT[pb.StartPos.numOpt] = SCORESHIFT;
-			ScorePosAtT = new float[pb.R*pb.C];
+			curScoreAtT.set(pb.StartPos.numOpt, SCORESHIFT);
+			ScorePosAtT = new int[pb.R*pb.C];
 			
-			for(int tt=0;tt<pb.T+1;tt++)
+			for(this.tt=0;this.tt<pb.T+1;this.tt++)
 			{
 //				long endTime = System.nanoTime();
 //				Sys.pln("Ballon #"+b.Num+" took up to start of precompute "+(endTime-tstart)/1e6+" ms");
 				
 				
 				// Precompute score of position  ~5ms
-				for(int r = 0;r< pb.R;r++)
+				//for(int r = 0;r< pb.R;r++)
+				//{
+				
+				IntStream.range(0, pb.R).parallel().forEach(
+							r -> {
+					      
+				for(int c=0;c<pb.C;c++)
 				{
-					for(int c=0;c<pb.C;c++)
-					{
-						ScorePosAtT[r+pb.R*c] = scoreAtT(posXY[r+pb.R*c].coverList,tt+1);
-					}
+					ScorePosAtT[r+pb.R*c] = scoreAtT(posXY[r+pb.R*c].coverList,this.tt+1);
 				}
+		//		Sys.pln("c: " +r);
+				//return r;
+							}
+					);
+							
+					
+				
 				
 				
 //				endTime = System.nanoTime();
 //				Sys.pln("Ballon #"+b.Num+" took up to end of init "+(endTime-tstart)/1e6+" ms");
 
 				
-				nextScoreAtT= new float[mappedPos.length];// May need faster setting with multithread
-				if(tt%20==0)
+				nextScoreAtT=  new AtomicIntegerArray(mappedPos.length);// May need faster setting with multithread
+				if(tt%100==0)
 				{
 					Sys.pln("Start time : "+tt+" Npos accessed : ???" );
 				}
-				for(int curIndex = 0;curIndex<mappedPos.length;curIndex++)
-				{
+				
+				
+				
+//				for(int curIndex = 0;curIndex<mappedPos.length;curIndex++)
+//				{
+			IntStream.range(0, mappedPos.length).parallel().forEach(
+							curIndex -> {
+					
+					
+					
 //					Sys.pln("index "+curIndex + " score : "+curScoreAtT[curIndex]);
 					
 					
@@ -211,20 +230,38 @@ public class OptimizeBallon {
 					for(int kk = 0;kk < 3;kk++)
 					{
 						int nextIndex = successor[kk][curIndex];
-						float candidateScore = 	curScoreAtT[curIndex];
+						int candidateScore = 	curScoreAtT.get(curIndex);
 						if(isNotMinAltitude[nextIndex])
 						{
-							candidateScore+= ScorePosAtT[ mappedXY[nextIndex] ];// Can be optimised scoreAtT(mappedPos[nextIndex],tt+1);
-						}
-						if(candidateScore > nextScoreAtT[nextIndex])
-						{					
-							nextScoreAtT[nextIndex] = candidateScore;
-							fatherAtT[tt+1][nextIndex] = curIndex;				
+							candidateScore+= ScorePosAtT[ mappedXY[nextIndex] ];
 						}
 						
+						
+						// Critical section
+						while(true)
+						{
+							int prevVal = nextScoreAtT.get(nextIndex);
+							boolean needUpdate = candidateScore > prevVal;
+							
+							if(needUpdate )
+							{				
+	
+								if(nextScoreAtT.compareAndSet(nextIndex, prevVal, candidateScore))
+								{
+									fatherAtT[tt+1][nextIndex] = curIndex;
+									break;
+								}
+							}else
+							{
+								break;
+							}
+						}
+						
+						
+						
 					}
-					
-				}
+			
+				});
 				curScoreAtT = nextScoreAtT;
 
 				
@@ -242,9 +279,9 @@ public class OptimizeBallon {
 			for(int curIndex =0;curIndex <mappedPos.length;curIndex++)
 			{
 				
-				if( curScoreAtT[curIndex]  > bestScore && rand.nextFloat()<pBestKeep)
+				if( curScoreAtT.get(curIndex)  > bestScore && rand.nextFloat()<pBestKeep)
 				{
-					bestScore = curScoreAtT[curIndex];
+					bestScore = curScoreAtT.get(curIndex);
 					bestIndexEnd = curIndex;
 				}
 //				Sys.pln("index "+curIndex + " score : "+curScoreAtT[curIndex]);
@@ -289,31 +326,17 @@ public class OptimizeBallon {
 	}
 	
 	
-	public float 	scoreAtT(Pos p,int tt)
-	{
-		if(p==null) //No score at altitude 0
-			return -1000000;
-		if(p.z==0)
-			return 0;
-		float score = 0;
-		for(int Ncible : p.coverList)
-		{
-			// For all cible covered by pos
-				score += 1/(1+PARAMAVOID*coveredT[Ncible][tt])*HEAT[Ncible];//NEw cible reached // Equation to tune
-		}
-		return score;
-		
-	}
+
 	
-	public float 	scoreAtT(List<Integer> coverList,int tt)
+	public int 	scoreAtT(List<Integer> coverList,int tt)
 	{
 		if(coverList==null) //No score at altitude 0
 			return -1000000;
-		float score = 0;
+		int score = 0;
 		for(int Ncible : coverList)
 		{
 			// For all cible covered by pos
-				score += 1/(1+PARAMAVOID*coveredT[Ncible][tt])*HEAT[Ncible];//NEw cible reached // Equation to tune
+				score +=Integer.max(0, 1000 - PARAMAVOID*coveredT[Ncible][tt]);//NEw cible reached // Equation to tune
 		}
 		return score;
 		
