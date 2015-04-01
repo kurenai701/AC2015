@@ -60,38 +60,38 @@ public class SolutionImprover {
 					oldSol.ballons[b.Num] = b;
 				}		
 				
-				for(int Ncible = 0; Ncible < pb.L;Ncible++)
-				{
-						optB.HEAT[Ncible] = (float)1;
-				} 
-				 
-				for(int copt = 0;copt<Nopt;copt++)
-				{
-					for(int ii =0;ii<bOutList.size();ii++)
-					{
-						Ballon ans= optB.optimize(pb,bOutList.get(ii));
-						bOutList.remove(ii);
-						
-						
-						while(ans.posList.size()<pb.T+1)
-						{
-							ans.addMove(0, pb);
-						}
-						bOutList.add(ii, ans);
-						oldSol.ballons[ans.Num] = ans;
-							 
-					}
-					int curscore = oldSol.GetScore();
-					Sys.pln("CURS : " + curscore);
-					 if(curscore>bestscore)
-					 {
-						break;
-					 }
-					 //else
+//				for(int Ncible = 0; Ncible < pb.L;Ncible++)
+//				{
+//						optB.HEAT[Ncible] = (float)1;
+//				} 
+//				 
+//				for(int copt = 0;copt<Nopt;copt++)
+//				{
+//					for(int ii =0;ii<bOutList.size();ii++)
+//					{
+//						Ballon ans= optB.optimize(pb,bOutList.get(ii));
+//						bOutList.remove(ii);
+//						
+//						
+//						while(ans.posList.size()<pb.T+1)
+//						{
+//							ans.addMove(0, pb);
+//						}
+//						bOutList.add(ii, ans);
+//						oldSol.ballons[ans.Num] = ans;
+//							 
+//					}
+//					int curscore = oldSol.GetScore();
+//					Sys.pln("CURS : " + curscore);
+//					 if(curscore>bestscore)
 //					 {
-//						break; 
+//						break;
 //					 }
-				}
+//					 //else
+////					 {
+////						break; 
+////					 }
+//				}
 				
 			
 //		}
@@ -126,11 +126,18 @@ public class SolutionImprover {
 		int bestScore = bestSolution.GetScore();
 		// itérer
 		Random rand = new Random(42);
-		double PRESTORE = 1;
-		float  PARAMAVOIDCOEFF=0;//-1;
+		double PRESTORE = 0.1;
+		float  PARAMAVOIDCOEFF=(float)1000;//-1;
 		float  PARAMHEAT = (float)0;
 		for (int nIter = 0; nIter <= nbIterations; nIter++)
 		{
+			if(countIterNoImprove%100==0)  
+				PARAMAVOIDCOEFF=(float)2;//-1;
+			if(rand.nextDouble()<0.2) 
+				PARAMAVOIDCOEFF=(float)50000;//-1;
+				
+			  PRESTORE = 0.0;
+			  
 			solCurrent.pb = pb;
 			
 			// Low probability to move back to best solution
@@ -142,7 +149,7 @@ public class SolutionImprover {
 			
 			}
 			// Change PARAMAVOID & HEAT to explore further solutions
-			OptB.PARAMAVOID= (rand.nextFloat()-(float)(0.4))*PARAMAVOIDCOEFF+1000;
+			OptB.PARAMAVOID= PARAMAVOIDCOEFF;
 		
 
 			
@@ -162,13 +169,15 @@ public class SolutionImprover {
 				bestSolution.SaveSolutionAsRaw("BestSolutionInProcess.ser");
 				FullProcess.ProcessAllBackupOfSolutionToFolder(bestSolution);
 				PARAMHEAT = Float.max( PARAMHEAT*(float)0.9,(float)0.1);
+			//	PARAMAVOIDCOEFF = (float)1000;
+				countIterNoImprove = 0;
 				
 			}
 			else
 			{
 				countIterNoImprove++; // incrémentation nb itération sans amélioration
 				PARAMHEAT = Float.min( PARAMHEAT*(float)1.1,(float)1.01);
-				
+			//	PARAMAVOIDCOEFF = PARAMAVOIDCOEFF*(float)1.04;
 			}
 
 			// ALWAYS "shift".   TODO (add some random condition ?) TODO

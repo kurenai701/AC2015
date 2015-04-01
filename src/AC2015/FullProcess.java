@@ -35,13 +35,13 @@ public class FullProcess {
 		Problem pbModSimplified = simplifyer.SimplifyProblem(pbMod);
 		
 		
-//		pbModSimplified.B=1;
+//		pbModSimplified.B=16;
 //		Sys.pln("!!!!!!!!!!!! *******************   DANGER, changement du nommbre de ballon a"+pbModSimplified.B+" pour test");
 //		
 		
 		
 		// ****** Process Algorithm to find Solution
-		Random rand = new Random(42);
+		Random rand = new Random(45);
 	//	Solution sol = algo.AlgoSimple(pbModSimplified,rand);			
 		Solution sol;
 		if(!RELOAD)

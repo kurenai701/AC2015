@@ -17,16 +17,24 @@ public class OptimizeBallon {
 	public float HEAT[];// used to modify score provided by cibles (close to TABU Search)
 	
 	
+	
+	
+	
 	// Optimized mapping
 	
 	
 	//int   coordinateMap[];// [ii] 
-	float ScorePosAtT[][];
+	float ScorePosAtT[];
 	
 	// [ii] Score at time T+1 at pos index ii :  135k*4 = 540kB
 	float nextScoreAtT[]; 
 	int   successor[][];// [ii][jj] pos that can be reached from ii with move jj-1
 	Pos   mappedPos[];  // Pos associated to index ii	
+	int mappedXY[];
+	boolean isNotMinAltitude[];
+	PosXY   posXY[];
+	
+	
 	// score at time T for index ii : 135k * 4 = 540 kB
 	float curScoreAtT[];
 	// [ii][jj]Score at time T+1 at pos index ii after move jj-1 : 3*135k*4 = 1620kB
@@ -41,8 +49,9 @@ public class OptimizeBallon {
 	public OptimizeBallon(Problem pb)
 	{
 		this.coveredT = new int[pb.L][pb.T+2];// init to 0
+	
 		HEAT = new float[pb.L];
-		this.PARAMAVOID = 10000;
+		this.PARAMAVOID = (float)2;
 		for(int Ncible = 0; Ncible < pb.L;Ncible++)
 		{
 			HEAT[Ncible] = 1;
@@ -53,15 +62,18 @@ public class OptimizeBallon {
 		int Nindex = 0;
 		
 		
+		for(int a = 0;a<=pb.A;a++)
+		{
+		for(int c = 0;c<pb.C;c++)
+		{
 		for(int r = 0;r<pb.R;r++)
 		{
-			for(int c = 0;c<pb.C;c++)
-			{
-				for(int a = 0;a<=pb.A;a++)
-				{
+			
+				
 					if(pb.AllPosMat[r][c][a]!=null)
 					{
 						pb.AllPosMat[r][c][a].numOpt = Nindex; 
+						
 						Nindex++;
 						
 					}
@@ -71,24 +83,40 @@ public class OptimizeBallon {
 		
 		
 		successor = new int[3][Nindex];// Initialized to 0, index of POSINVALID
+		isNotMinAltitude = new boolean[Nindex];
 		mappedPos = new Pos[Nindex];  	
+		mappedXY  = new int[Nindex];
+		posXY = new PosXY[pb.R*pb.C];
+		
+		
 // Only iterate to apply index, order irrelevant
+		//int curIndex = 0;
 		for(int r = 0;r<pb.R;r++)
 		{
 			for(int c = 0;c<pb.C;c++)
 			{
+				posXY[r+c*pb.R] = new PosXY();
+				posXY[r+c*pb.R].coverList = pb.AllPosMat[r][c][2].coverList;
+				
 				for(int a = 0;a<=pb.A;a++)
 				{
+					
 					Pos p = pb.AllPosMat[r][c][a];
 					if(p!=null)
 					{
+						isNotMinAltitude[p.numOpt] = (a>0);
+						
 						mappedPos[p.numOpt] = pb.AllPosMat[r][c][a];
+						mappedXY[p.numOpt] =r+c*pb.R;
+						
+						
 						for(Move m : pb.AllPosMat[r][c][a].moves)
 						{
 							if(m.aChange<2)
 							{
 								successor[m.aChange+1][p.numOpt] = m.nextPos.numOpt;
 							}
+							
 						}	
 					}
 				}
@@ -145,8 +173,7 @@ public class OptimizeBallon {
 	
 			//Add start position
 			curScoreAtT[pb.StartPos.numOpt] = SCORESHIFT;
-			ScorePosAtT = new float[pb.R][pb.C];
-			
+			ScorePosAtT = new float[pb.R*pb.C];
 			
 			for(int tt=0;tt<pb.T+1;tt++)
 			{
@@ -159,8 +186,7 @@ public class OptimizeBallon {
 				{
 					for(int c=0;c<pb.C;c++)
 					{
-						Pos p = pb.AllPosMat[r][c][2];
-						ScorePosAtT[r][c] = scoreAtT(p,tt+1);
+						ScorePosAtT[r+pb.R*c] = scoreAtT(posXY[r+pb.R*c].coverList,tt+1);
 					}
 				}
 				
@@ -170,7 +196,7 @@ public class OptimizeBallon {
 
 				
 				nextScoreAtT= new float[mappedPos.length];// May need faster setting with multithread
-				if(tt%10==0)
+				if(tt%20==0)
 				{
 					Sys.pln("Start time : "+tt+" Npos accessed : ???" );
 				}
@@ -178,16 +204,18 @@ public class OptimizeBallon {
 				{
 //					Sys.pln("index "+curIndex + " score : "+curScoreAtT[curIndex]);
 					
+					
+					
 					// The following for loop can be parallelized, but need to synchronize scurScoreAtT & fatherAtT
 					// Or to divide the index in non conflicting sets
 					for(int kk = 0;kk < 3;kk++)
 					{
 						int nextIndex = successor[kk][curIndex];
-						Pos p = mappedPos[nextIndex];
 						float candidateScore = 	curScoreAtT[curIndex];
-						if(p.z>0)
-							candidateScore+= ScorePosAtT[ p.x  ][p.y];// Can be optimised scoreAtT(mappedPos[nextIndex],tt+1);
-						
+						if(isNotMinAltitude[nextIndex])
+						{
+							candidateScore+= ScorePosAtT[ mappedXY[nextIndex] ];// Can be optimised scoreAtT(mappedPos[nextIndex],tt+1);
+						}
 						if(candidateScore > nextScoreAtT[nextIndex])
 						{					
 							nextScoreAtT[nextIndex] = candidateScore;
@@ -276,6 +304,21 @@ public class OptimizeBallon {
 		return score;
 		
 	}
+	
+	public float 	scoreAtT(List<Integer> coverList,int tt)
+	{
+		if(coverList==null) //No score at altitude 0
+			return -1000000;
+		float score = 0;
+		for(int Ncible : coverList)
+		{
+			// For all cible covered by pos
+				score += 1/(1+PARAMAVOID*coveredT[Ncible][tt])*HEAT[Ncible];//NEw cible reached // Equation to tune
+		}
+		return score;
+		
+	}
+	
 
 	
 	
@@ -284,8 +327,7 @@ public class OptimizeBallon {
 	{
 	for(int tt=0; tt<=pb.T;tt++)
 	{
-		int covered[] = new int[pb.L];// init to 0
-		boolean stillAlive = false;
+//		boolean stillAlive = false;
 		
 
 			if( tt < curB.posList.size())
@@ -302,12 +344,12 @@ public class OptimizeBallon {
 				}
 				
 				}
-				stillAlive=true;
+//				stillAlive=true;
 			}//if				
-			if(!stillAlive)
-			{
-			break;//Fast evaluate end
-			}
+//			if(!stillAlive)
+//			{
+//			break;//Fast evaluate end
+//			}
 
 		}//For tt
 	}
