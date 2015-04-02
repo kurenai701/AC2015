@@ -98,19 +98,19 @@ public class SolutionImprover {
 		// itérer
 		Random rand = new Random(42);
 		double PRESTORE = 0.1;
-		int  PARAMAVOIDCOEFF=50000;//-1;
+		int  PARAMAVOIDCOEFF=999;//-1;
 		float  PARAMHEAT =  (float)0;
 		for (int nIter = 0; nIter <= nbIterations; nIter++)
 		{
 			if(countIterNoImprove%80==79)
 			{
 				//Restart optimisation from another start point
-				PARAMAVOIDCOEFF=400;//-1;
+				PARAMAVOIDCOEFF=600;//-1;
 				countIterNoImprove = 0;
 				bestScore = 0;
 			}
 			if(rand.nextDouble()<0.4) 
-				PARAMAVOIDCOEFF=50000;//-1;
+				PARAMAVOIDCOEFF=999 ;//-1;
 				
 			  PRESTORE = 0.0;
 			  
