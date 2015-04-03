@@ -83,7 +83,7 @@ public class SolutionImprover {
 		Solution bestSolution = Common.DeepCopy(initSol);
 		bestSolution.SaveSolutionAsRaw("BestSolutionInProcess.ser");
 		bestSolution.pb = pb;
-		int countIterNoImprove = 0;
+		int countIterNoImprove = 50;
 
 		OptimizeBallon OptB = new OptimizeBallon(pb);
 		for(Ballon b : initSol.ballons)
@@ -96,7 +96,7 @@ public class SolutionImprover {
 		int bestScore = bestSolution.GetScore();
 		int globalBestScore = bestScore;
 		// itérer
-		Random rand = new Random(42);
+		Random rand = new Random(42*13*2);
 		double PRESTORE = 0.1;
 		int  PARAMAVOIDCOEFF=999;//-1;
 		float  PARAMHEAT =  (float)0;
@@ -109,7 +109,7 @@ public class SolutionImprover {
 				countIterNoImprove = 0;
 				bestScore = 0;
 			}
-			if(rand.nextDouble()<0.4) 
+			if(rand.nextDouble()<0.1) 
 				PARAMAVOIDCOEFF=999 ;//-1;
 				
 			  PRESTORE = 0.0;
