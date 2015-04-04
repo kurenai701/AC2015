@@ -100,6 +100,7 @@ public class SolutionImprover {
 		double PRESTORE = 0.1;
 		int  PARAMAVOIDCOEFF=999;//-1;
 		float  PARAMHEAT =  (float)0;
+		double PSTOPBACKTRACKING = 0.1;
 		for (int nIter = 0; nIter <= nbIterations; nIter++)
 		{
 			if(countIterNoImprove%80==79)
@@ -109,7 +110,7 @@ public class SolutionImprover {
 				countIterNoImprove = 0;
 				bestScore = 0;
 			}
-			if(rand.nextDouble()<0.1) 
+			if(rand.nextDouble()<0.03     ) 
 				PARAMAVOIDCOEFF=999 ;//-1;
 				
 			  PRESTORE = 0.0;
