@@ -350,7 +350,6 @@ public class OptimizeBallon {
 	{
 	for(int tt=0; tt<=pb.T;tt++)
 	{
-//		boolean stillAlive = false;
 		
 
 			if( tt < curB.posList.size())
@@ -367,15 +366,35 @@ public class OptimizeBallon {
 				}
 				
 				}
-//				stillAlive=true;
 			}//if				
-//			if(!stillAlive)
-//			{
-//			break;//Fast evaluate end
-//			}
 
 		}//For tt
 	}
+	
+	
+	
+	public void partialUpdateEffect(Problem pb, PartialPath pp,int direction)//set direction to 1 to add, to -1 to remove
+	{
+	for(int tt=pp.Tstart; tt<=pp.Tstart+pp.posList.size();tt++)
+	{
+			if( tt < pp.posList.size())
+			{
+				
+				int curPosIndex = pp.posList.get(tt);
+				Pos curPos = mappedPos[curPosIndex];
+				if(curPos.z>0)
+				{
+					for(int Ncible : curPos.coverList)
+					{
+						coveredT[Ncible][tt] = Integer.max(0,coveredT[Ncible][tt]+direction);
+					}
+					
+				}
+			}//if				
+		}//For tt
+	}
+	
+	
 	
 	
 	

@@ -10,6 +10,9 @@ public class Ballon implements Serializable {
 	ArrayList<Pos> posList= new ArrayList<Pos>();;
 	
 	
+
+	private static final long serialVersionUID = -4761854948924066721L;
+	
 	
 	public Ballon(int num,Pos startPos) {
 		super();
@@ -70,5 +73,31 @@ public class Ballon implements Serializable {
 		if (my4thmove == 0 || my4thmove == -1 || my4thmove ==1) 
 			addMove(my4thmove, pb);
 			
+	}
+
+
+	public void updatePartialPath(int startT, PartialPath pA, Problem pb, OptimizeBallon optB) {
+		
+		for(int ii = 0; ii< pA.posList.size()-1;ii++)
+		{
+			int curT = startT+ii;
+			
+			posList.remove(curT);
+			Pos curPos = optB.mappedPos[pA.posList.get(ii)];
+			Pos nextPos = optB.mappedPos[pA.posList.get(ii+1)];
+			
+			posList.add(curT,curPos);
+			aChanges.remove(curT);
+		
+			
+			for(Move mov : curPos.moves)
+			{
+				if( mov.nextPos == nextPos)
+				{
+					aChanges.add( curT,mov.aChange);
+				}
+			}
+		}
+
 	}
 }

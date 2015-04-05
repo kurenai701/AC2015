@@ -77,7 +77,7 @@ public class SolutionImprover {
 	public Solution IterateImprover( Solution initSol, int nbIterations, int acceptIterationNoImprove,Problem pb)
 	{
 		
-		Solution solCurrent = initSol;
+ 		Solution solCurrent = initSol;
 		Solution solTry;	
 
 		Solution bestSolution = Common.DeepCopy(initSol);
@@ -96,11 +96,13 @@ public class SolutionImprover {
 		int bestScore = bestSolution.GetScore();
 		int globalBestScore = bestScore;
 		// itérer
-		Random rand = new Random(42*13*2);
+		Random rand = new Random(43*3   );
 		double PRESTORE = 0.1;
 		int  PARAMAVOIDCOEFF=999;//-1;
 		float  PARAMHEAT =  (float)0;
-		double PSTOPBACKTRACKING = 0.1;
+		double PSTOPBACKTRACKING = 0.3;
+		boolean improved = false;
+		int 	countIterNoImproveGlobal = 0;
 		for (int nIter = 0; nIter <= nbIterations; nIter++)
 		{
 			if(countIterNoImprove%80==79)
@@ -109,8 +111,18 @@ public class SolutionImprover {
 				PARAMAVOIDCOEFF=600;//-1;
 				countIterNoImprove = 0;
 				bestScore = 0;
+				if(improved)
+				{
+					PSTOPBACKTRACKING = Double.min(0.3, PSTOPBACKTRACKING*2);
+				}else
+				{
+					PSTOPBACKTRACKING = Double.max(0.03   ,PSTOPBACKTRACKING/1.2);
+				}
+				improved = false;
+				countIterNoImproveGlobal++;
+				
 			}
-			if(rand.nextDouble()<0.03     ) 
+			if(rand.nextDouble()<PSTOPBACKTRACKING     ) 
 				PARAMAVOIDCOEFF=999 ;//-1;
 				
 			  PRESTORE = 0.0;
@@ -118,11 +130,14 @@ public class SolutionImprover {
 			solCurrent.pb = pb;
 			
 			// Low probability to move back to best solution
-			if( rand.nextDouble() < PRESTORE )
+			if( rand.nextDouble() < PRESTORE || countIterNoImproveGlobal == 3)
 			{
 				Sys.pln("Restoring");
 				solCurrent = Common.DeepCopy(bestSolution);
 				solCurrent.pb = pb;
+				PSTOPBACKTRACKING = 0.3;
+				countIterNoImproveGlobal = 0;
+				countIterNoImprove = 0;
 			
 			}
 			// Change PARAMAVOID & HEAT to explore further solutions
@@ -130,21 +145,23 @@ public class SolutionImprover {
 		
 
 			
-			solTry = TryImprove(solCurrent, new Random(nIter),pb, OptB);
+  			solTry = TryImprove(solCurrent, new Random(nIter),pb, OptB);
 			solTry.pb = pb;
 			bestSolution.pb = pb;
 			// Si on dépasse notre "meilleur score", procéder à sauvegarde de cette best sol.
 			int curScore = solTry.GetScore();
 			Sys.pln("Score : " + curScore);
+			//countIterNoImproveGlobal++;
 			if (curScore > bestScore)
 			{				
-				
 				bestSolution = Common.DeepCopy(solTry);
 				bestSolution.pb = pb;
 				bestScore = bestSolution.GetScore();
 				// Serialize best solution in path = Common.ACFileFolderPath+fileName
 				if(curScore > globalBestScore )
 				{
+					countIterNoImproveGlobal = 0;
+					improved = true;
 					globalBestScore = curScore;
 					bestSolution.SaveSolutionAsRaw("BestSolutionInProcess.ser");
 					FullProcess.ProcessAllBackupOfSolutionToFolder(bestSolution);
