@@ -41,11 +41,12 @@ public class Solution implements Serializable {
 	
 	private static final long serialVersionUID = 42L;
 	
-	// for test
+	//////////////////////// for test
 	int testSolInt;
 	String testSolString;
 	List<ClemClass> testSolListClemClass = new ArrayList<ClemClass>();
 	TreeSet testTreeSet = new TreeSet();
+	////////////////////////////////
 	
 	// problem
 	Problem pb;

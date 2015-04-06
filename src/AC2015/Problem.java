@@ -1,6 +1,6 @@
 package AC2015;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.List;
 
 
@@ -8,9 +8,13 @@ import java.util.List;
  *  ProblemModel : For Modeling the HashCode Problem
  *  
  */
-public class Problem {
+public class Problem implements Serializable {
 
 
+
+	private static final long serialVersionUID = 999L;
+
+	
 	int testint;
 	String testString;
 	List<String> testList;

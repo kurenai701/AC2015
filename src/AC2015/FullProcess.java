@@ -27,10 +27,10 @@ public class FullProcess {
 		
 		
 //		// Serialize Sol, and Verify Deserialisation possible
-//		VerifySerializeDeserializeSolution(sol); 
+		VerifySerializeDeserializeSolution(sol); 
 //			
 //		// BACK-UP to a folder with score and time
-//		ProcessAllBackupOfSolutionToFolder(sol);
+		ProcessAllBackupOfSolutionToFolder(sol);
 //		
 		// GET SCORE
 		sol.PrintScore();			
@@ -59,16 +59,16 @@ public class FullProcess {
 			GenerateOutput genOut = new GenerateOutput();
 			genOut.GenerateOutputFileFromOutputModel(sol, fullGeneratedFilePath);
 			
-			ReadOutput ro = new ReadOutput();		
+			// ReadOutput ro = new ReadOutput();		
 			
 			// TODO VOIR SI CA S Y PRETE
 			// To Verify Output correctly linked to Input	(si ça s'y prête)	
 			
-			Scanner scanOutput = ro.ScannerOutputFile(fullGeneratedFilePath);			
-			Problem pbModVerif = ro.ProcessReadOutputToProblemModel(scanOutput);
+			//Scanner scanOutput = ro.ScannerOutputFile(fullGeneratedFilePath);			
+			// Problem pbModVerif = ro.ProcessReadOutputToProblemModel(scanOutput);
 					
-			ReadInput ri = new ReadInput();
-			ri.ProcessProblemModelToVerifFile(pbModVerif, Common.InputFileVerifPathFromOutputRead);	
+			//ReadInput ri = new ReadInput();
+			//ri.ProcessProblemModelToVerifFile(pbModVerif, Common.InputFileVerifPathFromOutputRead);	
 	}
 	
 	public static void VerifySerializeDeserializeSolution(Solution sol)
@@ -77,6 +77,7 @@ public class FullProcess {
 		sol.SaveSolutionAsRaw(Common.SaveSerialFileName);
 		
 		//// De-serialize to verify there is no problem	
+		
 		Solution testdes = (Solution)(Common.FU.DeserializeFileToObject(Common.ACFileFolderPath+Common.SaveSerialFileName));
 		System.out.println(testdes.testSolInt);		
 	}
@@ -101,7 +102,7 @@ public class FullProcess {
 		Common.FU.CreateDir(targetBKPFolderPath);
 	
 		// Backup serialized solution class to BKP folder
-		sol.SaveSolutionAsRawToFullPath(targetBKPFolderPath+"\\"+ Common.SaveSerialFileName);
+		//sol.SaveSolutionAsRawToFullPath(targetBKPFolderPath+"\\"+ Common.SaveSerialFileName);
 		// Backup generated output
 		genOut.GenerateOutputFileFromOutputModel(sol, targetBKPFolderPath +"\\"+ Common.OutputGeneratedFileName);
 	

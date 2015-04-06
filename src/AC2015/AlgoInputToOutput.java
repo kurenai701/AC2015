@@ -1,8 +1,6 @@
 package AC2015;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Random;
 
 
@@ -69,14 +67,57 @@ public class AlgoInputToOutput {
 	
 	boolean  isValid(Problem pb, int Rmax,int Rmin,int Cmin,int Cmax)
 	{
-		int Rsize = (Rmax-Rmin);
-		int Csize = (Rmax-Rmin);
+		int Rsize = (Rmax-Rmin)+1;
+		int Csize = (Rmax-Rmin)+1; //non mais ! pourquoi ça fait un meilleur score que si c'était Cmax - Cmin, avec une solution valide !
 		
+		// taille pizza trop grande (plus que S)
 		if( Rsize*Csize > pb.S)
 		{
 			return false;
 		}
-		int NHAM = 0;
+		
+		// nb jambon.
+		int NHAM = getNbHamSlice(pb, Rmax,Rmin,Cmin,Cmax);
+		
+		if(NHAM >= pb.H)
+		{
+			boolean resp = true;
+				
+				// verifier qu'on a pas "déjà bloqué par une autre part"
+				for(int ii = Rmin;ii<Rmax;ii++ )
+				{
+					for(int jj = Cmin;jj<Cmax;jj++ )
+					{
+						if(pb.BLOCKED[ii][jj])
+						{
+							resp = false;
+						}
+					}
+				}
+				return resp;
+				
+		}else
+		{
+			return false;
+		}
+	}
+	
+	
+	public int getNbHamSlice(Problem pb, int Rmax,int Rmin,int Cmin,int Cmax)
+	{
+			int NHAM = 0;
+		
+		// nombre de jambons de la part en 4 accès.
+		// Plus : en bas à droite
+		// Moins : en haut à droite, et en bas à gauche
+		// Plus : en haut à gauche (qui a été retiré 2 fois, donc faut le rajouter une fois)
+		//		________ 
+		//      |		|
+		//		|  +  +	|
+		//		|  +  +	|
+		//		|_______|
+
+				
 		
 		if(Rmax>0 && Cmax>0)
 		{
@@ -93,51 +134,15 @@ public class AlgoInputToOutput {
 		if(Rmin>0 && Cmax>0)
 		{
 			 NHAM -= pb.sumAdd[Rmin-1][Cmax-1];
-		}
+		}		
 		
-	
-		
-		if(NHAM > pb.H)
-		{
-			boolean resp = true;
-				
-				for(int ii = Rmin;ii<Rmax;ii++ )
-				{
-					for(int jj = Cmin;jj<Cmax;jj++ )
-					{
-						if(pb.BLOCKED[ii][jj])
-						{
-							resp = false;
-						}
-
-					}
-				}
-				return resp;
-				
-		}else
-		{
-			return false;
-		}
-		
-		
+		return NHAM;
 	}
 	
 	
-	public Solution AlgoSimple(Problem pb)
+	public void buildTableauSumAdd(Problem pb)
 	{
-		System.out.println("Starting simple algo");
-				
-		////////////////
 		
-		Solution sol = new Solution(pb);
-		sol.slices = new ArrayList<Slice>(); 
-	
-		//////////////////////////////////
-		// TODO Write THE ALGORITHM :-) //
-		//////////////////////////////////
-				
-	//	char[][] Pizza; 
-	//	int[][] sumAdd;
 		pb.sumAdd = new int[pb.R][pb.C];
 		for(int rr = 0;rr<pb.R;rr++)
 		{
@@ -164,16 +169,47 @@ public class AlgoInputToOutput {
 				pb.sumAdd[rr][cc] = sum;
 			}
 		}
+			
+			
+	}
+	
+	
+	public Solution AlgoSimple(Problem pb)
+	{
+		System.out.println("Starting simple algo");
+				
+		////////////////
+		
+		Solution sol = new Solution(pb);
+		sol.slices = new ArrayList<Slice>(); 
+	
+		//////////////////////////////////
+		// TODO Write THE ALGORITHM :-) //
+		//////////////////////////////////
+				
+	//	char[][] Pizza; 
+	//	int[][] sumAdd;
+	
+		
+		buildTableauSumAdd(pb);
+		
 		pb.BLOCKED = new boolean[pb.R][pb.C];
 		
 		
 		int CSIZE = 2;
 		int RSIZE = 4;
 		
-		for(RSIZE = 12;RSIZE>0;RSIZE--)
+//		Random rand = new Random(42);
+//		CSIZE = rand.nextInt(13);
+//		RSIZE = rand.nextInt(13/CSIZE);
+//		
+		
+		for(CSIZE = 12;CSIZE>0;CSIZE--)
 		{
-			for(CSIZE = 12;CSIZE>0;CSIZE--)
-			{
+			for(RSIZE = 12;RSIZE>0;RSIZE--)
+			{	
+				
+				//// CORE
 				while(true)
 				{
 					
@@ -186,7 +222,6 @@ public class AlgoInputToOutput {
 							for(int jj = soladd.slices.get(0).colS;jj<=soladd.slices.get(0).colE;jj++ )
 							{
 								pb.BLOCKED[ii][jj]=true;
-		
 							}
 						}
 						sol.slices.addAll(soladd.slices);
@@ -195,20 +230,15 @@ public class AlgoInputToOutput {
 					}
 				}
 				
-						
-			}//CSIZE
-		}//RSIZE
+				
+				
+			}
+		}
 		
+	
+	
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+				
 		////////////////
 				
 		System.out.println("Finished algo simple");
@@ -217,31 +247,28 @@ public class AlgoInputToOutput {
 	
 	
 	
+
 	public Solution firstAdd(Problem pb, int RSIZE, int CSIZE)
 	{
 		if(RSIZE*CSIZE<=pb.S)
 		{
-			
-		
-		
-	
-		for(int Rstart = 0;Rstart<pb.R-RSIZE;Rstart++ )
-		{
-			for(int Cstart = 0;Cstart<pb.C-CSIZE;Cstart++ )
+			for(int Rstart = 0;Rstart<pb.R-RSIZE;Rstart++ )
 			{
-
-				
-				Solution soladd = AlgoDandQ(pb,Rstart,Rstart+RSIZE,Cstart,Cstart+CSIZE);
-				if(soladd!=null)
+				for(int Cstart = 0;Cstart<pb.C-CSIZE;Cstart++ )
 				{
-					return soladd;
-
+	
+					
+					Solution soladd = AlgoDandQ(pb,Rstart,Rstart+RSIZE,Cstart,Cstart+CSIZE);
+					if(soladd!=null)
+					{
+						return soladd;
+	
+					}
+					
+					
 				}
 				
-				
 			}
-			
-		}
 		}
 		return null;
 		
