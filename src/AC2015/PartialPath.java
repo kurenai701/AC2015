@@ -36,6 +36,15 @@ public class PartialPath implements Comparable<PartialPath>{
 	}
 
 
+	public PartialPath(PartialPath o) {
+		posList.addAll(o.posList);
+		optB	=	o.optB;
+		pb		=	o.pb;
+		Tstart	=	o.Tstart;
+		
+	}
+
+
 	// Hash function to implements efficient HashSet
 	@Override
 	public int hashCode() {
@@ -121,7 +130,7 @@ public class PartialPath implements Comparable<PartialPath>{
 					{
 						if(Common.DEBUG==1)
 							System.out.print("c:"+Ncible+"|"+optB.coveredT[Ncible][tt]+" ");
-						score += Integer.max(0, 1000 - 999*optB.coveredT[Ncible][tt]);//New cible reached // Equation to tune
+						score += Integer.max(0, 10000 - 9999*optB.coveredT[Ncible][tt]);//New cible reached // Equation to tune
 					}
 				}
 				if(Common.DEBUG==1)

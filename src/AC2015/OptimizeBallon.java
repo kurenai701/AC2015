@@ -49,7 +49,7 @@ public class OptimizeBallon {
 	
 	public OptimizeBallon(Problem pb)
 	{
-		this.coveredT = new int[pb.L][pb.T+2];// init to 0
+		this.coveredT = new int[pb.L][pb.T+3];// init to 0
 	
 		HEAT = new int[pb.L];
 		this.PARAMAVOID = 400;
@@ -167,7 +167,7 @@ public class OptimizeBallon {
 	{
 		long tstart = System.nanoTime();
 
-		int fatherAtT[][] = new int[pb.T+2][mappedPos.length];
+		int fatherAtT[][] = new int[pb.T+3][mappedPos.length];
 		
 		// Dijkstra algorithm with all distances of 1. For all time, update all pos with score (ie onderated sum of customers served
 			curScoreAtT = new AtomicIntegerArray(mappedPos.length);
@@ -314,8 +314,6 @@ public class OptimizeBallon {
 				result.addMove(aChange, pb);
 			}
 			
-			// A last move was missing
-			//result.addMove(0,pb);
 			
 			endTime = System.nanoTime();
 			Sys.pln("Ballon #"+b.Num+" took "+(endTime-tstart)/1e6+" ms");
@@ -336,7 +334,7 @@ public class OptimizeBallon {
 		for(int Ncible : coverList)
 		{
 			// For all cible covered by pos
-				score +=Integer.max(0, 1000 - PARAMAVOID*coveredT[Ncible][tt]);//NEw cible reached // Equation to tune
+				score +=Integer.max(0, 10000 - PARAMAVOID*coveredT[Ncible][tt]);//NEw cible reached // Equation to tune
 		}
 		return score;
 		

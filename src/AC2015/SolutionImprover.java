@@ -83,7 +83,7 @@ public class SolutionImprover {
 		Solution bestSolution = Common.DeepCopy(initSol);
 		bestSolution.SaveSolutionAsRaw("BestSolutionInProcess.ser");
 		bestSolution.pb = pb;
-		int countIterNoImprove = 50;
+		
 
 		OptimizeBallon OptB = new OptimizeBallon(pb);
 		for(Ballon b : initSol.ballons)
@@ -96,21 +96,21 @@ public class SolutionImprover {
 		int bestScore = bestSolution.GetScore();
 		int globalBestScore = bestScore;
 		// itérer
-		Random rand = new Random(44   );
+		Random rand = new Random(43  );
 		double PRESTORE = 0.1;
-		int  PARAMAVOIDCOEFF=999;//-1;
+		int  PARAMAVOIDCOEFF=9999;//-1;
 		float  PARAMHEAT =  (float)0;
-		double PSTOPBACKTRACKING = 0.3;
+		double PSTOPBACKTRACKING = 0.1;
 		boolean improved = false;
 		int 	countIterNoImproveGlobal = 0;
-		
-		
+		int NNOIMPROVE = 80;
+		int countIterNoImprove = NNOIMPROVE/2;
 		for (int nIter = 0; nIter <= nbIterations; nIter++)
 		{
-			if(countIterNoImprove%80==79)
+			if(countIterNoImprove%NNOIMPROVE==(NNOIMPROVE-1))
 			{
 				//Restart optimisation from another start point
-				PARAMAVOIDCOEFF=600;//-1;
+				PARAMAVOIDCOEFF=6000;//-1;
 				countIterNoImprove = 0;
 				bestScore = 0;
 				if(improved)
@@ -125,14 +125,14 @@ public class SolutionImprover {
 				
 			}
 			if(rand.nextDouble()<PSTOPBACKTRACKING     ) 
-				PARAMAVOIDCOEFF=999 ;//-1;
+				PARAMAVOIDCOEFF=9999 ;//-1;
 				
 			  PRESTORE = 0.0;
 			  
 			solCurrent.pb = pb;
 			
 			// Low probability to move back to best solution
-			if( rand.nextDouble() < PRESTORE || countIterNoImproveGlobal == 3)
+			if( rand.nextDouble() < PRESTORE || countIterNoImproveGlobal == 4)
 			{
 				Sys.pln("Restoring");
 				solCurrent = Common.DeepCopy(bestSolution);
@@ -151,19 +151,32 @@ public class SolutionImprover {
 			OptB.PARAMAVOID= PARAMAVOIDCOEFF;
 		
 
-			
+			//TODO : Cette fonction n'ameliore pas toujours, a creuser TODO
   			solTry = TryImprove(solCurrent, new Random(nIter),pb, OptB);
 			solTry.pb = pb;
 			bestSolution.pb = pb;
 			
 		//**** Try another Local Optimization
 			OptimizePairBallon oPPB = new OptimizePairBallon(OptB);
-			
-			for(int kk =0;kk<20;kk++)
+			if(countIterNoImprove > NNOIMPROVE/2)// Only used as final optimization
 			{
-				int indexBallonA = rand.nextInt(pb.B);
-				int indexBallonB = rand.nextInt(pb.B);
-				oPPB.optimizePair(solTry, indexBallonA, indexBallonB, pb);
+				for(int kk =0;kk<10;kk++)
+				{
+					int indexBallonA = rand.nextInt(pb.B);
+					int indexBallonB = rand.nextInt(pb.B);
+					oPPB.optimizePair(solTry, indexBallonA, indexBallonB, pb);
+				}
+				
+				
+				// Recover optB, it seems it was not correctly restored
+				long trecs = System.nanoTime();
+				OptB.coveredT = new int[pb.L][pb.T+3];// init to 0
+				for(Ballon b : solTry.ballons)
+				{
+					OptB.updateEffect(pb, b, 1);
+				}
+				Sys.pln("recovery took :"+(System.nanoTime()-trecs)/1e6+"ms");
+				
 			}
 			//****	
 			
