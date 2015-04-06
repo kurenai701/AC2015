@@ -157,13 +157,15 @@ public class SolutionImprover {
 			bestSolution.pb = pb;
 			
 		//**** Try another Local Optimization
-			/*
 			OptimizePairBallon oPPB = new OptimizePairBallon(OptB);
-			int indexBallonA = rand.nextInt(pb.B);
-			int indexBallonB = rand.nextInt(pb.B);
-			oPPB.optimizePair(solTry, indexBallonA, indexBallonB, pb);
-			*/
-		//****	
+			
+			for(int kk =0;kk<20;kk++)
+			{
+				int indexBallonA = rand.nextInt(pb.B);
+				int indexBallonB = rand.nextInt(pb.B);
+				oPPB.optimizePair(solTry, indexBallonA, indexBallonB, pb);
+			}
+			//****	
 			
 			
 			// Si on dépasse notre "meilleur score", procéder à sauvegarde de cette best sol.

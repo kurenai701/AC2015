@@ -39,7 +39,7 @@ public class Pos implements Serializable {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "Num " + num + " R " + x +" C " + y+" A " + z;
+		return "NO " + numOpt;// + " R " + x +" C " + y+" A " + z;
 	}
 
 	public int hashCode()

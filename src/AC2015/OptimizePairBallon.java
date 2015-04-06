@@ -15,8 +15,8 @@ import java.util.TreeSet;
  */
 public class OptimizePairBallon {
 	OptimizeBallon optB;
-	final static int DURATIONOPTMIDDLE = 4;//TODO// Number of cycles to optimize for in middle of path
-	final static int DURATIONOPTEND = 0;		// Number of cycles to optimize for in end of path
+	final static int DURATIONOPTMIDDLE = 10;//TODO// Number of cycles to optimize for in middle of path
+	final static int DURATIONOPTEND = 8;		// Number of cycles to optimize for in end of path
 	
 	public OptimizePairBallon(OptimizeBallon optB)
 	{
@@ -43,7 +43,7 @@ public class OptimizePairBallon {
 		
 		int initialScore = S.GetScore();
 		Ballon A = S.ballons[indexBallonA];
-		Ballon B = S.ballons[indexBallonA];
+		Ballon B = S.ballons[indexBallonB];
 		
 				// Remove A & B actions
 			optB.updateEffect(pb, A, -1);
@@ -53,7 +53,11 @@ public class OptimizePairBallon {
 			{
 			for(int curT=0; curT<pb.T-DURATIONOPTMIDDLE;curT+=DURATIONOPTMIDDLE/2)
 			{
-				
+				if(Common.DEBUG==1)
+				{
+					Sys.pln("Previous path for A:" + A);
+					Sys.pln("Previous path for B:" + B);
+				}				
 				HashSet<PartialPath> AllPathForA = getAllPathFromTo(
 						A.posList.get(curT).numOpt, 			//Index of start position
 						A.posList.get(curT+DURATIONOPTMIDDLE).numOpt, 			//Index of end position
@@ -77,6 +81,10 @@ public class OptimizePairBallon {
 					Sys.pln("Error, no path found for B!");
 					throw(new RuntimeException());
 				}
+		
+			
+		
+				
 				
 				List<PartialPath> tempPaths =    getOptimalPathPair( 
 						AllPathForA, // All possible paths for Ballon A
@@ -87,27 +95,40 @@ public class OptimizePairBallon {
 				// update Ballons with new paths
 				PartialPath pA = tempPaths.get(0);
 				PartialPath pB = tempPaths.get(1);
+
+				if(Common.DEBUG==1)
+				{
+					Sys.pln("Partialpath for A:   " + pA);
+					Sys.pln("Partialpath for B:   " + pB);
+				}
 				
 				A.updatePartialPath( curT,pA , pb ,optB);
 				B.updatePartialPath( curT,pB , pb, optB);
 				
-				
-				
-				int middleScore = S.GetScore();
-				Sys.pln("Path optimizing index " + indexBallonA + " : " + indexBallonB + " initScore: "+ initialScore + " middle :" + middleScore );
-				
-				if(middleScore< initialScore)
+				if(Common.DEBUG==1)
 				{
-					Sys.pln("ERROR!!! : Optimisation shall always be improving");
-					throw(new RuntimeException());
+					optB.updateEffect(pb, A, 1);
+					optB.updateEffect(pb, B, 1);
+					
+					int middleScore = S.GetScore();
+					Sys.pln("Path optimizing index " + indexBallonA + " : " + indexBallonB + " initScore: "+ initialScore + " middle :" + middleScore );
+				
+					if(middleScore< initialScore)
+					{
+						Sys.pln("ERROR!!! : Optimisation shall always be improving");
+						throw(new RuntimeException());
+					}
+					optB.updateEffect(pb, A, -1);
+					optB.updateEffect(pb, B, -1);
 				}
 				
+		
 				
 			}//Optimize middle of paths
 			}
 			
-//***************   Optimize end of path
-			/*
+//***************   Optimize end of path, not yet working
+			
 			{
 				int curT = pb.T+1-DURATIONOPTEND;
 				
@@ -139,20 +160,21 @@ public class OptimizePairBallon {
 				A.updatePartialPath( curT,pA , pb ,optB);
 				B.updatePartialPath( curT,pB , pb, optB);
 			}//Optimize end of paths
-			*/
+			
 			
 			//Put back effects
 			optB.updateEffect(pb, A, 1);
 			optB.updateEffect(pb, B, 1);
 	
 			// Check final score. It has been updated since the Ballons A and B inside it have been updated. IT shall be at least as good as previous score
+		
 			int finalScore = S.GetScore();
 			Sys.pln("Path optimizing index " + indexBallonA + " : " + indexBallonB + " initScore: "+ initialScore + " final :" + finalScore );
 			
 			if(finalScore< initialScore)
 			{
 				Sys.pln("ERROR!!! : Optimisation should always be improving");
-				throw(new RuntimeException());
+		//		throw(new RuntimeException());
 			}
 	
 			}
@@ -194,7 +216,7 @@ public class OptimizePairBallon {
 		Pos Pstart = optB.mappedPos[start];
 		Pos Pend = optB.mappedPos[start];
 		if( Math.abs(Pend.z - Pstart.z)>duration ||
-			Math.abs(Pend.x - Pstart.x)>duration*3 ||
+			Math.abs(Pend.x - Pstart.x)>duration*5 ||
 			Math.abs(Pend.y - Pstart.y)>duration*8)
 		{
 			return null;
@@ -208,12 +230,13 @@ public class OptimizePairBallon {
 			int nextP = optB.successor[ii][start];
 			
 			HashSet<PartialPath> temp = getAllPathFromTo(nextP, end, duration-1,pb, Tstart+1);
-			if(temp!=null)
+			if(temp!=null&&temp.size()>0)
 			{
 				for(PartialPath endOfPath : temp)
 				{
 					endOfPath.posList.add(0, start);
 					endOfPath.Tstart = Tstart;
+//					Sys.pln("Adding path "+endOfPath+" Hashcode:"+endOfPath.hashCode());
 					resp.add( endOfPath  );
 				}
 			}
@@ -253,19 +276,35 @@ public class OptimizePairBallon {
 		
 		
 		List<PartialPath> resp=null;
-		for(PartialPath curPathA : AllPathForA)
+		for(PartialPath curPathA : AllPathForASorted)
 		{
 			int bestScoreA = curPathA.getScore();
 			
-			for(PartialPath curPathB : AllPathForB)
+			for(PartialPath curPathB : AllPathForBSorted)
 			{
+				
+				if(Common.DEBUG==1)
+				{
+					Sys.pln( "opt "+curPathA + "\n  B:"+curPathB+"\n ORIG ");
+				}
+				
 				int bestScoreB =curPathB.getScore(); 
 				if(bestScoreB+bestScoreA  <= bestScore)
 				{
+					if(Common.DEBUG==1)
+					{
+						Sys.pln("BRK") ;
+					}
 					break;// Can not improve bestScore, do not look for worst path of B
 				}
 				
 				int score = scoreCombined( curPathA, curPathB, pb);
+				
+				if(Common.DEBUG==1)
+				{
+					Sys.pln( "opt "+curPathA + "\n  B:"+curPathB+"\n score : "+score);
+				}
+				
 				if(score>bestScore)
 				{
 					bestScore = score;

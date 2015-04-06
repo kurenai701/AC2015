@@ -14,11 +14,12 @@ import java.util.List;
  * Two Partial PAths are different only if they reach new cibles at different times.
  */
 public class PartialPath implements Comparable<PartialPath>{
-	public LinkedList<Integer> posList = new LinkedList<Integer>();
+	public ArrayList<Integer> posList = new ArrayList<Integer>();
 	public OptimizeBallon optB;
 	public Problem pb;
 	public int Tstart;
-	
+
+	static int tempcounter = 1;
 	
 	/**
 	 * @param start Index of the start position
@@ -38,6 +39,11 @@ public class PartialPath implements Comparable<PartialPath>{
 	// Hash function to implements efficient HashSet
 	@Override
 	public int hashCode() {
+		
+		if(true)
+		{
+			
+		
 		long hash = 10;
 		int tt = Tstart;
 		for(int posN :posList)
@@ -45,7 +51,7 @@ public class PartialPath implements Comparable<PartialPath>{
 			
 			Pos p = optB.mappedPos[posN];
 			List<Integer> coverList = optB.posXY[p.x+pb.R*p.y].coverList;
-			
+//			System.out.print("at Time "+tt+":");
 				if(coverList==null) //No score at altitude 0
 					continue;
 				for(int Ncible : coverList)
@@ -53,14 +59,24 @@ public class PartialPath implements Comparable<PartialPath>{
 					// For all cible covered by pos
 					if(optB.coveredT[Ncible][tt]==0 )
 					{
-						hash += (long)(Ncible)*(long)(Ncible)*(long)(Ncible)*(long)(Ncible);
+						hash += (long)(Ncible+1)*(long)(Ncible+1)*(long)(Ncible+1)*(long)(Ncible+1);
 					}
+//					System.out.print(" "+Ncible);
 				}
+//				System.out.println(" seen for hash");
+				
 			hash = hash*(long)1000003+(long)47;
 			tt++;
 		}
 		return (int)hash;
 		
+		
+		}else
+		{
+		
+		tempcounter++;
+		return tempcounter;
+		}
 	}
 
 
@@ -87,9 +103,13 @@ public class PartialPath implements Comparable<PartialPath>{
 	int getScore() {
 		int score = 0;
 		int tt = Tstart;
-		for(int posN :posList)
+		for(int  ii = 0;ii<posList.size()-1;ii++)
 		{
-			
+			int posN = posList.get(ii);
+			if(Common.DEBUG ==1)
+			{
+				System.out.print("at T:"+tt+"scored : ");
+			}
 			Pos p = optB.mappedPos[posN];
 			List<Integer> coverList = optB.posXY[p.x+pb.R*p.y].coverList;
 			
@@ -99,10 +119,13 @@ public class PartialPath implements Comparable<PartialPath>{
 				{
 					for(int Ncible : coverList)
 					{
-						score += Integer.max(0, 1000 - optB.PARAMAVOID*optB.coveredT[Ncible][tt]);//New cible reached // Equation to tune
-
+						if(Common.DEBUG==1)
+							System.out.print("c:"+Ncible+"|"+optB.coveredT[Ncible][tt]+" ");
+						score += Integer.max(0, 1000 - 999*optB.coveredT[Ncible][tt]);//New cible reached // Equation to tune
 					}
 				}
+				if(Common.DEBUG==1)
+					Sys.pln("");
 				tt++;
 		}
 		return score;
@@ -111,6 +134,17 @@ public class PartialPath implements Comparable<PartialPath>{
 
 	}
 	
-	
+	@Override
+	public String toString() {
+		
+		String resp = "Tstart "+this.Tstart +" Pos :" ;
+		for(int pN :posList)
+		{
+			Pos p = optB.mappedPos[pN];
+			resp = resp+" "+p;
+		}
+		return resp;
+		
+	}
 
 }

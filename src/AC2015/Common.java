@@ -20,7 +20,9 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class Common {
-
+	public final static int DEBUG = 1*0		;//DEBUG symbol
+	
+	
 	// FileUtil
 	public static final UtilFile FU = new UtilFile();
 	// SerializeDeserializeUtil

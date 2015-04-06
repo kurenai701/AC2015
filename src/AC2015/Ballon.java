@@ -90,7 +90,8 @@ public class Ballon implements Serializable {
 			
 			//*** changes
 			Pos nextPos = optB.mappedPos[pA.posList.get(ii+1)];
-			aChanges.remove(curT);
+			if(curT<aChanges.size())
+				aChanges.remove(curT);
 			boolean updated = false;
 			for(Move mov : curPos.moves)
 			{
@@ -103,9 +104,23 @@ public class Ballon implements Serializable {
 			if(!updated)
 			{
 				Sys.pln("ERROR, no path found");
-				throw(new RuntimeException());
+				aChanges.add( curT,0);
+				//throw(new RuntimeException());
 			}
 		}
 
 	}
+	
+	@Override
+	public String toString() {
+		
+		String resp = "Ballon #"+this.Num +" Pos :" ;
+		for(Pos p :posList)
+		{
+			resp = resp+" "+p;
+		}
+		return resp;
+	}
+	
+	
 }

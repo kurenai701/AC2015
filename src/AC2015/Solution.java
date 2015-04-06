@@ -53,7 +53,7 @@ public class Solution implements Serializable {
 		for(int tt=0; tt<=pb.T;tt++)
 		{
 			int covered[] = new int[pb.L];// init to 0
-			boolean stillAlive = false;
+		//	boolean stillAlive = false;
 			
 			for( int nb=0;nb<pb.B;nb++)
 			{
@@ -61,6 +61,11 @@ public class Solution implements Serializable {
 				
 				if( tt < curB.posList.size())
 				{
+					if(Common.DEBUG ==1)
+					{
+						System.out.print("at T:"+tt+"Ballon #"+curB.Num+"scored : ");
+					}
+				
 					
 					Pos curPos = curB.posList.get(tt);
 					if(curPos.z>0)
@@ -73,18 +78,28 @@ public class Solution implements Serializable {
 						
 						if(covered[Ncible]==0)
 						{
+							if(Common.DEBUG ==1)
+							{
+								System.out.print(" " +Ncible);
+							}
+									
 							score++;//NEw cible reached
 						}
 						covered[Ncible]++;
 					}
 					
 					}
-					stillAlive=true;
-				}//if				
-				if(!stillAlive)
-				{
-				break;//Fast evaluate end
-				}
+					if(Common.DEBUG ==1)
+					{
+						System.out.println("");
+					}
+	//				stillAlive=true;
+				}//if	
+				
+//				if(!stillAlive)
+//				{
+//				break;//Fast evaluate end
+//				}
 			}//for Ballon
 		}//For tt
 		
