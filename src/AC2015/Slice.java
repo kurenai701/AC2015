@@ -12,7 +12,23 @@ public class Slice implements Serializable {
 	int colS;
 	int colE;
 	int area;
-	public Slice(int rowS, int rowE, int colS, int colE,int area) {
+	
+	
+	
+	
+	public Slice(int rowS, int rowE, int colS, int colE) {
+		super();
+		this.rowS = rowS;
+		this.rowE = rowE;
+		this.colS = colS;
+		this.colE = colE;
+	}
+	
+	
+	
+	
+	// pour rétro compatibilité
+	public Slice(int rowS, int rowE, int colS, int colE, int area) {
 		super();
 		this.rowS = rowS;
 		this.rowE = rowE;

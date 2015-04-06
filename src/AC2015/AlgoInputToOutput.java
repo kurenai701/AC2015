@@ -68,7 +68,7 @@ public class AlgoInputToOutput {
 	boolean  isValid(Problem pb, int Rmax,int Rmin,int Cmin,int Cmax)
 	{
 		int Rsize = (Rmax-Rmin)+1;
-		int Csize = (Rmax-Rmin)+1; //non mais ! pourquoi ça fait un meilleur score que si c'était Cmax - Cmin, avec une solution valide !
+		int Csize = (Rmax-Rmin)+1; //non mais ! pourquoi ça fait un meilleur score avec Rmax - Rmin que si c'était Cmax - Cmin, avec une solution valide !
 		
 		// taille pizza trop grande (plus que S)
 		if( Rsize*Csize > pb.S)
@@ -183,15 +183,12 @@ public class AlgoInputToOutput {
 		Solution sol = new Solution(pb);
 		sol.slices = new ArrayList<Slice>(); 
 	
+		//////
+		buildTableauSumAdd(pb);
 		//////////////////////////////////
 		// TODO Write THE ALGORITHM :-) //
 		//////////////////////////////////
-				
-	//	char[][] Pizza; 
-	//	int[][] sumAdd;
-	
-		
-		buildTableauSumAdd(pb);
+
 		
 		pb.BLOCKED = new boolean[pb.R][pb.C];
 		
@@ -204,37 +201,47 @@ public class AlgoInputToOutput {
 //		RSIZE = rand.nextInt(13/CSIZE);
 //		
 		
-		for(CSIZE = 12;CSIZE>0;CSIZE--)
-		{
-			for(RSIZE = 12;RSIZE>0;RSIZE--)
-			{	
-				
-				//// CORE
-				while(true)
-				{
-					
-	    	 Solution soladd= firstAdd( pb,  RSIZE,  CSIZE);
-				if(soladd!=null)
-				{
-					
-						for(int ii = soladd.slices.get(0).rowS;ii<=soladd.slices.get(0).rowE;ii++ )
-						{
-							for(int jj = soladd.slices.get(0).colS;jj<=soladd.slices.get(0).colE;jj++ )
-							{
-								pb.BLOCKED[ii][jj]=true;
-							}
-						}
-						sol.slices.addAll(soladd.slices);
-				}else{
-					break;
-					}
-				}
-				
-				
-				
-			}
-		}
 		
+			for(CSIZE = 12;CSIZE>0;CSIZE--)
+			{
+				for(RSIZE = 12;RSIZE>0;RSIZE--)
+				{	
+					
+					//// CORE
+					while(true)
+					{
+						
+		    	 Solution soladd= firstAdd( pb,  RSIZE,  CSIZE);
+					if(soladd!=null)
+					{
+							int rowSt = soladd.slices.get(0).rowS;
+							int rowEnd = soladd.slices.get(0).rowE;
+							int colSt = soladd.slices.get(0).colS;
+							int colEnd = soladd.slices.get(0).colE;
+						
+						
+							for(int ii = rowSt;ii<=rowEnd;ii++ )
+							{
+								for(int jj = colSt ;jj<=colEnd;jj++ )
+								{
+									// bloquer les cases déjà dans une part
+									pb.BLOCKED[ii][jj]=true;
+								}
+							}
+							
+							// rajouter à la solution courante
+							sol.slices.addAll(soladd.slices);
+							
+					}else{
+						break;
+						}
+					}
+					
+					
+					
+				}
+			}
+	
 	
 	
 		
@@ -252,9 +259,9 @@ public class AlgoInputToOutput {
 	{
 		if(RSIZE*CSIZE<=pb.S)
 		{
-			for(int Rstart = 0;Rstart<pb.R-RSIZE;Rstart++ )
+			for(int Rstart = 0;Rstart<pb.R-RSIZE+1;Rstart++ )
 			{
-				for(int Cstart = 0;Cstart<pb.C-CSIZE;Cstart++ )
+				for(int Cstart = 0;Cstart<pb.C-CSIZE+1;Cstart++ )
 				{
 	
 					
@@ -274,23 +281,6 @@ public class AlgoInputToOutput {
 		
 	}
 	
-	
-	public Solution AlgoComplicatedFromProblem(Problem pb)
-	{
-		System.out.println("Starting complicatedalgo");
-		Solution sol = new Solution();
 		
-		//////////////////////////////////
-		// TODO Write THECOMPLICATED ALGORITHM :-) //
-		//////////////////////////////////
-				
-	
-		////////////////
-				
-		System.out.println("Finished complicatedalgo");
-		return sol ;
-	}
-	
-	
 	
 }

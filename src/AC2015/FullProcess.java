@@ -13,6 +13,7 @@ public class FullProcess {
 		ProblemSimplifyer simplifyer = new ProblemSimplifyer();
 		AlgoInputToOutput algo = new AlgoInputToOutput();
 		
+		ClemAlgo clemalgo = new ClemAlgo();
 				
 		// ****** Get Problem Model from file
 		Problem pbMod = FromInputFileToProblem(Common.InputFilePath);
@@ -20,7 +21,9 @@ public class FullProcess {
 		Problem pbModSimplified = simplifyer.SimplifyProblem(pbMod);
 		
 		// ****** Process Algorithm to find Solution
-		Solution sol = algo.AlgoSimple(pbModSimplified);			
+		//Solution sol = algo.AlgoSimple(pbModSimplified);			
+		Solution sol = clemalgo.AlgoSimple(pbModSimplified);
+		
 		
 		// ****** Generate output file
 		GenerateOutputFileFromSolutionAndVerify(sol, Common.OutputGeneratedFullPath);		
