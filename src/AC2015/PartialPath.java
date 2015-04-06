@@ -7,7 +7,12 @@ import java.util.List;
 
 
 
-// Stores a partial path. Returns the comparison of the score of each path
+
+/**
+ * @author Alyx
+ * // Stores a partial path for a Ballon
+ * Two Partial PAths are different only if they reach new cibles at different times.
+ */
 public class PartialPath implements Comparable<PartialPath>{
 	public LinkedList<Integer> posList = new LinkedList<Integer>();
 	public OptimizeBallon optB;
@@ -15,6 +20,12 @@ public class PartialPath implements Comparable<PartialPath>{
 	public int Tstart;
 	
 	
+	/**
+	 * @param start Index of the start position
+	 * @param optB  OptimizeBallon
+	 * @param pb	Problem
+	 * @param Tstart Time of optimisation start
+	 */
 	public PartialPath(int start, OptimizeBallon optB,Problem pb, int Tstart) {
 		super();
 		this.optB = optB;
@@ -64,11 +75,12 @@ public class PartialPath implements Comparable<PartialPath>{
 	}
 
 
+	// Greater if score is lower
 	@Override
 	public int compareTo(PartialPath o) {
 		int myScore = this.getScore();
 		int oScore  = o.getScore();
-		return Integer.compare(myScore, oScore);
+		return Integer.compare( oScore,myScore);
 	}
 
 

@@ -3,6 +3,8 @@ package AC2015;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import javax.management.RuntimeErrorException;
+
 public class Ballon implements Serializable {
 	int Num;
 	ArrayList<Integer> aChanges= new ArrayList<Integer>();// Contient -1, 0, ou 1 pour mouvements réels (-1,0,1);
@@ -81,21 +83,27 @@ public class Ballon implements Serializable {
 		for(int ii = 0; ii< pA.posList.size()-1;ii++)
 		{
 			int curT = startT+ii;
-			
+			//*** curpos
 			posList.remove(curT);
 			Pos curPos = optB.mappedPos[pA.posList.get(ii)];
-			Pos nextPos = optB.mappedPos[pA.posList.get(ii+1)];
-			
 			posList.add(curT,curPos);
-			aChanges.remove(curT);
-		
 			
+			//*** changes
+			Pos nextPos = optB.mappedPos[pA.posList.get(ii+1)];
+			aChanges.remove(curT);
+			boolean updated = false;
 			for(Move mov : curPos.moves)
 			{
 				if( mov.nextPos == nextPos)
 				{
 					aChanges.add( curT,mov.aChange);
+					updated = true;
 				}
+			}
+			if(!updated)
+			{
+				Sys.pln("ERROR, no path found");
+				throw(new RuntimeException());
 			}
 		}
 

@@ -7,18 +7,40 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+
+
+/**
+ * @author Alyx
+ *
+ */
 public class OptimizePairBallon {
 	OptimizeBallon optB;
-	final static int DURATIONOPTMIDDLE = 20;// Number of cycles to optimize for in middle of path
-	final static int DURATIONOPTEND = 10;		// Number of cycles to optimize for in end of path
+	final static int DURATIONOPTMIDDLE = 4;//TODO// Number of cycles to optimize for in middle of path
+	final static int DURATIONOPTEND = 0;		// Number of cycles to optimize for in end of path
 	
-	//optimize a pair of Ballon. The Ballons are updated directly
-	void    optimizeBallonPair(
+	public OptimizePairBallon(OptimizeBallon optB)
+	{
+		this.optB = optB;
+	}
+	
+	/**
+	 * optimize a pair of Ballon. The Ballons are updated directly	
+	 * @param S Solution to optimize
+	 * @param indexBallonA Index of first Ballon to Optimize
+	 * @param indexBallonB Index of second Ballon to optimize
+	 * @param pb Problem
+	 */
+	public void optimizePair(
 			Solution S,
-			int indexBallonA, // index of first Ballon to optimize
-			int indexBallonB, // index of second Ballon to optimize
+			int indexBallonA, 
+			int indexBallonB, 
 			Problem pb)
 			{
+		if(indexBallonA == indexBallonB)
+		{
+			return;
+		}
+		
 		int initialScore = S.GetScore();
 		Ballon A = S.ballons[indexBallonA];
 		Ballon B = S.ballons[indexBallonA];
@@ -26,7 +48,9 @@ public class OptimizePairBallon {
 				// Remove A & B actions
 			optB.updateEffect(pb, A, -1);
 			optB.updateEffect(pb, B, -1);
-				//Optimize pair for all times
+//**************  Optimize pair for all times
+			if(DURATIONOPTMIDDLE/2>0)
+			{
 			for(int curT=0; curT<pb.T-DURATIONOPTMIDDLE;curT+=DURATIONOPTMIDDLE/2)
 			{
 				
@@ -36,6 +60,11 @@ public class OptimizePairBallon {
 						DURATIONOPTMIDDLE, 		//Duration of path
 						pb,
 						curT);			//Start time of path
+				if(AllPathForA.size()==0)
+				{
+					Sys.pln("Error, no path found for A!");
+					throw(new RuntimeException());
+				}
 
 				HashSet<PartialPath> AllPathForB = getAllPathFromTo(
 						B.posList.get(curT).numOpt, 			//Index of start position
@@ -43,7 +72,11 @@ public class OptimizePairBallon {
 						DURATIONOPTMIDDLE, 		//Duration of path
 						pb,
 						curT);			//Start time of path
-				
+				if(AllPathForB.size()==0)
+				{
+					Sys.pln("Error, no path found for B!");
+					throw(new RuntimeException());
+				}
 				
 				List<PartialPath> tempPaths =    getOptimalPathPair( 
 						AllPathForA, // All possible paths for Ballon A
@@ -57,10 +90,24 @@ public class OptimizePairBallon {
 				
 				A.updatePartialPath( curT,pA , pb ,optB);
 				B.updatePartialPath( curT,pB , pb, optB);
+				
+				
+				
+				int middleScore = S.GetScore();
+				Sys.pln("Path optimizing index " + indexBallonA + " : " + indexBallonB + " initScore: "+ initialScore + " middle :" + middleScore );
+				
+				if(middleScore< initialScore)
+				{
+					Sys.pln("ERROR!!! : Optimisation shall always be improving");
+					throw(new RuntimeException());
+				}
+				
+				
 			}//Optimize middle of paths
+			}
 			
-			
-			// Optimize end of path
+//***************   Optimize end of path
+			/*
 			{
 				int curT = pb.T+1-DURATIONOPTEND;
 				
@@ -92,8 +139,11 @@ public class OptimizePairBallon {
 				A.updatePartialPath( curT,pA , pb ,optB);
 				B.updatePartialPath( curT,pB , pb, optB);
 			}//Optimize end of paths
+			*/
 			
-
+			//Put back effects
+			optB.updateEffect(pb, A, 1);
+			optB.updateEffect(pb, B, 1);
 	
 			// Check final score. It has been updated since the Ballons A and B inside it have been updated. IT shall be at least as good as previous score
 			int finalScore = S.GetScore();
@@ -102,6 +152,7 @@ public class OptimizePairBallon {
 			if(finalScore< initialScore)
 			{
 				Sys.pln("ERROR!!! : Optimisation should always be improving");
+				throw(new RuntimeException());
 			}
 	
 			}
@@ -109,14 +160,22 @@ public class OptimizePairBallon {
 	
 	
 	
-	// List all the different paths from start to end position reachable in time T.
-	// Two paths are different if they reach different unreached cibles at different times
+	/**
+	 * List all the different paths from start to end position reachable in time T.
+	 * Two paths are different if they reach different unreached cibles at different times
+	 * @param start Index of start position
+	 * @param end  Index of end position
+	 * @param duration Duration of path
+	 * @param pb Problem
+	 * @param Tstart Start time of path
+	 * @return All the paths from start to end
+	 */
 	HashSet<PartialPath> getAllPathFromTo(
-			int start, 			//Index of start position
-			int end, 			//Index of end position
-			int duration, 		//Duration of path
+			int start, 			
+			int end, 			
+			int duration, 		
 			Problem pb,
-			int Tstart)			//Start time of path
+			int Tstart)			
 	{
 		HashSet<PartialPath> resp = new HashSet<PartialPath>();//A hashSet is used to avoid outputting 2 times paths with same cibles activated
 		if(duration == 0 )
@@ -132,17 +191,31 @@ public class OptimizePairBallon {
 			}
 		}
 		
+		Pos Pstart = optB.mappedPos[start];
+		Pos Pend = optB.mappedPos[start];
+		if( Math.abs(Pend.z - Pstart.z)>duration ||
+			Math.abs(Pend.x - Pstart.x)>duration*3 ||
+			Math.abs(Pend.y - Pstart.y)>duration*8)
+		{
+			return null;
+		}
+		
+		
+		
 		
 		for(int ii=0;ii<3;ii++ )
 		{
-			int nextP = optB.successor[start][ii];
+			int nextP = optB.successor[ii][start];
 			
 			HashSet<PartialPath> temp = getAllPathFromTo(nextP, end, duration-1,pb, Tstart+1);
-			for(PartialPath endOfPath : temp)
+			if(temp!=null)
 			{
-				endOfPath.posList.add(0, start);
-				endOfPath.Tstart = Tstart;
-				resp.add( endOfPath  );
+				for(PartialPath endOfPath : temp)
+				{
+					endOfPath.posList.add(0, start);
+					endOfPath.Tstart = Tstart;
+					resp.add( endOfPath  );
+				}
 			}
 		}
 		
@@ -156,19 +229,27 @@ public class OptimizePairBallon {
 	
 	
 	
-	// Answer the optimal pair of path for Ballon A and B (pair of path with best global score)
+	
+	/**
+	 * // Answer the optimal pair of path for Ballon A and B (pair of path with best global score)
+	 * @param AllPathForA All possible paths for Ballon A
+	 * @param AllPathForB All possible paths for Ballon B 
+	 * @param Tstart Starting time of optimisation
+	 * @param pb Problem
+	 * @return The optimal partialpath for Ballon A and Ballon B
+	 */
 	List<PartialPath>    getOptimalPathPair( 
-			Set<PartialPath> AllPathForA, // All possible paths for Ballon A
-			Set<PartialPath> AllPathForB, // All possible paths for Ballon B 
-			int Tstart,// Starting time of optimisation
+			Set<PartialPath> AllPathForA, 
+			Set<PartialPath> AllPathForB, 
+			int Tstart,
 			Problem pb)
 			{
 		
 		TreeSet<PartialPath> AllPathForASorted = new TreeSet<PartialPath>();
 		AllPathForASorted.addAll(AllPathForA); 
 		TreeSet<PartialPath> AllPathForBSorted = new TreeSet<PartialPath>();
-		AllPathForASorted.addAll(AllPathForB); 
-		int bestScore = 0;//TODO : initialize with current solution score
+		AllPathForBSorted.addAll(AllPathForB); 
+		int bestScore = Integer.MIN_VALUE;//TODO : initialize with current solution score
 		
 		
 		List<PartialPath> resp=null;
@@ -178,7 +259,8 @@ public class OptimizePairBallon {
 			
 			for(PartialPath curPathB : AllPathForB)
 			{
-				if(curPathB.getScore()+bestScoreA  < bestScore)
+				int bestScoreB =curPathB.getScore(); 
+				if(bestScoreB+bestScoreA  <= bestScore)
 				{
 					break;// Can not improve bestScore, do not look for worst path of B
 				}
@@ -204,6 +286,13 @@ public class OptimizePairBallon {
 	
 	
 	
+	/**
+	 * The score obtained with the two partial path applied
+	 * @param curPathA PartialPath for Ballon A
+	 * @param curPathB PArtialPath for Ballon B
+	 * @param pb	Problem
+	 * @return The resulting score
+	 */
 	int scoreCombined( PartialPath curPathA,PartialPath curPathB, Problem pb)
 	{
 		int score = 0;
