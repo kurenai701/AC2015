@@ -175,8 +175,10 @@ public class OptimizeBallon {
 			//Add start position
 			curScoreAtT.set(pb.StartPos.numOpt, SCORESHIFT);
 			ScorePosAtT = new int[pb.R*pb.C];
+			int VM = pb.T+0;//TO CHECK the +0
 			
-			for(this.tt=0;this.tt<pb.T+1;this.tt++)
+			
+			for(this.tt=0;this.tt<VM;this.tt++)
 			{
 //				long endTime = System.nanoTime();
 //				Sys.pln("Ballon #"+b.Num+" took up to start of precompute "+(endTime-tstart)/1e6+" ms");
@@ -291,7 +293,7 @@ public class OptimizeBallon {
 			Ballon result = new Ballon(b.Num,pb.StartPos);
 			LinkedList<Integer> ResultPath= new LinkedList<Integer>();
 			int curIndex = bestIndexEnd;
-			int tt = pb.T+1;//To check
+			int tt = VM;//To check
 			Pos curPos = mappedPos[curIndex];
 			while(tt>0)
 			{
@@ -329,7 +331,7 @@ public class OptimizeBallon {
 	public int 	scoreAtT(List<Integer> coverList,int tt)
 	{
 		if(coverList==null) //No score at altitude 0
-			return -1000000;
+			return 0;//-100000000
 		int score = 0;
 		for(int Ncible : coverList)
 		{
