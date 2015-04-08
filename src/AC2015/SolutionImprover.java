@@ -124,9 +124,13 @@ public class SolutionImprover {
 				countIterNoImproveGlobal++;
 				
 			}
+			
 			if(rand.nextDouble()<PSTOPBACKTRACKING     ) 
+			{
+				if(PARAMAVOIDCOEFF==6000)
+					bestScore = 0;
 				PARAMAVOIDCOEFF=9999 ;//-1;
-				
+			}	
 			  PRESTORE = 0.0;
 			  
 			solCurrent.pb = pb;

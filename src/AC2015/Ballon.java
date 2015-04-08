@@ -103,9 +103,9 @@ public class Ballon implements Serializable {
 			}
 			if(!updated)
 			{
-			//	Sys.pln("ERROR, no path found");
+				Sys.pln("ERROR, no path found");
 				aChanges.add( curT,0);
-				//throw(new RuntimeException());
+			//	throw(new RuntimeException());
 			}
 		}
 

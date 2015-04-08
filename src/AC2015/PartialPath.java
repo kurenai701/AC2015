@@ -48,8 +48,8 @@ public class PartialPath implements Comparable<PartialPath>{
 	// Hash function to implements efficient HashSet
 	@Override
 	public int hashCode() {
-		
-		if(true)
+		boolean USEPATHTRIMMING = true;
+		if(USEPATHTRIMMING)
 		{
 			
 		
@@ -105,15 +105,26 @@ public class PartialPath implements Comparable<PartialPath>{
 	public int compareTo(PartialPath o) {
 		int myScore = this.getScore();
 		int oScore  = o.getScore();
-		return Integer.compare( oScore,myScore);
+		if(oScore>myScore)
+		{
+			return 1;
+		}
+		if(oScore<myScore)
+		{
+			return -1;
+		}
+		
+		
+		return Integer.compare( this.hashCode(),o.hashCode());
 	}
 
 
 	int getScore() {
 		int score = 0;
-		int tt = Tstart;
-		for(int  ii = 0;ii<posList.size()-1;ii++)
+		
+		for(int  ii = 0;ii<posList.size();ii++)
 		{
+			int tt = Tstart+ii;
 			int posN = posList.get(ii);
 			if(Common.DEBUG ==1)
 			{
@@ -135,7 +146,7 @@ public class PartialPath implements Comparable<PartialPath>{
 				}
 				if(Common.DEBUG==1)
 					Sys.pln("");
-				tt++;
+				
 		}
 		return score;
 		

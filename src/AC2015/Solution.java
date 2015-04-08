@@ -68,6 +68,54 @@ public class Solution implements Serializable {
 				
 					
 					Pos curPos = curB.posList.get(tt);
+					curPos = pb.AllPosMat[curPos.x][curPos.y][curPos.z];
+					
+					//Check moves
+					if(tt+1<=pb.T)
+					{
+						Pos nextPos = curB.posList.get(tt+1);
+						nextPos = pb.AllPosMat[nextPos.x][nextPos.y][nextPos.z];
+						
+						boolean validated = false;
+						if(curPos.moves != null)
+						{
+							for(Move m : curPos.moves)
+							{
+								if(m.aChange == curB.aChanges.get(tt))
+								{
+									if(m.nextPos.numOpt != nextPos.numOpt)
+									{
+										
+										Sys.pln("BAD NEXT pos : expected " + nextPos + " Found : "+m.nextPos);
+										
+										Sys.pln("Correcting");
+										curB.posList.remove(tt+1);
+										curB.posList.add(tt+1,m.nextPos);
+										 
+									}
+									validated = true;
+								}
+								if(m.nextPos.numOpt == nextPos.numOpt)
+								{
+									curB.aChanges.remove(tt);
+									curB.aChanges.add(tt,m.aChange);
+				
+								}
+								
+							}
+						}
+						if(!validated)
+						{
+							if(curPos.numOpt!=0)
+							{
+								Sys.pln("Move not validated! Ballon#"+curB.Num+" Pos:"+curPos);
+							}
+						}
+						
+					}
+					
+					
+					
 					if(curPos.z>0)
 					{
 						

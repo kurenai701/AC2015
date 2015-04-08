@@ -373,20 +373,20 @@ public class OptimizeBallon {
 	
 	public void partialUpdateEffect(Problem pb, PartialPath pp,int direction)//set direction to 1 to add, to -1 to remove
 	{
-for(int tt=pp.Tstart; tt<pp.Tstart+pp.posList.size();tt++)
-{
-	
-		int curPosIndex = pp.posList.get(tt-pp.Tstart);
-		Pos curPos = mappedPos[curPosIndex];
-		if(curPos.z>0)
+		for(int tt=pp.Tstart; tt<pp.Tstart+pp.posList.size();tt++)
 		{
-			for(int Ncible : curPos.coverList)
-			{
-				coveredT[Ncible][tt] = Integer.max(0,coveredT[Ncible][tt]+direction);
-			}
 			
-		}
-}//For tt
+				int curPosIndex = pp.posList.get(tt-pp.Tstart);
+				Pos curPos = mappedPos[curPosIndex];
+				if(curPos.z>0)
+				{
+					for(int Ncible : curPos.coverList)
+					{
+						coveredT[Ncible][tt] = Integer.max(0,coveredT[Ncible][tt]+direction);
+					}
+					
+				}
+		}//For tt
 	}
 		
 }

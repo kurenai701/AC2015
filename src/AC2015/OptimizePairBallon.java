@@ -16,8 +16,8 @@ import java.util.TreeSet;
  */
 public class OptimizePairBallon {
 	OptimizeBallon optB;
-	final static int DURATIONOPTMIDDLE = 9;//TODO// Number of cycles to optimize for in middle of path
-	final static int DURATIONOPTEND = 10;		// Number of cycles to optimize for in end of path
+	final static int DURATIONOPTMIDDLE = 8;//TODO// Number of cycles to optimize for in middle of path
+	final static int DURATIONOPTEND = 8;		// Number of cycles to optimize for in end of path
 	
 	public OptimizePairBallon(OptimizeBallon optB)
 	{
@@ -55,23 +55,26 @@ public class OptimizePairBallon {
 			
 			
 //**************  Optimize pair for all times, not working
+			Ballon Acopy, Bcopy;
 			if(DURATIONOPTMIDDLE/2>0)
 			{
 			for(int curT=0; curT<pb.T-DURATIONOPTMIDDLE;curT+=DURATIONOPTMIDDLE/2)
 			{
-				if(Common.DEBUG==1)
+				if(Common.DEBUG==2)
 				{
-					Sys.pln("Previous path for A:" + A);
-					Sys.pln("Previous path for B:" + B);
+					Sys.pln("Previous path for A:" + A.posList.subList(curT, curT+DURATIONOPTMIDDLE+1));
+					Sys.pln("Previous path for B:" + B.posList.subList(curT, curT+DURATIONOPTMIDDLE+1));	
+					//Acopy = Common.DeepCopy(A);
+					//Bcopy = Common.DeepCopy(B);
 				}
-				Pos posA = A.posList.get(curT);
-				Pos posB = B.posList.get(curT);
+				Pos posA = A.posList.get(curT+DURATIONOPTMIDDLE/2);
+				Pos posB = B.posList.get(curT+DURATIONOPTMIDDLE/2);
 				int MAXROPT = 25;
 				int MAXCOPT = 70;
 				
 				// Skip Ballon too far away
 				if(Math.abs(posA.x-posB.x) >=MAXROPT||   
-					Math.abs(posA.y-posB.y) >=MAXCOPT	
+					Math.min(  Math.abs(posA.y-posB.y) , pb.C-Math.abs(posA.y-posB.y))    >=MAXCOPT	
 						)
 				{
 					continue;
@@ -128,16 +131,27 @@ public class OptimizePairBallon {
 				A.updatePartialPath( curT,pA , pb ,optB);
 				B.updatePartialPath( curT,pB , pb, optB);
 				
-				if(Common.DEBUG==1)
+				if(Common.DEBUG==2)
 				{
 					optB.updateEffect(pb, A, 1);
 					optB.updateEffect(pb, B, 1);
 					
 					int middleScore = S.GetScore();
-					Sys.pln("Path optimizing index " + indexBallonA + " : " + indexBallonB + " initScore: "+ initialScore + " middle :" + middleScore );
+					Sys.pln("Path optimizing index " + indexBallonA + " startT "+ curT+": " + indexBallonB + " initScore: "+ initialScore + " middle :" + middleScore );
 				
 					if(middleScore< initialScore)
 					{
+						Sys.pln("pA : "+ pA);
+						Sys.pln("pB : "+ pB);
+						optB.updateEffect(pb, A, -1);
+						optB.updateEffect(pb, B, -1);
+						List<PartialPath> tempPaths3 =    getOptimalPathPair( 
+								AllPathForA, // All possible paths for Ballon A
+								AllPathForB, // All possible paths for Ballon B 
+								curT,// Starting time of optimisation
+								pb);
+								
+						
 						Sys.pln("ERROR!!! : Optimisation shall always be improving");
 						throw(new RuntimeException());
 					}
@@ -152,19 +166,19 @@ public class OptimizePairBallon {
 		
 			
 			
-//***************   Optimize end of path, Working
-			
+//***************   Optimize end of path, Not working , still reducing score.... TODO : reecrire sans cut&paste
+			if(DURATIONOPTEND>0)
 			{
-				int curT = pb.T-DURATIONOPTEND;//+1
-				Pos posA = optB.mappedPos[A.posList.get(curT).numOpt];
-				Pos posB = optB.mappedPos[B.posList.get(curT).numOpt];
+				int curT = pb.T-DURATIONOPTEND+0;//TODO
+				Pos posA = optB.mappedPos[A.posList.get(curT+DURATIONOPTEND/2).numOpt];
+				Pos posB = optB.mappedPos[B.posList.get(curT+DURATIONOPTEND/2).numOpt];
 				
 				int MAXROPT = 25;
 				int MAXCOPT = 70;
 				
 				// Skip Ballon too far away
 				if(Math.abs(posA.x-posB.x) <MAXROPT&&   
-					Math.abs(posA.y-posB.y) <MAXCOPT	
+						Math.min(  Math.abs(posA.y-posB.y) , pb.C-Math.abs(posA.y-posB.y)) <MAXCOPT	
 						)
 				{
 				
@@ -195,10 +209,13 @@ public class OptimizePairBallon {
 					PartialPath pA = tempPaths.get(0);
 					PartialPath pB = tempPaths.get(1);
 					
+				//	pA.posList.add( optB.successor[0][pA.posList.get(pA.posList.size()-1)]     );
+				//	pB.posList.add( optB.successor[0][pB.posList.get(pB.posList.size()-1)]     );
+					
 					A.updatePartialPath( curT,pA , pb ,optB);
 					B.updatePartialPath( curT,pB , pb, optB);
 				}//Optimize end of paths
-				
+			}
 				
 				//Put back effects
 				optB.updateEffect(pb, A, 1);
@@ -216,7 +233,7 @@ public class OptimizePairBallon {
 				}
 				*/
 			}
-			}
+			
 	
 	
 	HashMap<Long, HashSet<PartialPath>>  PathStore;
@@ -238,16 +255,11 @@ public class OptimizePairBallon {
 			Problem pb,
 			int Tstart)			
 	{
-		Long LookUpKey = (long)start + 200000*(long)Tstart+ 1000000000*duration;  
+		Long LookUpKey = (long)start + 1000000000*duration;  // unique for all cases
 		if(PathStore.containsKey(LookUpKey))
 		{
 			return PathStore.get(LookUpKey);
 		}
-		
-		
-		
-		
-		
 		
 		
 		HashSet<PartialPath> resp = new HashSet<PartialPath>();//A hashSet is used to avoid outputting 2 times paths with same cibles activated
@@ -264,15 +276,24 @@ public class OptimizePairBallon {
 			}
 		}
 		
-		Pos Pstart = optB.mappedPos[start];
-		Pos Pend = optB.mappedPos[start];
-		if( Math.abs(Pend.z - Pstart.z)>duration ||
-			Math.abs(Pend.x - Pstart.x)>duration*5 ||
-			Math.abs(Pend.y - Pstart.y)>duration*8)
-		{
-			PathStore.put(LookUpKey,null);
-			return null;
-		}
+			
+			
+			if(end>-1)
+			{
+				Pos Pstart = optB.mappedPos[start];
+				Pos Pend = optB.mappedPos[end];
+				int dy = Math.min(  Math.abs(  Pend.y - Pstart.y   ) , pb.C- Math.abs( Pend.y - Pstart.y )  );
+				if( 
+			   ( !(Pend.z==0&&Pend.x==0)&
+			(
+				Math.abs(Pend.z - Pstart.z)>duration ||
+				Math.abs(Pend.x - Pstart.x)   >duration*5 ||
+				  dy>duration*8)))
+				{
+					PathStore.put(LookUpKey,null);
+					return null;
+				}
+			}
 		
 		
 		
@@ -329,10 +350,11 @@ public class OptimizePairBallon {
 		
 		
 		List<PartialPath> resp=null;
+		boolean earlybreak = false;
 		for(PartialPath curPathA : AllPathForASorted)
 		{
 			int bestScoreA = curPathA.getScore();
-			
+			int ii = 0;
 			for(PartialPath curPathB : AllPathForBSorted)
 			{
 				
@@ -348,8 +370,11 @@ public class OptimizePairBallon {
 					{
 						Sys.pln("BRK") ;
 					}
+					if(ii==0)
+						earlybreak=true;
 					break;// Can not improve bestScore, do not look for worst path of B
 				}
+				ii++;
 				
 				int score = scoreCombined( curPathA, curPathB, pb);
 				
@@ -366,6 +391,8 @@ public class OptimizePairBallon {
 					resp.add(curPathB);
 				}
 			}
+			if(earlybreak)
+				break;
 			
 			
 			
