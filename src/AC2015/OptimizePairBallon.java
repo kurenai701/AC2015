@@ -16,7 +16,7 @@ import java.util.TreeSet;
  */
 public class OptimizePairBallon {
 	OptimizeBallon optB;
-	final static int DURATIONOPTMIDDLE = 8;//TODO// Number of cycles to optimize for in middle of path
+	final static int DURATIONOPTMIDDLE = 10;//TODO// Number of cycles to optimize for in middle of path
 	final static int DURATIONOPTEND = 8;		// Number of cycles to optimize for in end of path
 	
 	public OptimizePairBallon(OptimizeBallon optB)
