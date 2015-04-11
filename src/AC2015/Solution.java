@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.TreeSet;
 
 /*
+ * This class stores a solution. It is serializable for storage to file.
  *  OutputModel : classe Output
  *  @author : Clemence MEGE
  */
@@ -44,6 +45,10 @@ public class Solution implements Serializable {
 		
 	
 	
+	/**
+	 * Recomputes score from model
+	 * @return score of current solution
+	 */
 	public ScoreInfo GetScoreModel()
 	{
 		

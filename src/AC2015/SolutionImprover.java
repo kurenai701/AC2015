@@ -141,7 +141,7 @@ public class SolutionImprover {
 			solCurrent.pb = pb;
 			
 			// Low probability to move back to best solution
-			if( rand.nextDouble() < PRESTORE || countIterNoImproveGlobal == 3)
+			if( rand.nextDouble() < PRESTORE || countIterNoImproveGlobal >= 3)
 			{
 				Sys.pln("Restoring");
 				solCurrent = Common.DeepCopy(bestSolution);
@@ -151,9 +151,10 @@ public class SolutionImprover {
 					OptB.updateEffect(pb, b, 1);
 				}
 				solCurrent.pb = pb;
-				PSTOPBACKTRACKING = 0.3;
+				PSTOPBACKTRACKING = 0.03;
 				countIterNoImproveGlobal = 0;
 				countIterNoImprove = 0;
+				PARAMAVOIDCOEFF = 9999;
 			
 			}
 			// Change PARAMAVOID & HEAT to explore further solutions

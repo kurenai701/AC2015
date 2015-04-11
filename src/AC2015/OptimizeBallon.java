@@ -328,6 +328,12 @@ public class OptimizeBallon {
 	
 
 	
+	/**
+	 * Computes score at current XY cell and current time. Uses PARAMAVOID to adapt the score of cibles covered by 0,1 or more Ballons
+	 * @param coverList List of cibles covered by XY cell
+	 * @param tt Time to compute score
+	 * @return score at current XY cell and current time
+	 */
 	public int 	scoreAtT(List<Integer> coverList,int tt)
 	{
 		if(coverList==null) //No score at altitude 0
@@ -346,6 +352,11 @@ public class OptimizeBallon {
 	
 	
 	
+	/**
+	 * @param pb		Problem to optimize
+	 * @param curB		Ballon to update effect
+	 * @param direction	direction of update (1 : add Ballon effect, -1 remove Ballon effect
+	 */
 	public void updateEffect(Problem pb, Ballon curB,int direction)//set direction to 1 to add, to -1 to remove
 	{
 	for(int tt=0; tt<=pb.T;tt++)
@@ -373,6 +384,11 @@ public class OptimizeBallon {
 	
 	
 	
+	/**
+	 * @param pb		Problem to optimize
+	 * @param pp		PartialPath of Ballon to update
+	 * @param direction direction of update (1 : add Ballon effect, -1 remove Ballon effect
+	 */
 	public void partialUpdateEffect(Problem pb, PartialPath pp,int direction)//set direction to 1 to add, to -1 to remove
 	{
 		for(int tt=pp.Tstart; tt<pp.Tstart+pp.posList.size();tt++)

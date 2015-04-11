@@ -7,6 +7,9 @@ import java.util.Scanner;
 
 public class FullProcess {
 	
+	/**
+	 * @param args Main function
+	 */
 	public static void main(String[] args) {
 	
 		
