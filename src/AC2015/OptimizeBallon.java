@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicIntegerArray;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
@@ -18,6 +19,11 @@ public class OptimizeBallon {
 	
 	public int PARAMAVOID;// USed to modify Cible cost computation
 	public int HEAT[];// used to modify score provided by cibles (close to TABU Search)
+	
+	
+	// ** Used for third optimisation path : combining the best  paths of 2 Ballon
+	public TreeSet<BallonIndex> lastBSet;
+	public TreeSet<BallonIndex> curBSet;
 	
 	
 	
@@ -220,13 +226,6 @@ public class OptimizeBallon {
 //				{
 			IntStream.range(0, mappedPos.length).parallel().forEach(
 							curIndex -> {
-					
-					
-					
-//					Sys.pln("index "+curIndex + " score : "+curScoreAtT[curIndex]);
-					
-					
-					
 					// The following for loop can be parallelized, but need to synchronize scurScoreAtT & fatherAtT
 					// Or to divide the index in non conflicting sets
 					for(int kk = 0;kk < 3;kk++)
@@ -272,27 +271,131 @@ public class OptimizeBallon {
 			
 			long endTime = System.nanoTime();
 			Sys.pln("Ballon #"+b.Num+" took up to end of path search "+(endTime-tstart)/1e6+" ms");
+
+			
+			
+			
 			
 			// *********  Return best path to best final position
-			float bestScore = 0;
-			int bestIndexEnd=-1;
-			float pBestKeep = (float)1;
+			endTime = System.nanoTime();
+			Sys.pln("Ballon #"+b.Num+" took "+(endTime-tstart)/1e6+" ms");
+			Ballon result =  ReturnBestPath(pb, b, fatherAtT,VM);
+		
 			
-			for(int curIndex =0;curIndex <mappedPos.length;curIndex++)
-			{
-				
-				if( curScoreAtT.get(curIndex)  > bestScore && rand.nextFloat()<pBestKeep)
-				{
-					bestScore = curScoreAtT.get(curIndex);
-					bestIndexEnd = curIndex;
-				}
-//				Sys.pln("index "+curIndex + " score : "+curScoreAtT[curIndex]);
-				
-			}
+			this.lastBSet = this.curBSet;
+			this.curBSet = ReturnBestPaths(pb, b, fatherAtT, VM);
+			
+			
+			return result;
+					
+			
 
-			Ballon result = new Ballon(b.Num,pb.StartPos);
+	}
+
+	
+	public Ballon ReturnBestPath(Problem pb, Ballon b, int fatherAtT[][], int VM)
+	{
+	
+		float bestScore = 0;
+		int bestIndexEnd=-1;
+		float pBestKeep = (float)1;
+		
+		for(int curIndex =0;curIndex <mappedPos.length;curIndex++)
+		{
+			
+			if( curScoreAtT.get(curIndex)  > bestScore && rand.nextFloat()<pBestKeep)
+			{
+				bestScore = curScoreAtT.get(curIndex);
+				bestIndexEnd = curIndex;
+			}
+	//		Sys.pln("index "+curIndex + " score : "+curScoreAtT[curIndex]);
+			
+		}
+	
+		Ballon result = new Ballon(b.Num,pb.StartPos);
+		LinkedList<Integer> ResultPath= new LinkedList<Integer>();
+		int curIndex = bestIndexEnd;
+		int tt = VM;//To check
+		Pos curPos = mappedPos[curIndex];
+		while(tt>0)
+		{
+			int prevIndex  = fatherAtT[tt][curIndex];
+			Pos prevPos = mappedPos[prevIndex];
+			for(Move m : prevPos.moves)
+			{
+				if(m.nextPos == curPos)
+				{
+					ResultPath.addFirst(m.aChange);
+				}
+			}
+			tt--;
+			curPos = prevPos;
+			curIndex = prevIndex;
+		}
+		
+		for(int aChange : ResultPath)
+		{
+			result.addMove(aChange, pb);
+		}
+		
+		
+	return result;	
+	}
+
+	class BallonIndex extends Ballon implements Comparable<BallonIndex>
+	{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 4368244870455358192L;
+		public BallonIndex(int num, Pos startPos) {
+			super(num, startPos);
+		}
+
+		public int IndexEnd;
+		public int score;
+		@Override
+		
+		public int compareTo(BallonIndex o) {
+			if(o.score>score)
+			{
+				return 1;
+			}
+			if(o.score<score)
+			{
+				return -1;
+			}
+			return Integer.compare(o.IndexEnd, IndexEnd);
+			
+		}
+		
+		
+		
+	}
+	
+	
+	public TreeSet<BallonIndex> ReturnBestPaths(Problem pb, Ballon b, int fatherAtT[][], int VM)
+	{
+		int NBALLON = 100;// Number of different Ballon to respond, sorted from best to worst
+		TreeSet<BallonIndex> sortedScore= new TreeSet<>();
+		
+		for(int curIndex =0;curIndex <mappedPos.length;curIndex++)
+		{
+				BallonIndex tmp = new BallonIndex(b.Num,pb.StartPos);
+				tmp.score = curScoreAtT.get(curIndex);
+				tmp.IndexEnd = curIndex;
+				sortedScore.add( tmp );		
+		}
+
+	
+		//Ballon result = new Ballon(b.Num,pb.StartPos);
+		
+		TreeSet<BallonIndex> result = new TreeSet<BallonIndex>();
+		for(int ii = 0;ii<NBALLON;ii++)
+		{
 			LinkedList<Integer> ResultPath= new LinkedList<Integer>();
-			int curIndex = bestIndexEnd;
+			BallonIndex curBallonIndex = sortedScore.pollFirst();
+			int curIndex = curBallonIndex.IndexEnd;
 			int tt = VM;//To check
 			Pos curPos = mappedPos[curIndex];
 			while(tt>0)
@@ -313,17 +416,20 @@ public class OptimizeBallon {
 			
 			for(int aChange : ResultPath)
 			{
-				result.addMove(aChange, pb);
+				curBallonIndex.addMove(aChange, pb);
 			}
+			result.add(curBallonIndex);
 			
-			
-			endTime = System.nanoTime();
-			Sys.pln("Ballon #"+b.Num+" took "+(endTime-tstart)/1e6+" ms");
-
-
-			return result;
+		}
 		
+		
+	return result;	
 	}
+	
+	
+	
+	
+	
 	
 	
 

@@ -5,7 +5,10 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+import java.security.SecureRandom;
 import java.util.TreeSet;
+
+import AC2015.OptimizeBallon.BallonIndex;
 
 public class SolutionImprover {
 
@@ -65,8 +68,66 @@ public class SolutionImprover {
 				{
 					oldSol.ballons[b.Num] = b;
 				}		
+				
+				
+		///////////////// Third optimization part ////////////////////
+				/*
+		long ticTime = System.nanoTime();
+		boolean first = true;
+		double PKEEP=0.05;
 		
-		
+		if(		optB.lastBSet != null && 
+				optB.curBSet  != null && 
+				optB.lastBSet.size()>0 && 
+				optB.curBSet.size()>0 )
+		{
+			Ballon bestB0 = oldSol.ballons[optB.lastBSet.first().Num];
+			Ballon bestB1 = oldSol.ballons[optB.curBSet.first().Num];
+			int bestScore = Integer.MIN_VALUE;
+			//Removes Ballons from optB
+			optB.updateEffect(pb,bestB0,-1);
+			optB.updateEffect(pb,bestB1,-1);
+			for(BallonIndex B0 : optB.lastBSet)
+			{
+				if(rand.nextDouble()>PKEEP && !first)
+					continue;
+				
+				while(B0.posList.size()<pb.T+1)
+				{
+					B0.addMove(0, pb);
+				}
+				
+				
+				oldSol.ballons[ bestB0.Num ] = B0;
+				for(BallonIndex B1 : optB.curBSet)
+				{
+					if(rand.nextDouble()>PKEEP && !first)
+						continue;
+					first = false;
+					while(B1.posList.size()<pb.T+1)
+					{
+						B1.addMove(0, pb);
+					}
+					
+					oldSol.ballons[ bestB1.Num ] = B1;
+					int curScore = oldSol.GetScore();
+					if(curScore>bestscore)
+					{
+						bestscore = curScore;
+						bestB0 = B0;
+						bestB1 = B1;
+					}
+				}
+			}
+			oldSol.ballons[ bestB0.Num ] = bestB0;
+			oldSol.ballons[ bestB1.Num ] = bestB1;
+			
+			// Restore optB
+			optB.updateEffect(pb,bestB0,1);
+			optB.updateEffect(pb,bestB1,1);
+		}
+		Sys.pln("Third opt took "+ (System.nanoTime()-ticTime)/1e6 + " ms");
+		*/
 		//////////////////////////////////////
 		return oldSol;
 
@@ -96,7 +157,7 @@ public class SolutionImprover {
 		int bestScore = bestSolution.GetScore();
 		int globalBestScore = bestScore;
 		// itérer
-		Random rand = new Random(42*13  );
+		SecureRandom rand = new  SecureRandom();//much better random generator than java.util.Random. slower, but not releveant here.
 		double PRESTORE = 0.1;
 		int  PARAMAVOIDCOEFF=9999;//-1;
 		float  PARAMHEAT =  (float)0;
