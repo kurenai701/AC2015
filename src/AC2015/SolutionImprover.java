@@ -96,14 +96,14 @@ public class SolutionImprover {
 		int bestScore = bestSolution.GetScore();
 		int globalBestScore = bestScore;
 		// itérer
-		Random rand = new Random(43  );
+		Random rand = new Random(42*13  );
 		double PRESTORE = 0.1;
 		int  PARAMAVOIDCOEFF=9999;//-1;
 		float  PARAMHEAT =  (float)0;
-		double PSTOPBACKTRACKING = 0.1;
+		double PSTOPBACKTRACKING = 0.03;
 		boolean improved = false;
 		int 	countIterNoImproveGlobal = 0;
-		int NNOIMPROVE = 80;
+		int NNOIMPROVE = 50;
 		int countIterNoImprove = NNOIMPROVE/2;
 		for (int nIter = 0; nIter <= nbIterations; nIter++)
 		{
@@ -113,14 +113,14 @@ public class SolutionImprover {
 				PARAMAVOIDCOEFF=6000;//-1;
 				countIterNoImprove = 0;
 				bestScore = 0;
-				if(improved)
-				{
-					PSTOPBACKTRACKING = Double.min(0.3, PSTOPBACKTRACKING*2);
-				}else
-				{
-					PSTOPBACKTRACKING = Double.max(0.03   ,PSTOPBACKTRACKING/1.2);
-				}
-				improved = false;
+//				if(improved)
+//				{
+//					PSTOPBACKTRACKING = Double.min(0.3, PSTOPBACKTRACKING*2);
+//				}else
+//				{
+//					PSTOPBACKTRACKING = Double.max(0.03   ,PSTOPBACKTRACKING/1.2);
+//				}
+//				improved = false;
 				countIterNoImproveGlobal++;
 				
 			}
@@ -128,15 +128,20 @@ public class SolutionImprover {
 			if(rand.nextDouble()<PSTOPBACKTRACKING     ) 
 			{
 				if(PARAMAVOIDCOEFF==6000)
+				{
 					bestScore = 0;
-				PARAMAVOIDCOEFF=9999 ;//-1;
+					PARAMAVOIDCOEFF=8000 ;
+				}else
+				{
+					PARAMAVOIDCOEFF=9999 ;//-1;
+				}
 			}	
 			  PRESTORE = 0.0;
 			  
 			solCurrent.pb = pb;
 			
 			// Low probability to move back to best solution
-			if( rand.nextDouble() < PRESTORE || countIterNoImproveGlobal == 4)
+			if( rand.nextDouble() < PRESTORE || countIterNoImproveGlobal == 3)
 			{
 				Sys.pln("Restoring");
 				solCurrent = Common.DeepCopy(bestSolution);
@@ -162,9 +167,9 @@ public class SolutionImprover {
 			
 		//**** Try another Local Optimization
 			OptimizePairBallon oPPB = new OptimizePairBallon(OptB);
-			if(countIterNoImprove > NNOIMPROVE/2)// Only used as final optimization
+			if(countIterNoImprove > NNOIMPROVE-15)// Only used as final optimization
 			{
-				for(int kk =0;kk<10;kk++)
+				for(int kk =0;kk<30;kk++)
 				{
 					int indexBallonA = rand.nextInt(pb.B);
 					int indexBallonB = rand.nextInt(pb.B);

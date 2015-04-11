@@ -16,7 +16,7 @@ import java.util.TreeSet;
  */
 public class OptimizePairBallon {
 	OptimizeBallon optB;
-	final static int DURATIONOPTMIDDLE = 10;//TODO// Number of cycles to optimize for in middle of path
+	final static int DURATIONOPTMIDDLE = 14;//TODO// Number of cycles to optimize for in middle of path
 	final static int DURATIONOPTEND = 8;		// Number of cycles to optimize for in end of path
 	
 	public OptimizePairBallon(OptimizeBallon optB)
@@ -67,18 +67,19 @@ public class OptimizePairBallon {
 					//Acopy = Common.DeepCopy(A);
 					//Bcopy = Common.DeepCopy(B);
 				}
-				Pos posA = A.posList.get(curT+DURATIONOPTMIDDLE/2);
-				Pos posB = B.posList.get(curT+DURATIONOPTMIDDLE/2);
-				int MAXROPT = 25;
-				int MAXCOPT = 70;
 				
-				// Skip Ballon too far away
-				if(Math.abs(posA.x-posB.x) >=MAXROPT||   
-					Math.min(  Math.abs(posA.y-posB.y) , pb.C-Math.abs(posA.y-posB.y))    >=MAXCOPT	
-						)
+				boolean isColliding = false;
+				for(int dec = 0;dec<=DURATIONOPTMIDDLE;dec++)
 				{
-					continue;
+					Pos posA = A.posList.get(curT+dec);
+					Pos posB = B.posList.get(curT+dec);
+					int dist = distXY(posA, posB, pb);
+					if(dist<=2*pb.V)
+						isColliding = true;
 				}
+				if(!isColliding)
+					continue;
+				
 				
 				
 				
@@ -170,16 +171,18 @@ public class OptimizePairBallon {
 			if(DURATIONOPTEND>0)
 			{
 				int curT = pb.T-DURATIONOPTEND+0;//TODO
-				Pos posA = optB.mappedPos[A.posList.get(curT+DURATIONOPTEND/2).numOpt];
-				Pos posB = optB.mappedPos[B.posList.get(curT+DURATIONOPTEND/2).numOpt];
-				
-				int MAXROPT = 25;
-				int MAXCOPT = 70;
 				
 				// Skip Ballon too far away
-				if(Math.abs(posA.x-posB.x) <MAXROPT&&   
-						Math.min(  Math.abs(posA.y-posB.y) , pb.C-Math.abs(posA.y-posB.y)) <MAXCOPT	
-						)
+				boolean isColliding = false;
+				for(int dec = 0;dec<=DURATIONOPTEND;dec++)
+				{
+					Pos posA = A.posList.get(curT+dec);
+					Pos posB = B.posList.get(curT+dec);
+					int dist = distXY(posA, posB, pb);
+					if(dist<=2*pb.V)
+						isColliding = true;
+				}
+				if(isColliding)
 				{
 				
 					long timers = System.nanoTime();
@@ -233,6 +236,18 @@ public class OptimizePairBallon {
 				}
 				*/
 			}
+	
+	
+	int distXY(Pos posA, Pos posB, Problem pb)
+	{
+		
+		
+		int x = Math.abs(posA.x-posB.x); 
+		int y =	Math.min(  Math.abs(posA.y-posB.y) , pb.C-Math.abs(posA.y-posB.y));
+		
+		return (int)Math.ceil(Math.sqrt( (double)(x*x+y*y)));
+		
+	}
 			
 	
 	
