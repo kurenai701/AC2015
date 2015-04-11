@@ -36,6 +36,10 @@ public class PartialPath implements Comparable<PartialPath>{
 	}
 
 
+	/**
+	 * Copy constructor
+	 * @param o
+	 */
 	public PartialPath(PartialPath o) {
 		posList.addAll(o.posList);
 		optB	=	o.optB;
@@ -45,7 +49,8 @@ public class PartialPath implements Comparable<PartialPath>{
 	}
 
 
-	// Hash function to implements efficient HashSet
+	//** Hash function to implements efficient HashSet
+	//* Paths are different if they cover different non already covered cibles
 	@Override
 	public int hashCode() {
 		boolean USEPATHTRIMMING = true;
@@ -101,6 +106,7 @@ public class PartialPath implements Comparable<PartialPath>{
 
 
 	// Greater if score is lower
+	// Used to sort score from higher to lower.
 	@Override
 	public int compareTo(PartialPath o) {
 		int myScore = this.getScore();
@@ -119,6 +125,9 @@ public class PartialPath implements Comparable<PartialPath>{
 	}
 
 
+	/**
+	 * @return Returns score of partial path.
+	 */
 	int getScore() {
 		int score = 0;
 		

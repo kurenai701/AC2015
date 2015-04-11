@@ -15,9 +15,15 @@ public class Pos implements Serializable {
 	
 	
 	
+	/**
+	 * Stores all move accessible for position
+	 */
 	transient public ArrayList<Move> moves = new ArrayList<Move>();
 	
 	
+	/**
+	 * Stores all cibles covered by current position
+	 */
 	public ArrayList<Integer> coverList = new ArrayList<Integer>();//list of indices of the cible covered
 	
 	public int minDistance;// Used only for dijkstra
@@ -28,6 +34,11 @@ public class Pos implements Serializable {
 	{		
 	}
 		
+	/**
+	 * @param x Row of current position
+	 * @param y Column of current position
+	 * @param z Altitude of current position
+	 */
 	public Pos(int x, int y, int z)
 	{
 		this.x = x;

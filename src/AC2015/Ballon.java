@@ -30,6 +30,11 @@ public class Ballon implements Serializable {
 	}
 	
 	
+	/**
+	 * Add a move to the Ballon
+	 * @param mymove Altitude change -1, 0, +1
+	 * @param pb Problem
+	 */
 	public void addMove(int mymove, Problem pb)
 	{
 		//aChanges.add(mymove);
@@ -78,6 +83,13 @@ public class Ballon implements Serializable {
 	}
 
 
+	/**
+	 * Update a partial path of the Ballon
+	 * @param startT start time of update
+	 * @param pA Partial Path of Ballon
+	 * @param pb Problem to optimize
+	 * @param optB Optimize Ballon list
+	 */
 	public void updatePartialPath(int startT, PartialPath pA, Problem pb, OptimizeBallon optB) {
 		
 		for(int ii = 0; ii< pA.posList.size()-1;ii++)

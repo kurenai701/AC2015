@@ -19,6 +19,9 @@ public class OptimizePairBallon {
 	final static int DURATIONOPTMIDDLE = 14;//TODO// Number of cycles to optimize for in middle of path
 	final static int DURATIONOPTEND = 8;		// Number of cycles to optimize for in end of path
 	
+	/**
+	 * @param optB Creates Optimization of Pair of Ballon
+	 */
 	public OptimizePairBallon(OptimizeBallon optB)
 	{
 		this.optB = optB;
@@ -238,6 +241,13 @@ public class OptimizePairBallon {
 			}
 	
 	
+	/**
+	 * Computes the XY distance between posA et posB
+	 * @param posA 
+	 * @param posB
+	 * @param pb Problem to optimize. Used to obtain Column size for limit of map
+	 * @return Distance between posA and posB
+	 */
 	int distXY(Pos posA, Pos posB, Problem pb)
 	{
 		
