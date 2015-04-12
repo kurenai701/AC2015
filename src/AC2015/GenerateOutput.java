@@ -12,7 +12,7 @@ public class GenerateOutput implements Serializable{
 		MockTestGenerator mock = new MockTestGenerator();
 		AlgoInputToOutput al = new AlgoInputToOutput();
 		
-		AlgoClem algoCl = new AlgoClem();
+//		AlgoClem algoCl = new AlgoClem();
 		
 		
 		// Obtain output model.

@@ -157,7 +157,7 @@ public class SolutionImprover {
 		double PRESTORE = 0.1;
 		int  PARAMAVOIDCOEFF=9999;//-1;
 		float  PARAMHEAT =  0;
-		double PSTOPBACKTRACKINGREF = 0.03;
+		double PSTOPBACKTRACKINGREF = 0.02;
 		double PSTOPBACKTRACKING = PSTOPBACKTRACKINGREF;
 		boolean improved = false;
 		int 	countIterNoImproveGlobal = 0;
@@ -232,9 +232,12 @@ public class SolutionImprover {
 				{
 					for(int ll =kk+1;ll<pb.B;ll++)
 					{
-						int indexBallonA = kk;
-						int indexBallonB = ll;
-						oPPB.optimizePair(solTry, indexBallonA, indexBallonB, pb);
+						if(rand.nextDouble()<0.3)
+						{
+							int indexBallonA = kk;
+							int indexBallonB = ll;
+							oPPB.optimizePair(solTry, indexBallonA, indexBallonB, pb);
+						}
 					}
 				}
 				

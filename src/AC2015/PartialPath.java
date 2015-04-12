@@ -150,7 +150,7 @@ public class PartialPath implements Comparable<PartialPath>{
 					{
 						if(Common.DEBUG==1)
 							System.out.print("c:"+Ncible+"|"+optB.coveredT[Ncible][tt]+" ");
-						score += Integer.max(0, 10000 - 9999*optB.coveredT[Ncible][tt]);//New cible reached // Equation to tune
+						score += Integer.max(0, 10000 - 9999*Integer.min(1,optB.coveredT[Ncible][tt]));//New cible reached // Equation to tune
 					}
 				}
 				if(Common.DEBUG==1)
