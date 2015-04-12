@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.SortedSet;
 import java.util.TreeSet;
 
 
@@ -77,7 +76,7 @@ public class OptimizePairBallon {
 					Pos posA = A.posList.get(curT+dec);
 					Pos posB = B.posList.get(curT+dec);
 					int dist = distXY(posA, posB, pb);
-					if(dist<=2*pb.V)
+					if(dist<=2*pb.V-4)
 						isColliding = true;
 				}
 				if(!isColliding)
@@ -182,7 +181,7 @@ public class OptimizePairBallon {
 					Pos posA = A.posList.get(curT+dec);
 					Pos posB = B.posList.get(curT+dec);
 					int dist = distXY(posA, posB, pb);
-					if(dist<=2*pb.V)
+					if(dist<=2*pb.V-4)
 						isColliding = true;
 				}
 				if(isColliding)
@@ -255,7 +254,7 @@ public class OptimizePairBallon {
 		int x = Math.abs(posA.x-posB.x); 
 		int y =	Math.min(  Math.abs(posA.y-posB.y) , pb.C-Math.abs(posA.y-posB.y));
 		
-		return (int)Math.ceil(Math.sqrt( (double)(x*x+y*y)));
+		return (int)Math.ceil(Math.sqrt( x*x+y*y));
 		
 	}
 			
