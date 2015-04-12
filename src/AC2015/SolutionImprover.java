@@ -1,14 +1,10 @@
 package AC2015;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
-import java.security.SecureRandom;
-import java.util.TreeSet;
-
-import AC2015.OptimizeBallon.BallonIndex;
 
 public class SolutionImprover {
 
@@ -160,8 +156,9 @@ public class SolutionImprover {
 		SecureRandom rand = new  SecureRandom();//much better random generator than java.util.Random. slower, but not releveant here.
 		double PRESTORE = 0.1;
 		int  PARAMAVOIDCOEFF=9999;//-1;
-		float  PARAMHEAT =  (float)0;
-		double PSTOPBACKTRACKING = 0.05;
+		float  PARAMHEAT =  0;
+		double PSTOPBACKTRACKINGREF = 0.1;
+		double PSTOPBACKTRACKING = PSTOPBACKTRACKINGREF;
 		boolean improved = false;
 		int 	countIterNoImproveGlobal = 0;
 		int NNOIMPROVE = 50;
@@ -202,7 +199,7 @@ public class SolutionImprover {
 			solCurrent.pb = pb;
 			
 			// Low probability to move back to best solution
-			if( rand.nextDouble() < PRESTORE || countIterNoImproveGlobal >= 3)
+			if( rand.nextDouble() < PRESTORE || countIterNoImproveGlobal >= 2)
 			{
 				Sys.pln("Restoring");
 				solCurrent = Common.DeepCopy(bestSolution);
@@ -212,7 +209,7 @@ public class SolutionImprover {
 					OptB.updateEffect(pb, b, 1);
 				}
 				solCurrent.pb = pb;
-				PSTOPBACKTRACKING = 0.03;
+				PSTOPBACKTRACKING = PSTOPBACKTRACKINGREF;
 				countIterNoImproveGlobal = 0;
 				countIterNoImprove = 0;
 				PARAMAVOIDCOEFF = 9999;
