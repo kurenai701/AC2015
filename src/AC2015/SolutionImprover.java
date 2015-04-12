@@ -157,7 +157,7 @@ public class SolutionImprover {
 		double PRESTORE = 0.1;
 		int  PARAMAVOIDCOEFF=9999;//-1;
 		float  PARAMHEAT =  0;
-		double PSTOPBACKTRACKINGREF = 0.1;
+		double PSTOPBACKTRACKINGREF = 0.03;
 		double PSTOPBACKTRACKING = PSTOPBACKTRACKINGREF;
 		boolean improved = false;
 		int 	countIterNoImproveGlobal = 0;
@@ -228,11 +228,14 @@ public class SolutionImprover {
 			OptimizePairBallon oPPB = new OptimizePairBallon(OptB);
 			if(countIterNoImprove > NNOIMPROVE-15)// Only used as final optimization
 			{
-				for(int kk =0;kk<30;kk++)
+				for(int kk =0;kk<pb.B;kk++)
 				{
-					int indexBallonA = rand.nextInt(pb.B);
-					int indexBallonB = rand.nextInt(pb.B);
-					oPPB.optimizePair(solTry, indexBallonA, indexBallonB, pb);
+					for(int ll =kk+1;ll<pb.B;ll++)
+					{
+						int indexBallonA = kk;
+						int indexBallonB = ll;
+						oPPB.optimizePair(solTry, indexBallonA, indexBallonB, pb);
+					}
 				}
 				
 				
