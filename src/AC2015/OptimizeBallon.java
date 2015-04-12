@@ -448,7 +448,7 @@ public class OptimizeBallon {
 		for(int Ncible : coverList)
 		{
 			// For all cible covered by pos
-				score +=Integer.max(0, 10000 - PARAMAVOID*Integer.min(1,coveredT[Ncible][tt]));//NEw cible reached // Equation to tune
+				score +=Integer.max(0, 10000 - PARAMAVOID*coveredT[Ncible][tt]);//NEw cible reached // Equation to tune
 		}
 		return score;
 		
