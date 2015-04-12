@@ -161,7 +161,7 @@ public class SolutionImprover {
 		double PRESTORE = 0.1;
 		int  PARAMAVOIDCOEFF=9999;//-1;
 		float  PARAMHEAT =  (float)0;
-		double PSTOPBACKTRACKING = 0.03;
+		double PSTOPBACKTRACKING = 0.05;
 		boolean improved = false;
 		int 	countIterNoImproveGlobal = 0;
 		int NNOIMPROVE = 50;
@@ -171,7 +171,7 @@ public class SolutionImprover {
 			if(countIterNoImprove%NNOIMPROVE==(NNOIMPROVE-1))
 			{
 				//Restart optimisation from another start point
-				PARAMAVOIDCOEFF=6000;//-1;
+				PARAMAVOIDCOEFF=7000;//-1;
 				countIterNoImprove = 0;
 				bestScore = 0;
 //				if(improved)
