@@ -157,10 +157,11 @@ public class SolutionImprover {
 		double PRESTORE = 0.1;
 		int  PARAMAVOIDCOEFF=9999;//-1;
 		float  PARAMHEAT =  0;
-		double PSTOPBACKTRACKINGREF = 0.02;
+		double PSTOPBACKTRACKINGREF = 0.2;
 		double PSTOPBACKTRACKING = PSTOPBACKTRACKINGREF;
 		boolean improved = false;
 		int 	countIterNoImproveGlobal = 0;
+		int PARAMAVOIDREF = 4999;
 		int NNOIMPROVE = 50;
 		int countIterNoImprove = NNOIMPROVE/2;
 		for (int nIter = 0; nIter <= nbIterations; nIter++)
@@ -168,7 +169,7 @@ public class SolutionImprover {
 			if(countIterNoImprove%NNOIMPROVE==(NNOIMPROVE-1))
 			{
 				//Restart optimisation from another start point
-				PARAMAVOIDCOEFF=7000;//-1;
+				PARAMAVOIDCOEFF=PARAMAVOIDREF;//-1;
 				countIterNoImprove = 0;
 				bestScore = 0;
 //				if(improved)
@@ -185,10 +186,10 @@ public class SolutionImprover {
 			
 			if(rand.nextDouble()<PSTOPBACKTRACKING     ) 
 			{
-				if(PARAMAVOIDCOEFF==6000)
+				if(PARAMAVOIDCOEFF==PARAMAVOIDREF)
 				{
 					bestScore = 0;
-					PARAMAVOIDCOEFF=8000 ;
+					PARAMAVOIDCOEFF=7000 ;
 				}else
 				{
 					PARAMAVOIDCOEFF=9999 ;//-1;
