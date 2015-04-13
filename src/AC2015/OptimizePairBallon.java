@@ -15,7 +15,7 @@ import java.util.TreeSet;
  */
 public class OptimizePairBallon {
 	OptimizeBallon optB;
-	final static int DURATIONOPTMIDDLE = 14;//TODO// Number of cycles to optimize for in middle of path
+	final static int DURATIONOPTMIDDLE = 12;//TODO// Number of cycles to optimize for in middle of path
 	final static int DURATIONOPTEND = 8;		// Number of cycles to optimize for in end of path
 	
 	/**
@@ -96,7 +96,8 @@ public class OptimizePairBallon {
 				if(AllPathForA.size()==0)
 				{
 					Sys.pln("Error, no path found for A!");
-					throw(new RuntimeException());
+					continue;
+					//throw(new RuntimeException());
 				}
 				PathStore=new HashMap<Long, HashSet<PartialPath>>();
 				HashSet<PartialPath> AllPathForB = getAllPathFromTo(
@@ -108,7 +109,8 @@ public class OptimizePairBallon {
 				if(AllPathForB.size()==0)
 				{
 					Sys.pln("Error, no path found for B!");
-					throw(new RuntimeException());
+					continue;
+					//throw(new RuntimeException());
 				}
 		
 			

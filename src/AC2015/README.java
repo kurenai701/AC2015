@@ -35,6 +35,17 @@ package AC2015;
  * taking a small time window (ex : 12 cycles), it will try to find the best paths for the two Ballon during this time window, keeping the same start point and end point for the two Ballon.
  * Finally, the final moves (for around 8 cycles) of the two Ballons are optimized toogether.
  * This final improvement step could be greatly optimized in term of efficiency and parallelization. However, it was able to increase the score by at least 1000 points.
+ * The possible paths for the two Ballon are first enumerated, then a function computes the best pair of path.
+ * The enumeration process has some optimisations : exploration is stopped as soon as possible, and similar paths (i.e. paths which cover the same uncovered cibles at the same time) are cleaned.
+ * 
+ * * Possible improvements : 
+ * a) more pruning of candidate path is possible, first by removing cibles that are covered for all paths.
+ * b) A non exhaustive search, based on simulated annealing or tabu search may allow improvement of longer segments while still getting closer to the optimal pair of paths.
+ * c) Earlier pruning of poor paths may allow a deeper search.
+ * 
+ *
+ *
+ *
  *
  *
  *Other optimizations have been tried and are still in the code. 

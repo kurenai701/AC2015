@@ -157,11 +157,11 @@ public class SolutionImprover {
 		double PRESTORE = 0.1;
 		int  PARAMAVOIDCOEFF=9999;//-1;
 		float  PARAMHEAT =  0;
-		double PSTOPBACKTRACKINGREF = 0.2;
+		double PSTOPBACKTRACKINGREF = 0.03;
 		double PSTOPBACKTRACKING = PSTOPBACKTRACKINGREF;
 		boolean improved = false;
 		int 	countIterNoImproveGlobal = 0;
-		int PARAMAVOIDREF = 4999;
+		int PARAMAVOIDREF = 6000;
 		int NNOIMPROVE = 50;
 		int countIterNoImprove = NNOIMPROVE/2;
 		for (int nIter = 0; nIter <= nbIterations; nIter++)
@@ -189,7 +189,7 @@ public class SolutionImprover {
 				if(PARAMAVOIDCOEFF==PARAMAVOIDREF)
 				{
 					bestScore = 0;
-					PARAMAVOIDCOEFF=7000 ;
+					PARAMAVOIDCOEFF=9999 ;
 				}else
 				{
 					PARAMAVOIDCOEFF=9999 ;//-1;
@@ -200,7 +200,7 @@ public class SolutionImprover {
 			solCurrent.pb = pb;
 			
 			// Low probability to move back to best solution
-			if( rand.nextDouble() < PRESTORE || countIterNoImproveGlobal >= 2)
+			if( rand.nextDouble() < PRESTORE || countIterNoImproveGlobal >= 1)
 			{
 				Sys.pln("Restoring");
 				solCurrent = Common.DeepCopy(bestSolution);
@@ -227,7 +227,7 @@ public class SolutionImprover {
 			
 		//**** Try another Local Optimization
 			OptimizePairBallon oPPB = new OptimizePairBallon(OptB);
-			if(countIterNoImprove > NNOIMPROVE-15)// Only used as final optimization
+			if(countIterNoImprove == NNOIMPROVE-2)// Only used as final optimization
 			{
 				for(int kk =0;kk<pb.B;kk++)
 				{
