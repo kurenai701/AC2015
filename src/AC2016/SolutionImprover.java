@@ -21,110 +21,14 @@ public class SolutionImprover {
 	LinkedList<Integer> tabuList = new LinkedList<Integer>();
 	int TABULENGTH = 50;
 	
-	public Solution TryImprove(Solution oldSol, Random rand, Problem pb, OptimizeBallon optB)
+	public Solution TryImprove(Solution oldSol, Random rand, Problem pb)
 	{
 		// Deep copy is necessary so as not to mess up "old sol"
 			//////////////////////////////////////
 		// TODO Code logic to improve solution
 		//////////////////////////////////////
 
-		List<Ballon> ballonsRemoved = new ArrayList<Ballon>();
-    	 int bestscore = oldSol.GetScore();
-		int Nopt = 0;
-		int NBUPDATE = 1;
-		int MAXTEST = 30;
-		int cnt = MAXTEST;;
-		for(int Nb = 0;Nb<NBUPDATE;Nb++)
-		{
-			while(cnt>0)
-			{
-				int ii = rand.nextInt(pb.B);
-				if( !tabuList.contains(ii))
-				{
-					ballonsRemoved.add(oldSol.ballons[ii]);
-					tabuList.add(ii);
-					while(tabuList.size()>TABULENGTH)
-						tabuList.pop();
-					break;
-				}
-				cnt--;
-			}
-		}
-			 List<Ballon> bOutList = optB.optimize(pb,ballonsRemoved);
-			 
-			 for(Ballon b : bOutList)
-				{
-				while(b.posList.size()<pb.T+1)
-				{
-					b.addMove(0, pb);
-				}
-				}
-				
-				for(Ballon b : bOutList)
-				{
-					oldSol.ballons[b.Num] = b;
-				}		
-				
-				
-		///////////////// Third optimization part ////////////////////
-				/*
-		long ticTime = System.nanoTime();
-		boolean first = true;
-		double PKEEP=0.05;
-		
-		if(		optB.lastBSet != null && 
-				optB.curBSet  != null && 
-				optB.lastBSet.size()>0 && 
-				optB.curBSet.size()>0 )
-		{
-			Ballon bestB0 = oldSol.ballons[optB.lastBSet.first().Num];
-			Ballon bestB1 = oldSol.ballons[optB.curBSet.first().Num];
-			int bestScore = Integer.MIN_VALUE;
-			//Removes Ballons from optB
-			optB.updateEffect(pb,bestB0,-1);
-			optB.updateEffect(pb,bestB1,-1);
-			for(BallonIndex B0 : optB.lastBSet)
-			{
-				if(rand.nextDouble()>PKEEP && !first)
-					continue;
-				
-				while(B0.posList.size()<pb.T+1)
-				{
-					B0.addMove(0, pb);
-				}
-				
-				
-				oldSol.ballons[ bestB0.Num ] = B0;
-				for(BallonIndex B1 : optB.curBSet)
-				{
-					if(rand.nextDouble()>PKEEP && !first)
-						continue;
-					first = false;
-					while(B1.posList.size()<pb.T+1)
-					{
-						B1.addMove(0, pb);
-					}
-					
-					oldSol.ballons[ bestB1.Num ] = B1;
-					int curScore = oldSol.GetScore();
-					if(curScore>bestscore)
-					{
-						bestscore = curScore;
-						bestB0 = B0;
-						bestB1 = B1;
-					}
-				}
-			}
-			oldSol.ballons[ bestB0.Num ] = bestB0;
-			oldSol.ballons[ bestB1.Num ] = bestB1;
-			
-			// Restore optB
-			optB.updateEffect(pb,bestB0,1);
-			optB.updateEffect(pb,bestB1,1);
-		}
-		Sys.pln("Third opt took "+ (System.nanoTime()-ticTime)/1e6 + " ms");
-		*/
-		//////////////////////////////////////
+	
 		return oldSol;
 
 
@@ -142,12 +46,6 @@ public class SolutionImprover {
 		bestSolution.pb = pb;
 		
 
-		OptimizeBallon OptB = new OptimizeBallon(pb);
-		for(Ballon b : initSol.ballons)
-		{
-			OptB.updateEffect(pb, b, 1);
-		}
-		
 
 		bestSolution.pb = pb;
 		int bestScore = bestSolution.GetScore();
@@ -204,11 +102,7 @@ public class SolutionImprover {
 			{
 				Sys.pln("Restoring");
 				solCurrent = Common.DeepCopy(bestSolution);
-				OptB = new OptimizeBallon(pb);
-				for(Ballon b : initSol.ballons)
-				{
-					OptB.updateEffect(pb, b, 1);
-				}
+			
 				solCurrent.pb = pb;
 				PSTOPBACKTRACKING = PSTOPBACKTRACKINGREF;
 				countIterNoImproveGlobal = 0;
@@ -216,46 +110,15 @@ public class SolutionImprover {
 				PARAMAVOIDCOEFF = 9999;
 			
 			}
-			// Change PARAMAVOID & HEAT to explore further solutions
-			OptB.PARAMAVOID= PARAMAVOIDCOEFF;
+	
 		
 
 			//TODO : Cette fonction n'ameliore pas toujours, a creuser TODO
-  			solTry = TryImprove(solCurrent, new Random(nIter),pb, OptB);
+  			solTry = TryImprove(solCurrent, new Random(nIter),pb);
 			solTry.pb = pb;
 			bestSolution.pb = pb;
 			
-		//**** Try another Local Optimization
-			OptimizePairBallon oPPB = new OptimizePairBallon(OptB);
-			if(countIterNoImprove == NNOIMPROVE-2)// Only used as final optimization
-			{
-				for(int kk =0;kk<pb.B;kk++)
-				{
-					for(int ll =kk+1;ll<pb.B;ll++)
-					{
-						if(rand.nextDouble()<0.3)
-						{
-							int indexBallonA = kk;
-							int indexBallonB = ll;
-							oPPB.optimizePair(solTry, indexBallonA, indexBallonB, pb);
-						}
-					}
-				}
-				
-				
-				// Recover optB, it seems it was not correctly restored
-				long trecs = System.nanoTime();
-				OptB.coveredT = new int[pb.L][pb.T+3];// init to 0
-				for(Ballon b : solTry.ballons)
-				{
-					OptB.updateEffect(pb, b, 1);
-				}
-				Sys.pln("recovery took :"+(System.nanoTime()-trecs)/1e6+"ms");
-				
-			}
-			//****	
-			
-			
+		
 			// Si on dépasse notre "meilleur score", procéder à sauvegarde de cette best sol.
 			int curScore = solTry.GetScore();
 			Sys.pln("Score : " + curScore);

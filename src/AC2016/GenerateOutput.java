@@ -62,13 +62,9 @@ public class GenerateOutput implements Serializable{
 		for (int i = 0; i < sol.pb.T; i++)
 		{
 			buildLine = "";
-			for(final Ballon ball: sol.ballons) 
+			//for(final Ballon ball: sol.ballons) 
 			{
-				int instruction = ball.aChanges.get(i);
-				if (instruction == 20) //instruction d'un ballon tué
-				{
-					instruction = 0;
-				}						
+				int instruction = 0;	
 				buildLine = buildLine + " " + (instruction);
 			}				
 		

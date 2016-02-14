@@ -51,34 +51,8 @@ public class FullProcess {
 		
 		if(!RELOAD)
 		{
-			// first optimize with 50
-			pbModSimplified.B=Integer.min(46,realB);
-			int paramNbIterationsLoc = 500;
-			sol = algo.AlgoComplicatedFromProblem(pbModSimplified,rand);	
-			sol = si.IterateImprover(sol, paramNbIterationsLoc, paramAcceptIterationNoImprove,pbModSimplified);
-			//Restore
-			pbModSimplified.B=realB;
-			Ballon bRestored[]  = new Ballon[realB];
-			for(Ballon b : sol.ballons)
-			{
-				bRestored[b.Num] = b;
-			}
-			for(int jj=sol.ballons.length;jj<realB;jj++)
-			{
-				bRestored[jj] = new Ballon(jj,pbModSimplified.StartPos);
-			}
-			sol.ballons = bRestored;
-		
-		for(Ballon b : sol.ballons)
-		{
-			while(b.posList.size()<pbModSimplified.T+1)
-			{
-				b.addMove(0, pbModSimplified);
-			}
-			
-		}
-
-		ProcessAllBackupOfSolutionToFolder(sol);
+				sol = algo.AlgoComplicatedFromProblem(pbModSimplified,rand);	
+				ProcessAllBackupOfSolutionToFolder(sol);
 		}else
 		{
 			sol = (Solution)(Common.FU.DeserializeFileToObject(Common.ACFileFolderPath +"BestSolutionInProcess.ser"));//0000671212_0330-2224\\SolutionSerialized.ser" ));			
