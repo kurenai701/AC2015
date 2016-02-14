@@ -1,12 +1,12 @@
-package AC2015;
+package AC2016;
 import java.util.PriorityQueue;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import AC2015.Move;
-import AC2015.Pos;
-import AC2015.Problem;
+import AC2016.Move;
+import AC2016.Pos;
+import AC2016.Problem;
 public class Dijkstra {
 	
 	/*
