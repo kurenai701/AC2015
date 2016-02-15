@@ -27,16 +27,18 @@ public class Problem implements Serializable {
 //	
 	
 	public int R;
-	public int C;	
-	public int A;
-	
-	public int L;
-	public int V;
-	public int B;
+	public int C;
+	public int D;
 	public int T;
+	public int DL;
+	
+	public int P;
+	public int W;
+	
+	public int O;
 	
 		
-	
+	public WorldSimulation WorldSim;
 	
 	
 	

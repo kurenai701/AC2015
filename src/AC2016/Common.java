@@ -37,7 +37,7 @@ public class Common {
 	public static final String OUTPUT_ZIP_FULLPROC_FILE_NAME = "FullSourceMEGEClemAlex.zip"; 
 
 	//  /!\ Folder ClemJava pour mon code Source
-	public static final String SOURCE_FOLDER = "C:\\ClemJava\\HC\\AC2015\\src";
+	public static final String SOURCE_FOLDER = "C:\\ClemJava\\HC2016Prelim\\AC2016\\src";
 	// /!\ Folder Alex
 	//	public static final String SOURCE_FOLDER = "C:\\AlexPath\\HashCode\\AC2015\\src";
 
@@ -47,10 +47,16 @@ public class Common {
 	public static final String InputEncoding = "UTF-8";
 	public static final Locale ScannerLocale = Locale.US;
 
-	public static final String InputFileName = "INPUT-dc.in";
+	public static final String InputFileName = "mother_of_all_warehouses.in";
+	// public static final String InputFileName = "redundancy.in";
+	// public static final String InputFileName = "busy_day.in";
+	
+	
 	public static final String InputFilePath = ACFileFolderPath+InputFileName;
 
-	public static final String InputFileNameUnitTest = "inputSimple.in";
+	// public static final String InputFileNameUnitTest = "inputSimple.in";
+	
+	public static final String InputFileNameUnitTest = "mother_of_all_warehouses.in";
 	public static final String InputFilePathUnitTest =  ACFileFolderPath+InputFileNameUnitTest;
 
 	// ForInputVerification

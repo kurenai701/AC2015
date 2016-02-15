@@ -47,7 +47,7 @@ public class FullProcess {
 		Random rand = new Random(45);
 	//	Solution sol = algo.AlgoSimple(pbModSimplified,rand);			
 		Solution sol;
-		int realB = pbModSimplified.B;
+		// int realB = pbModSimplified.B;
 		
 		if(!RELOAD)
 		{
