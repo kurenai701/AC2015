@@ -110,7 +110,12 @@ public class Common {
 	 * @param list
 	 * @param pred
 	 * @return
+
+	 *
 	 */
+	
+	// C'est tellement bien LINQ... que recode quelque chose de similaire en Java :-)
+	
 	public static <T> List<T> Where(List<T> list, Predicate<T> pred)
 	{
 		List<T> resultList = 
@@ -136,7 +141,17 @@ public class Common {
 	}
 
 
+	public static <T> int Count(List<T> list, Predicate<T> pred)
+	{		
+		List<T> resultList = Where(list, pred);
+		if (resultList == null)
+			return 0;
+		else
+			return resultList.size();
+	}
 
+	
+	
 	
 
 	public static <T> T DeepCopy(T objToCopy)

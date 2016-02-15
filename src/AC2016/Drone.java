@@ -1,6 +1,7 @@
 package AC2016;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 public class Drone {
 
@@ -8,15 +9,15 @@ public class Drone {
 	public int Id;	
 	public int MaxPayload;
 	
-	
 	public Pos CurrentPos;
+		
 	public int ETATargetPos;
 	public Pos TargetPos;
 	
-	public List<Product> Inventory;
+	public List<Product> Inventory = new ArrayList<Product>();
 	public int CurrentPayload;
 	
-	public char CurrentInstruction;
+	public String CurrentInstruction;
 	
 	public Drone(){}
 	
@@ -35,17 +36,25 @@ public class Drone {
 		return ETATargetPos;			
 	}
 	
-	public void addProductToDrone(Product p, int numitem)
+	public void addProductToDrone(Product p, int qtyitem)
 	{
-		for (int i = 1; i <= numitem; i++)
+		for (int i = 1; i <= qtyitem; i++)
 		{
 			this.Inventory.add(p);
 		}
 	}
 	
-	public void removeProductFromDrone(Product p, int numitem)
+	public void removeProductFromDrone(Product p, int qtyitem)
 	{		
-		this.Inventory.remove(p);	
+		
+		if (verifyDropPossible(p, qtyitem))
+		{
+			for (int i = 1; i <= qtyitem; i++)
+			{		
+				this.Inventory.remove(p);	
+			}
+		}
+	
 	}
 	
 	public boolean canLoad(Product prod, int qtyitem, Warehouse wh)
@@ -53,16 +62,20 @@ public class Drone {
 		return verifyLoadDronePossible(prod, qtyitem) && wh.hasEnoughProductAvailable(prod, qtyitem);
 	}
 	
-	public void load(Product prod, int qtyitem, Warehouse wh, int currentTurn)
+	public void loadInstruction(Product prod, int qtyitem, Warehouse wh, int currentTurn)
 	{	
-		if (canLoad(prod, qtyitem, wh))
+		int ETATurn = flyToPos(wh.Position, currentTurn);		
+		// TODO quelque chose pour attendre puis Load.
+	}
+
+	
+	public void actuaLoad(Product prod, int qtyitem, Warehouse wh)
+	{
+		if (wh.hasEnoughProductAvailable(prod, qtyitem))
 		{
-			int a = flyToPos(wh.Position, currentTurn);			
-			if (wh.hasEnoughProductAvailable(prod, qtyitem))
-			{
-				wh.removeProductFromStock(prod, qtyitem);
-			}			
-		}
+			wh.removeProductFromStock(prod, qtyitem);
+			addProductToDrone(prod, qtyitem);
+		}			
 	}
 
 	
@@ -70,6 +83,12 @@ public class Drone {
 	{
 		int available = this.MaxPayload - this.CurrentPayload;
 		return ((p.Weight * qtyitem) <= available);	
+	}
+	
+	public boolean verifyDropPossible(Product p, int qtyitem)
+	{
+		Predicate<Product> predicateCountType = (pr -> pr.TypeId == p.TypeId);
+		return Common.Count(this.Inventory, predicateCountType) >= qtyitem;
 	}
 	
 
