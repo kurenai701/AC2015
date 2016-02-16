@@ -8,19 +8,21 @@ public class Order {
 	public Pos CustomerPos = new Pos();
 	public List<Integer> ProdListToDeliver = new ArrayList<Integer>();
 	
-	public int totalNumItems;
-	public int orderScore = 0;
+	public int OrderId;
+	
+	public int TotalNumItems;
+	public int OrderScore = 0;
 	public int T;
 	
 	public Warehouse closestWarehouse;
-	
-	
+		
 	public Order(){}
 	
-	public Order(Pos targetPos, int totalItems, int T)
+	public Order(int id, Pos targetPos, int totalItems, int T)
 	{
+		this.OrderId = id;
 		CustomerPos = targetPos;
-		totalNumItems = totalItems;
+		TotalNumItems = totalItems;
 		this.T = T;
 	}
 	
@@ -30,7 +32,7 @@ public class Order {
 		ProdListToDeliver.remove(i);
 			
 		if (ProdListToDeliver.size() == 0)
-			orderScore = CalculateOrderScore(currentTurn);
+			OrderScore = CalculateOrderScore(currentTurn);
 	}
 	
 	

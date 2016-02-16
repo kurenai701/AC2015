@@ -72,7 +72,6 @@ public class Drone {
 	
 	
 	
-	
 	// helper function
 
 	private int flyToPos(Pos targetP, int currentTurn)
@@ -83,6 +82,7 @@ public class Drone {
 		IsFlying = true;
 		return ETATarget;			
 	}
+	
 	
 	private void addProductToDrone(Product p, int qtyitem)
 	{
@@ -120,6 +120,11 @@ public class Drone {
 	}
 	
 	
+	public boolean verifyDropPossible(Product p, int qtyitem)
+	{
+		Predicate<Product> predicateCountType = (pr -> pr.TypeId == p.TypeId);
+		return Common.Count(this.Inventory, predicateCountType) >= qtyitem;
+	}
 	
 	// ACTUAL ACTIONS
 	
@@ -152,15 +157,9 @@ public class Drone {
 		}
 	}
 	
-	public boolean verifyDropPossible(Product p, int qtyitem)
-	{
-		Predicate<Product> predicateCountType = (pr -> pr.TypeId == p.TypeId);
-		return Common.Count(this.Inventory, predicateCountType) >= qtyitem;
-	}
 	
 	
-	
-	/*Process qui composeront un "tour" */
+	/*Process qui composeront un "tour" pour le drone */
 	
 	public void processTurnArrivalToPosition(int currentTurn)
 	{

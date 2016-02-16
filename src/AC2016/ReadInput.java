@@ -79,7 +79,7 @@ public class ReadInput {
 			
 			// process orders		
 			pb.O = scIn.nextInt();
-			for (int k = 1; k < pb.O; k++)
+			for (int k = 0; k < pb.O; k++)
 			{
 				// CustomerLocation
 				int cX = scIn.nextInt();
@@ -88,10 +88,10 @@ public class ReadInput {
 				Pos custPos = new Pos(cX, cY, 'C');
 				
 				int nbItems = scIn.nextInt();
-				Order ord = new Order(custPos, nbItems, pb.T);
+				Order ord = new Order(k, custPos, nbItems, pb.T);
 				
 							
-				for (int l = 0; l < ord.totalNumItems; l++)
+				for (int l = 0; l < ord.TotalNumItems; l++)
 				{
 					ord.ProdListToDeliver.add(scIn.nextInt());
 				}
