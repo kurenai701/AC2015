@@ -36,7 +36,7 @@ public class Order {
 	
 	public int CalculateOrderScore(int currentTurn)
 	{
-		return (int)Math.ceil(   (double)(T - currentTurn) / (double)T );		
+		return (int)Math.ceil(((double)(T - currentTurn) / (double)T) * 100);		
 	}
 	
 }
