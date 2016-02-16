@@ -49,6 +49,31 @@ public class WorldSimulation {
 		this.WarehouseArray = new Warehouse[W];
 	}
 	
+	public void findAndSetClosestWarehouseForOrder(Order ord)
+	{
+		int currentMinDist = 999999999;
+		
+		for (Warehouse wh : WarehouseArray)
+		{
+			int whdist = ord.CustomerPos.distToPos(wh.Position);
+			if (whdist < currentMinDist)
+			{
+				ord.closestWarehouse = wh;
+			}			
+		}	
+	}
+	
+	public void findAndSetClosestWarehouseForAllOrders()
+	{
+		for (Order ordr : this.OrdersList)
+		{
+			findAndSetClosestWarehouseForOrder(ordr);
+		}	
+	}
+	
+	
+	
+	
 
 	public void ProcessTurn()
 	{

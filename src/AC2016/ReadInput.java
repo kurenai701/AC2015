@@ -97,10 +97,18 @@ public class ReadInput {
 				}
 				custPos.OrdersAtPos.add(ord);				
 				pb.WorldSim.OrdersList.add(ord);
-				pb.WorldSim.WorldPositions.add(custPos);
-				
+				pb.WorldSim.WorldPositions.add(custPos);				
 			}				
-		}		
+		}	
+		
+		Sys.pln("input read done : pb created");
+		
+		
+		// TODO : find closest warehouses 
+		pb.WorldSim.findAndSetClosestWarehouseForAllOrders();
+		
+		
+		
 		
 		Sys.pln("pb with more info");
 		

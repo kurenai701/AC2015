@@ -47,7 +47,6 @@ public class Drone {
 		QtyInProcess = qtyitem;
 		
 		int ETATurn = flyToPos(wh.Position, currentTurn);			
-		// TODO, voir s'il y a autre chose à faire
 	}
 	
 	public void unloadInstruction(Product prod, int qtyitem, Warehouse wh, int currentTurn)

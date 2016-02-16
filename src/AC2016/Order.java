@@ -10,8 +10,9 @@ public class Order {
 	
 	public int totalNumItems;
 	public int orderScore = 0;
-	
 	public int T;
+	
+	public Warehouse closestWarehouse;
 	
 	
 	public Order(){}
@@ -28,7 +29,6 @@ public class Order {
 	{
 		ProdListToDeliver.remove(i);
 			
-		// TODO
 		if (ProdListToDeliver.size() == 0)
 			orderScore = CalculateOrderScore(currentTurn);
 	}
