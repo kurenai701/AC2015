@@ -26,16 +26,16 @@ public class Problem implements Serializable {
 //	}
 //	
 	
-	public int R;
-	public int C;
-	public int D;
-	public int T;
-	public int DL;
+	public int R; // rows
+	public int C; // columns
+	public int D; // drones
+	public int T; // turn
+	public int DL; // drone load
 	
-	public int P;
-	public int W;
+	public int P; // number of product types
+	public int W; // number of warehouses
 	
-	public int O;
+	public int O; // number of orders
 	
 		
 	public WorldSimulation WorldSim;
