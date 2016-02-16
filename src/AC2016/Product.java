@@ -2,9 +2,10 @@ package AC2016;
 
 public class Product {
 
+
+	public int id;
 	public int TypeId;
 	public int Weight;
-
 	
 	public Product(){}
 	
