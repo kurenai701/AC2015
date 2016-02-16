@@ -1,9 +1,8 @@
 package AC2016;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Predicate;
-
-import javax.activity.InvalidActivityException;
 
 public class Drone {
 
@@ -25,6 +24,11 @@ public class Drone {
 	public int QtyInProcess;
 	
 	public Order OrderInProcess;
+	
+	
+	
+	
+	public List<Route> RouteList;
 	
 	public Drone(){}
 	

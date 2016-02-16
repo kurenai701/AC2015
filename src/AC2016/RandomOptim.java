@@ -1,7 +1,7 @@
 package AC2016;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+
 
 public class RandomOptim {
 	
@@ -24,9 +24,11 @@ public class RandomOptim {
 	 * b) échange des opérations d'un drone.
 	 * 
 	 */
-	pb = new Problem();
+	public void opti()
+	{
+	Problem pb = new Problem();
 	
-	List<Route> RouteList = new ArrayList<>();
+	List<Route> RouteList = new ArrayList<Route>();
 	
 
 	// Greedy Algorithms, allocate products to customers on a closest basis
@@ -58,8 +60,9 @@ public class RandomOptim {
 				// Reserve product 
 
 				// Create route
-				RouteList.add( new Route( closestProd, Warehouse,myorder.customer   )  ); //Dans Route : closestProd.available = false;
-		
+				RouteList.add( new Route( closestProd, myorder   )  ); //Dans Route : 
+				closestProd.available = false;
+				// Allocate specific order myorder.
 		
 		}
 	}
@@ -92,20 +95,56 @@ public class RandomOptim {
 	
 	// Now, needs to allocate Routes to Drones, then optimize commands of drones
 	
-	int curDrone = 0;
-	List<Drone > droneList = new ArrayList<>;
+		int curDrone = 0;
+		List<Drone > droneList = new ArrayList<>();
+		
+		for( Route r : RouteList )
+		{
+			// For the moment, allocate one by one
+			droneList.get(curDrone).RouteList.add(r);
+			curDrone = (curDrone+1)%pb.D;
+			
+		}
+		
+		
+		
+		
+		
+		for(int treslongtemps = 0; treslongtemps <1;)
+		{
+			 // Randomly Modify allocation of product to order
+			
+			
+			// Randomly Modify allocation of Route to Drone
 	
-	for( Route r : RouteList )
-	{
-		droneList.get(curdrone).RouteList.add(r);
+			
+			
+				// Optimize the flight route of drone
+			foreach(Drone d :droneList)
+			{
+				OptimizeFlyOrder(d);
+			}
 		
-		curdrone = (curdrone+1)%pb.D;
 		
+		}
+		
+		
+		
+	
+	
+	
 	}
 	
-	
-	
-	
+	public void OptimizeFlyOrder(Drone drone)
+	{
+		// Parcourt les ordres, et regroupe les ordres à la suite pour le m^me produità la même warehouse
+		
+		
+		// Parcourt les ordres, et regroupe les ordres 
+		
+		
+		
+	}
 		
 
 }
