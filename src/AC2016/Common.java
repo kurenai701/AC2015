@@ -47,7 +47,8 @@ public class Common {
 	public static final String InputEncoding = "UTF-8";
 	public static final Locale ScannerLocale = Locale.US;
 
-	public static final String InputFileName = "mother_of_all_warehouses.in";
+	public static final String InputFileName = "example.in";
+	// public static final String InputFileName = "mother_of_all_warehouses.in";
 	// public static final String InputFileName = "redundancy.in";
 	// public static final String InputFileName = "busy_day.in";
 	

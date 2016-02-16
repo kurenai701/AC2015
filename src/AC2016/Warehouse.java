@@ -25,9 +25,20 @@ public class Warehouse {
 		return hasEnoughProductAvailable(prod, 1);		
 	}
 	
+	public boolean isProductAvailable(int prodtypeid)
+	{
+		return hasEnoughProductAvailable(prodtypeid, 1);		
+	}
+	
 	public boolean hasEnoughProductAvailable(Product prod, int qty)
 	{
 		return countProductStock(prod) >= qty;		
+	}
+	
+
+	public boolean hasEnoughProductAvailable(int prodtypeid, int qty)
+	{
+		return prodStockArray[prodtypeid] >= qty;			
 	}
 	
 	public int countProductStock(Product prod)

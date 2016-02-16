@@ -58,7 +58,7 @@ public class ReadInput {
 			
 			// process warehouses
 			pb.W = scIn.nextInt();
-			pb.WorldSim.buildWarehouseArray(pb.W);
+			// pb.WorldSim.buildWarehouseArray(pb.W);
 			
 			for  (int j = 0; j < pb.W; j++)
 			{
@@ -73,7 +73,7 @@ public class ReadInput {
 					{
 						wh.prodStockArray[k] = scIn.nextInt();
 					}				
-				pb.WorldSim.WarehouseArray[j] = wh;
+				pb.WorldSim.WarehouseList.add(wh);
 				pb.WorldSim.WorldPositions.add(whPos);
 			}
 			

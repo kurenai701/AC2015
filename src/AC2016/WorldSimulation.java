@@ -1,6 +1,7 @@
 package AC2016;
 
 import java.util.*;
+import java.util.function.*;
 
 public class WorldSimulation {
 
@@ -17,9 +18,9 @@ public class WorldSimulation {
 	public List<Pos> WorldPositions = new ArrayList<Pos>(); // On ne va stocker que les positions intéressantes (?)
 	public List<Order> OrdersList = new ArrayList<Order>();
 	
-	public Drone[] DroneArray;
+	public Drone[] DroneArray; 
 	
-	public Warehouse[] WarehouseArray;
+	public List<Warehouse> WarehouseList = new  ArrayList<Warehouse>();
 	
 	
 	public WorldSimulation(){}
@@ -44,16 +45,21 @@ public class WorldSimulation {
 		this.ProductTypeArray = new Product[P];
 	}
 	
-	public void buildWarehouseArray(int W)
+	
+	public List<Warehouse> listWarehousesWithProductType(int prodtypeid)
 	{
-		this.WarehouseArray = new Warehouse[W];
+		Predicate<Warehouse> predWarehouseHasProdType = wh -> wh.isProductAvailable(prodtypeid);
+		return Common.Where(WarehouseList, predWarehouseHasProdType);
 	}
+	
+	
+	
 	
 	public void findAndSetClosestWarehouseForOrder(Order ord)
 	{
 		int currentMinDist = 999999999;
 		
-		for (Warehouse wh : WarehouseArray)
+		for (Warehouse wh : WarehouseList)
 		{
 			int whdist = ord.CustomerPos.distToPos(wh.Position);
 			if (whdist < currentMinDist)
@@ -70,8 +76,6 @@ public class WorldSimulation {
 			findAndSetClosestWarehouseForOrder(ordr);
 		}	
 	}
-	
-	
 	
 	
 
