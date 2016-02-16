@@ -10,7 +10,7 @@ public class WorldSimulation {
 	public int R;
 	public int C;
 	
-	public int currentTurn;
+	public int CurrentTurn;
 	
 	public Product[] ProductTypeArray;
 		
@@ -48,11 +48,36 @@ public class WorldSimulation {
 
 	public void ProcessTurn()
 	{
-		// process all drones instruction for turn;
+		CurrentTurn++;
 		
-		currentTurn++;
+		// process all flights instruction for Current turn;
+		for (int i = 0; i < DroneArray.length ; i++)
+		{
+			DroneArray[i].processTurnArrivalToPosition(CurrentTurn);;
+		}
+		
+		// process all unload instructions for Current turn;
+		for (int i = 0; i < DroneArray.length ; i++)
+		{
+			DroneArray[i].processTurnActualUnload(CurrentTurn);
+			DroneArray[i].processTurnActualDeliver(CurrentTurn);
+		}
+		
+		// process all load instructions for Current turn;
+		for (int i = 0; i < DroneArray.length ; i++)
+		{
+			DroneArray[i].processTurnActualLoad(CurrentTurn);
+		}
+		
+		
+		
+		
+		
+		
+		
 	}
 	
+
 	
 	
 	

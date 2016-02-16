@@ -3,6 +3,8 @@ package AC2016;
 import java.util.*;
 import java.util.function.Predicate;
 
+import javax.activity.InvalidActivityException;
+
 public class Drone {
 
 	
@@ -11,13 +13,18 @@ public class Drone {
 	
 	public Pos CurrentPos;
 		
-	public int ETATargetPos;
+	public int ETATarget;
 	public Pos TargetPos;
+	public boolean IsFlying;
 	
 	public List<Product> Inventory = new ArrayList<Product>();
 	public int CurrentPayload;
 	
-	public String CurrentInstruction;
+	public String InstructionInProcess;
+	public Product ProductInProcess;
+	public int QtyInProcess;
+	
+	public Order OrderInProcess;
 	
 	public Drone(){}
 	
@@ -28,23 +35,39 @@ public class Drone {
 	}
 	
 
-	public int flyToPos(Pos targetP, int currentTurn)
+	public void loadInstruction(Product prod, int qtyitem, Warehouse wh, int currentTurn)
+	{	
+		InstructionInProcess = "L";
+		ProductInProcess = prod;
+		QtyInProcess = qtyitem;
+		
+		int ETATurn = flyToPos(wh.Position, currentTurn);			
+		// TODO quelque chose pour attendre puis Load.
+	}
+	
+
+	
+	// helper function
+
+	private int flyToPos(Pos targetP, int currentTurn)
 	{
 		TargetPos = targetP;
 		int numTurnUntilPos = CurrentPos.distToPos(TargetPos);
-		ETATargetPos = currentTurn + numTurnUntilPos;
-		return ETATargetPos;			
+		ETATarget = currentTurn + numTurnUntilPos;
+		IsFlying = true;
+		return ETATarget;			
 	}
 	
-	public void addProductToDrone(Product p, int qtyitem)
+	private void addProductToDrone(Product p, int qtyitem)
 	{
 		for (int i = 1; i <= qtyitem; i++)
 		{
 			this.Inventory.add(p);
+			this.CurrentPayload += p.Weight;
 		}
 	}
 	
-	public void removeProductFromDrone(Product p, int qtyitem)
+	private void removeProductFromDrone(Product p, int qtyitem)
 	{		
 		
 		if (verifyDropPossible(p, qtyitem))
@@ -52,6 +75,7 @@ public class Drone {
 			for (int i = 1; i <= qtyitem; i++)
 			{		
 				this.Inventory.remove(p);	
+				this.CurrentPayload -= p.Weight;
 			}
 		}
 	
@@ -62,22 +86,6 @@ public class Drone {
 		return verifyLoadDronePossible(prod, qtyitem) && wh.hasEnoughProductAvailable(prod, qtyitem);
 	}
 	
-	public void loadInstruction(Product prod, int qtyitem, Warehouse wh, int currentTurn)
-	{	
-		int ETATurn = flyToPos(wh.Position, currentTurn);		
-		// TODO quelque chose pour attendre puis Load.
-	}
-
-	
-	public void actuaLoad(Product prod, int qtyitem, Warehouse wh)
-	{
-		if (wh.hasEnoughProductAvailable(prod, qtyitem))
-		{
-			wh.removeProductFromStock(prod, qtyitem);
-			addProductToDrone(prod, qtyitem);
-		}			
-	}
-
 	
 	public boolean verifyLoadDronePossible(Product p, int qtyitem)
 	{
@@ -85,11 +93,98 @@ public class Drone {
 		return ((p.Weight * qtyitem) <= available);	
 	}
 	
+	
+	// ACTUAL ACTIONS
+	
+	
+	private void actualLoad(Product prod, int qtyitem, Warehouse wh)
+	{
+		if (canLoad(prod, qtyitem, wh))
+		{
+			wh.removeProductFromStock(prod, qtyitem);
+			addProductToDrone(prod, qtyitem);
+		}
+	}
+	
+	private void actualUnload(Product p, int qtyitem, Warehouse wh)
+	{
+		if (verifyDropPossible(p, qtyitem))
+		{
+			removeProductFromDrone(p, qtyitem);
+			wh.addProductToStock(p, qtyitem);
+		}
+		
+	}
+		
+	private void actualDeliver(Product p, int qtyitem, Order ord, int currentTurn)
+	{
+		if (verifyDropPossible(p, qtyitem))
+		{
+			removeProductFromDrone(p, qtyitem);
+			ord.RemoveProdIdFromDeliveryList(p.TypeId, currentTurn);
+		}
+	}
+	
 	public boolean verifyDropPossible(Product p, int qtyitem)
 	{
 		Predicate<Product> predicateCountType = (pr -> pr.TypeId == p.TypeId);
 		return Common.Count(this.Inventory, predicateCountType) >= qtyitem;
 	}
+	
+	
+	
+	/*Process qui composeront un "tour" */
+	
+	public void processTurnArrivalToPosition(int currentTurn)
+	{
+		if (this.ETATarget == currentTurn)
+		{
+			this.CurrentPos = this.TargetPos;
+			this.IsFlying = false;
+			this.ETATarget++;		
+		}
+	}
+	
+	public void processTurnActualLoad(int currentTurn)
+	{
+		if (this.ETATarget == currentTurn && InstructionInProcess == "L");
+		{
+			if (this.CurrentPos.isWarehouse())
+			{
+				if(canLoad(ProductInProcess, QtyInProcess, this.CurrentPos.WarehouseAtPos))
+				actualLoad(ProductInProcess, QtyInProcess, this.CurrentPos.WarehouseAtPos);
+			}			
+			this.ETATarget = -1;
+		}
+	}
+	
+	public void processTurnActualUnload(int currentTurn)
+	{
+		if (this.ETATarget == currentTurn && InstructionInProcess == "U");
+		{
+			if (this.CurrentPos.isWarehouse())
+			{
+				if(verifyDropPossible(ProductInProcess, QtyInProcess))
+					actualUnload(ProductInProcess, QtyInProcess, this.CurrentPos.WarehouseAtPos);
+			}			
+			this.ETATarget = -1;
+		}
+	}
+	
+
+	public void processTurnActualDeliver(int currentTurn)
+	{
+		if (this.ETATarget == currentTurn && InstructionInProcess == "D");
+		{
+			if (this.CurrentPos.isWarehouse())
+			{
+				if(verifyDropPossible(ProductInProcess, QtyInProcess))
+					actualDeliver(ProductInProcess, QtyInProcess, OrderInProcess,currentTurn);
+			}			
+			this.ETATarget = -1;
+		}
+	}
+	
 	
 
 	

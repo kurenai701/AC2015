@@ -9,14 +9,34 @@ public class Order {
 	public List<Integer> ProdListToDeliver = new ArrayList<Integer>();
 	
 	public int totalNumItems;
+	public int orderScore = 0;
+	
+	public int T;
+	
 	
 	public Order(){}
 	
-	public Order(Pos targetPos, int totalItems)
+	public Order(Pos targetPos, int totalItems, int T)
 	{
 		CustomerPos = targetPos;
 		totalNumItems = totalItems;
+		this.T = T;
 	}
 	
+	
+	public void RemoveProdIdFromDeliveryList(int i, int currentTurn)
+	{
+		ProdListToDeliver.remove(i);
+			
+		// TODO
+		if (ProdListToDeliver.size() == 0)
+			orderScore = CalculateOrderScore(currentTurn);
+	}
+	
+	
+	public int CalculateOrderScore(int currentTurn)
+	{
+		return (int)Math.ceil(   (double)(T - currentTurn) / (double)T );		
+	}
 	
 }

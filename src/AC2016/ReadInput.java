@@ -35,11 +35,11 @@ public class ReadInput {
 			//  !!!!!!!!!!!!!!!!!!! //
 					
 			pb = new Problem();
-			pb.R = scIn.nextInt();
-			pb.C = scIn.nextInt();
-			pb.D = scIn.nextInt();
-			pb.T = scIn.nextInt();
-			pb.DL = scIn.nextInt();
+			pb.R = scIn.nextInt(); // row
+			pb.C = scIn.nextInt(); // col
+			pb.D = scIn.nextInt(); // drone
+			pb.T = scIn.nextInt(); // turn
+			pb.DL = scIn.nextInt(); // drone load
 			
 
 			pb.WorldSim = new WorldSimulation(pb.R, pb.C, pb.D, pb.T, pb.DL);			
@@ -67,6 +67,7 @@ public class ReadInput {
 				int wY = scIn.nextInt();				
 				Pos whPos = new Pos(wX, wY, 'W');				
 				Warehouse wh = new Warehouse(j, whPos, pb.P);
+				whPos.WarehouseAtPos = wh;
 				
 					for (int k = 0; k < pb.P; k++)
 					{
@@ -87,7 +88,7 @@ public class ReadInput {
 				Pos custPos = new Pos(cX, cY, 'C');
 				
 				int nbItems = scIn.nextInt();
-				Order ord = new Order(custPos, nbItems);
+				Order ord = new Order(custPos, nbItems, pb.T);
 							
 				for (int l = 0; l < ord.totalNumItems; l++)
 				{
