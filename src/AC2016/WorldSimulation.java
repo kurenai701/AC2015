@@ -15,9 +15,12 @@ public class WorldSimulation {
 	public Product[] ProductTypeArray;
 		
 	public List<Pos> WorldPositions = new ArrayList<Pos>(); // On ne va stocker que les positions intéressantes (?)
+	public List<Order> OrdersList = new ArrayList<Order>();
+	
 	public Drone[] DroneArray;
 	
 	public Warehouse[] WarehouseArray;
+	
 	
 	public WorldSimulation(){}
 		
@@ -34,6 +37,7 @@ public class WorldSimulation {
 		}
 	
 	}
+	
 	
 	public void buildProductTypeArray(int P)
 	{
@@ -68,12 +72,6 @@ public class WorldSimulation {
 		{
 			DroneArray[i].processTurnActualLoad(CurrentTurn);
 		}
-		
-		
-		
-		
-		
-		
 		
 	}
 	

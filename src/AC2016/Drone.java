@@ -35,6 +35,11 @@ public class Drone {
 	}
 	
 
+	public boolean isAvailableForNewInstruction()
+	{
+			return (this.ETATarget == -1);
+	}	
+
 	public void loadInstruction(Product prod, int qtyitem, Warehouse wh, int currentTurn)
 	{	
 		InstructionInProcess = "L";
@@ -42,10 +47,32 @@ public class Drone {
 		QtyInProcess = qtyitem;
 		
 		int ETATurn = flyToPos(wh.Position, currentTurn);			
-		// TODO quelque chose pour attendre puis Load.
+		// TODO, voir s'il y a autre chose à faire
 	}
 	
-
+	public void unloadInstruction(Product prod, int qtyitem, Warehouse wh, int currentTurn)
+	{	
+		InstructionInProcess = "U";
+		ProductInProcess = prod;
+		QtyInProcess = qtyitem;
+		
+		int ETATurn = flyToPos(wh.Position, currentTurn);			
+		// TODO, voir s'il y a autre chose à faire
+	}
+	
+	
+	public void deliverInstruction(Product prod, int qtyitem, Pos pos, int currentTurn)
+	{	
+		InstructionInProcess = "D";
+		ProductInProcess = prod;
+		QtyInProcess = qtyitem;
+		
+		int ETATurn = flyToPos(pos, currentTurn);			
+		// TODO, voir s'il y a autre chose à faire
+	}
+	
+	
+	
 	
 	// helper function
 
@@ -92,6 +119,7 @@ public class Drone {
 		int available = this.MaxPayload - this.CurrentPayload;
 		return ((p.Weight * qtyitem) <= available);	
 	}
+	
 	
 	
 	// ACTUAL ACTIONS

@@ -89,11 +89,16 @@ public class ReadInput {
 				
 				int nbItems = scIn.nextInt();
 				Order ord = new Order(custPos, nbItems, pb.T);
+				
 							
 				for (int l = 0; l < ord.totalNumItems; l++)
 				{
 					ord.ProdListToDeliver.add(scIn.nextInt());
 				}
+				custPos.OrdersAtPos.add(ord);				
+				pb.WorldSim.OrdersList.add(ord);
+				pb.WorldSim.WorldPositions.add(custPos);
+				
 			}				
 		}		
 		

@@ -1,6 +1,7 @@
 package AC2016;
 
 import java.lang.Math;
+import java.util.*;
 
 public class Pos {
 
@@ -8,11 +9,10 @@ public class Pos {
 	public int X;
 	public int Y;	
 	
-	public boolean CurrentlyMoving;
-	
 	public char PosFilled; 
 
 	public Warehouse WarehouseAtPos;	
+	public List<Order> OrdersAtPos = new ArrayList<Order>();
 	
 	public Pos(){}
 	
